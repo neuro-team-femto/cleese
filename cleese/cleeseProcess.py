@@ -100,7 +100,10 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
             currFileNo = "%04u" % (i+1)
 
             if pars['main_pars']['chain'] and t>0:
-                waveIn,sr = wavRead(currOutFile[i])
+                if fileInput:
+                    waveIn,sr = wavRead(currOutFile[i])
+                else:
+                    waveIn = waveOut
                 pars['main_pars']['inSamples'] = len(waveIn)
                 pars['main_pars']['sr'] = sr
                 BPFtime, numPoints, endOnTrans = createBPFtimeVec(duration,pars[tr+'_pars'],timeVec=timeVec)
@@ -154,8 +157,9 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
 
             if fileInput:
                 wav.write(currOutFile[i], sr, waveOut)
-            else:
-                return waveOut,BPF
+
+    if not fileInput:
+        return waveOut,BPF
 
 def wavRead(fileName):
 
