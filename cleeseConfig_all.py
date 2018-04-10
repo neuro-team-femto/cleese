@@ -8,10 +8,10 @@ Example configuration script.
 
 # main parameters
 main_pars = {
-    'outPath': '/Users/jjb/Documents/research/cream/CLEESE_output_data/',   # output root folder
+    'outPath': './CLEESE_output_data/',   # output root folder
     'numFiles': 10,     # number of output files to generate (for random modifications)
     'chain': True,
-    'transf': ('stretch','pitch','eq','gain')   # modifications to apply
+    'transf': ['stretch','pitch','eq','gain']   # modifications to apply
     # 'transf': ['pitch']
 }
 
