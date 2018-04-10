@@ -12,18 +12,23 @@ import scipy.io.wavfile as wav
 import time
 import shutil
 
-from cleeseBPF import *
-from cleeseEngine import *
+from cleese.cleeseBPF import *
+from cleese.cleeseEngine import *
 
 def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
 
     data = {}
-    execfile(configFile, data)
+    exec(open(configFile).read(),data)
     pars = data['pars']
 
     doCreateBPF = False
     if BPF is None:
         doCreateBPF = True
+
+    try:
+        basestring
+    except NameError:
+        basestring = str
 
     if isinstance(soundData, basestring):
         fileInput = True
