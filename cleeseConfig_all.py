@@ -10,8 +10,8 @@ Example configuration script.
 main_pars = {
     'outPath': './CLEESE_output_data/',   # output root folder
     'numFiles': 10,     # number of output files to generate (for random modifications)
-    'chain': True,
-    'transf': ['stretch','pitch','eq','gain']   # modifications to apply
+    'chain': True,      # apply transformation in series (True) or parallel (False)
+    'transf': ['stretch','pitch','eq','gain']   # transformations to apply
     # 'transf': ['pitch']
 }
 
