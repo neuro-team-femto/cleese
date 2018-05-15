@@ -32,7 +32,7 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
 
     if isinstance(soundData, basestring):
         fileInput = True
-        waveIn,sr = wavRead(soundData)     # read input sound file
+        waveIn,sr,sampleFormat = wavRead(soundData)     # read input sound file
     else:
         fileInput = False
         waveIn = soundData
@@ -106,7 +106,7 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
 
             if pars['main_pars']['chain'] and t>0:
                 if fileInput:
-                    waveIn,sr = wavRead(currOutFile[i])
+                    waveIn,sr,sampleFormat = wavRead(currOutFile[i])
                 else:
                     waveIn = waveOut
                 pars['main_pars']['inSamples'] = len(waveIn)
@@ -161,6 +161,11 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
                 waveOut = waveOut/np.max(np.abs(waveOut))
 
             if fileInput:
+                if sampleFormat == 'int16':
+                    waveOut *= 2**15-8
+                elif sampleFormat == 'int32':
+                    waveOut *= 2**31-8
+                waveOut = waveOut.astype(sampleFormat)
                 wav.write(currOutFile[i], sr, waveOut)
 
     if not fileInput:
@@ -170,16 +175,18 @@ def wavRead(fileName):
 
     sr,wave = wav.read(fileName)
 
-    if wave.dtype in ('int16','int32'):
+    sampleFormat = wave.dtype
+
+    if sampleFormat in ('int16','int32'):
         # convert to float
-        if wave.dtype == 'int16':
+        if sampleFormat == 'int16':
             n_bits = 16
-        elif wave.dtype == 'int32':
+        elif sampleFormat == 'int32':
             n_bits = 32
         wave = wave/(float(2**(n_bits - 1)))
         wave = wave.astype('float32')
 
-    return wave,sr
+    return wave,sr,sampleFormat
 
 
 def processWithSTFT(waveIn, pars, BPF):
