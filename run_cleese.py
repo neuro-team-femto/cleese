@@ -24,7 +24,7 @@ cleese.process(soundData=inputFile, configFile=configFile)
 # cleese.process(soundData=inputFile, configFile=configFile, BPF=givenBPF)
 
 # # example 4: array input and output
-# waveIn,sr = cleese.wavRead(inputFile)
+# waveIn,sr,__ = cleese.wavRead(inputFile)
 # waveOut,BPFout = cleese.process(soundData=waveIn, configFile=configFile, sr=sr)
 
 # # example 5: example with given time vector
