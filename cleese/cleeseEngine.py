@@ -107,7 +107,7 @@ def phaseVocoder_varHop(specIn, anaHopVec, synHop = 256, phase_locking=True):
 
         expAdv = omega * anaHopVec[i-1]  # expected phase advance
 
-        deltaPhase = currPhase - lastPhase - expAdv;
+        deltaPhase = currPhase - lastPhase - expAdv
         deltaPhase = deltaPhase - 2 * np.pi * np.round(deltaPhase/(2*np.pi))  # princarg function
 
         hopAdv = (omega + deltaPhase/float(anaHopVec[i])) * synHop  # phase advance during synth hop

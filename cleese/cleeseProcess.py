@@ -161,12 +161,7 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
                 waveOut = waveOut/np.max(np.abs(waveOut))
 
             if fileInput:
-                if sampleFormat == 'int16':
-                    waveOut *= 2**15-8
-                elif sampleFormat == 'int32':
-                    waveOut *= 2**31-8
-                waveOut = waveOut.astype(sampleFormat)
-                wav.write(currOutFile[i], sr, waveOut)
+                wavWrite(waveOut,fileName=currOutFile[i],sr=sr,sampleFormat=sampleFormat)
 
     if not fileInput:
         return waveOut,BPF
@@ -187,6 +182,15 @@ def wavRead(fileName):
         wave = wave.astype('float32')
 
     return wave,sr,sampleFormat
+
+def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
+
+    if sampleFormat == 'int16':
+        waveOut *= 2**15-8
+    elif sampleFormat == 'int32':
+        waveOut *= 2**31-8
+    waveOut = waveOut.astype(sampleFormat)
+    wav.write(fileName, sr, waveOut)
 
 
 def processWithSTFT(waveIn, pars, BPF):
