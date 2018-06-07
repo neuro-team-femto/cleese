@@ -186,9 +186,9 @@ def wavRead(fileName):
 def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
 
     if sampleFormat == 'int16':
-        waveOut *= 2**15-8
+        waveOut *= 2**15
     elif sampleFormat == 'int32':
-        waveOut *= 2**31-8
+        waveOut *= 2**31
     waveOut = waveOut.astype(sampleFormat)
     wav.write(fileName, sr, waveOut)
 
