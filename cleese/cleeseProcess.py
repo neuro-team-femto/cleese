@@ -186,11 +186,11 @@ def wavRead(fileName):
 def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
 
     if sampleFormat == 'int16':
-        waveOut *= 2**15
+        waveOutFormat = waveOut * 2**15
     elif sampleFormat == 'int32':
-        waveOut *= 2**31
-    waveOut = waveOut.astype(sampleFormat)
-    wav.write(fileName, sr, waveOut)
+        waveOutFormat = waveOut * 2**31
+    waveOutFormat = waveOutFormat.astype(sampleFormat)
+    wav.write(fileName, sr, waveOutFormat)
 
 
 def processWithSTFT(waveIn, pars, BPF):
