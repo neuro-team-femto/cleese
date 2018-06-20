@@ -156,11 +156,10 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
                     gainVec = np.interp(np.linspace(0,duration,pars['main_pars']['inSamples']),BPF[:,0],BPF[:,1])
                     waveOut = waveIn * gainVec
 
-            # normalize
-            if np.max(np.abs(waveOut)) > 1.0:
-                waveOut = waveOut/np.max(np.abs(waveOut))
-
             if fileInput:
+                # normalize
+                if np.max(np.abs(waveOut)) >= 1.0:
+                    waveOut = waveOut/np.max(np.abs(waveOut))*0.999
                 wavWrite(waveOut,fileName=currOutFile[i],sr=sr,sampleFormat=sampleFormat)
 
     if not fileInput:
