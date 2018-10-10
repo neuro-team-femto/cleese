@@ -1,2 +1,9 @@
 
 .ipynb_checkpoints/tutorial-checkpoint.ipynb
+
+/CLEESE_output_data/
+/cleese.egg-info/
+/example.wav
+/tutorial/output/
+
+__pycache__/
