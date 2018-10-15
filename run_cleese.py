@@ -8,7 +8,7 @@ Usage examples.
 
 import cleese
 
-inputFile = './example.wav'
+inputFile = './tutorial/sounds/female_anniversaire_isochrone.wav'
 configFile = './cleeseConfig_all.py'
 
 # example 1: run with random BPFs
