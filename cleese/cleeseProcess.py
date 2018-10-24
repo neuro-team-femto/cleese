@@ -38,6 +38,10 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
         waveIn = soundData
         numFiles = 1
 
+    if len(waveIn.shape)==2:
+        print('Warning: stereo file detected. Reading only left channel.')
+        waveIn = np.ravel(waveIn[:,0])
+
     pars['main_pars']['inSamples'] = len(waveIn)
     pars['main_pars']['sr'] = sr
 
