@@ -50,7 +50,10 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
         numFiles = pars['main_pars']['numFiles']
 
         # generate experiment name and folder
-        pars['main_pars']['expBaseDir'] = os.path.join(pars['main_pars']['outPath'],time.strftime("%Y-%m-%d_%H-%M-%S"))
+        if pars['main_pars']['generateExpFolder']:
+            pars['main_pars']['expBaseDir'] = os.path.join(pars['main_pars']['outPath'],time.strftime("%Y-%m-%d_%H-%M-%S"))
+        else:
+            pars['main_pars']['expBaseDir'] = pars['main_pars']['outPath']
         if not os.path.exists(pars['main_pars']['expBaseDir']):
             os.makedirs(pars['main_pars']['expBaseDir'])
 

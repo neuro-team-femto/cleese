@@ -11,8 +11,9 @@ main_pars = {
     'outPath': './CLEESE_output_data/',   # output root folder
     'numFiles': 10,     # number of output files to generate (for random modifications)
     'chain': True,      # apply transformation in series (True) or parallel (False)
-    'transf': ['stretch','pitch','eq','gain']   # transformations to apply
-    # 'transf': ['pitch']
+    'transf': ['stretch','pitch','eq','gain'],   # transformations to apply
+    # 'transf': ['pitch'],
+    'generateExpFolder': True  # generate experiment folder with name based on current time
 }
 
 # global analysis parameters
