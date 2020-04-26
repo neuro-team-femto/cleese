@@ -195,6 +195,8 @@ def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
         waveOutFormat = waveOut * 2**15
     elif sampleFormat == 'int32':
         waveOutFormat = waveOut * 2**31
+    else:
+        waveOutFormat = waveOut
     waveOutFormat = waveOutFormat.astype(sampleFormat)
     wav.write(fileName, sr, waveOutFormat)
 
