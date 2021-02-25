@@ -79,6 +79,9 @@ def istft_resamp(stft,win,winSize,hopSize,ratesVec,oriLength):
 
         n_currLen = int(round(winSize/ratesVec[i]))
 
+        if (pos+n_currLen) > numSamples:
+            break 
+
         outWaveform[pos:(pos+n_currLen)] += sig.resample(currAtom,n_currLen)
         winSum[pos:(pos+n_currLen)]      += sig.resample(winSq,n_currLen)
 
