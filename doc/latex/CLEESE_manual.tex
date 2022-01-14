@@ -1,0 +1,356 @@
+\documentclass[oneside,10pt]{article}
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[10,sharp]{easylist}
+\usepackage[margin=0.7in]{geometry}   % margins
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{minted}
+\usepackage{dsfont}
+\usepackage{colortbl}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{bm}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\renewcommand{\baselinestretch}{1}
+
+\definecolor{bg}{rgb}{.9,.9,.9}
+
+\newcommand{\mf}{\mathbf}
+\newcommand{\mc}{\mathcal}
+
+\newcommand{\mi}{\mintinline{c++}}
+\newcommand{\mim}{\mintinline{matlab}}
+\newcommand{\mip}{\mintinline{python}}
+
+
+\newenvironment{eq}{\begin{equation}}{\end{equation}}
+
+
+% top page headers
+% =============================================
+\fancyhf{}
+\fancyhead[EL]{\thepage}
+\fancyhead[ER]{\nouppercase{\leftmark}}
+\fancyhead[OL]{\nouppercase{\rightmark}}
+\fancyhead[OR]{\thepage}
+\renewcommand{\sectionmark}[1]{
+\markboth{\thesection{} #1}{\thesection{} #1}
+}
+\renewcommand{\subsectionmark}[1]{
+\markright{\thesubsection{} #1}
+}
+
+% top page headers
+% =============================================
+\RequirePackage[calcwidth]{titlesec}
+\titleformat{\section}[hang]{\sffamily\bfseries}
+{\Large\thesection}{12pt}{\Large}[{\titlerule[0.5pt]}]
+\titleformat{\subsection}[hang]{\sffamily\bfseries}
+{\large\thesubsection}{11pt}{\large}
+
+
+\usepackage{cite}
+\usepackage{subfigure}
+
+\begin{document}
+
+\title{\textbf{CLEESE} {\large v1.0} \\ {\Large A Python toolbox for random and deterministic sound transformations}}
+\author{March  2018} 
+\date{}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+CLEESE (Combinatorial Expressive Speech Engine) is a Python toolbox for performing random or deterministic pitch, timescale, filtering and gain transformations on an input sound. It is originally aimed at generating many random variations of a single speech utterance, to be used as stimuli in the scope of listening tests for reverse correlation experiments. The modifications can be both static or time-varying. Besides its original purpose, the toolbox can also be used for producing individual, user-determined modifications.
+
+CLEESE operates by generating a set of random breakpoint functions (BPFs) in the appropriate format for each treatment, which are then passed to the included spectral processing engine (based on a Phase Vocoder) with the corresponding parameters. Alternatively, the BPFs can be externally created by the user, and so it can also be used as a Phase Vocoder-based effects unit.
+
+CLEESE was developed by Juan José Burred in collaboration with the CREAM (Cracking the Emotional Code of Music) project headed by Jean-Julien Aucouturier at IRCAM/CNRS. The toolbox works on both Python 2 and 3. It requires Numpy and Scipy.
+
+\section{Operation modes}
+
+CLEESE can be used in several different modes, depending on how the main processing function is called. Examples of several typical usage scenarios are included in the example script \mip{run_cleese.py}.
+
+\subsection{Batch generation}
+
+In batch mode, CLEESE generates many random modifications from a single input sound file, called the base sound. It can be launched as follows:
+
+\vspace{8pt}
+\begin{minted}[bgcolor=bg]{python}
+import cleese
+
+inputFile  = 'path_to_input_sound.wav'
+configFile = 'path_to_config_file.py'
+
+cleese.process(soundData=inputFile, configFile=configFile)
+\end{minted}
+\vspace{8pt}
+
+
+Two parameters have to be set by the user:
+
+\vspace{5pt}
+\begin{easylist}[itemize]
+# \mip{inputFile}: the path to the base sound, which has to be a mono sound in WAV format.
+# \mip{configFile}: the path to the configuration script
+\end{easylist}
+\vspace{8pt}
+
+All the generation parameters for all treatments are set up in the configuration script that has to be edited or created by the user. An example of configuration script with parameters for all treatments is included with the toolbox: \mip{cleeseConfig_all.py}. Configuration parameters will be detailed in Sect. \ref{sec:pars}.
+
+For each run in batch mode, the toolbox generates the following folder structure, where \mip{<outPath>} is specified in the parameter file:
+
+\begin{sloppypar}
+\vspace{5pt}
+\begin{easylist}[itemize]
+# \mip{<outPath>/<currentExperimentFolder>}: main folder for the current generation experiment. The name \mip{<currentExperimentFolder>} is automatically created from the current date and time. This folder contains:
+## \mip{<baseSound>.wav}: a copy of the base sound used for the current experiment
+## \mip{*.py}: a copy of the configuration script used for the current experiment
+## One subfolder for each one of the performed treatments, which can be either \mip{pitch},  \mip{eq}, \mip{stretch} or \mip{gain}, or a combination (chaining) of them. Each of them contains, for each generated stimulus:
+### \mip{<baseSound>.xxxx.<treatment>.wav}: the generated stimulus, where \mip{xxxx} is a running number (e.g.: \mip{cage.0001.stretch.wav})
+### \mip{<baseSound>.xxxx.<treatment>BPF.txt}: the generated BPF, in ASCII format, for the generated stimulus (e.g.: \mip{cage.0001.stretchBPF.txt})
+\end{easylist}
+\vspace{8pt}
+\end{sloppypar}
+
+\subsection{Passing a given BPF}
+
+When passing the \mip{BPF} argument to \mip{cleese.process}, it is possible to impose a given BPF with a certain treatment to an input file. In this way, the toolbox can be used as a traditional effects unit. 
+
+\vspace{8pt}
+\begin{minted}[bgcolor=bg]{python}
+import cleese
+
+inputFile  = 'path_to_input_sound.wav'
+configFile = 'path_to_config_file.py'
+
+import numpy as np
+givenBPF = np.array([[0.,0.],[3.,500.]])
+cleese.process(soundData=inputFile, configFile=configFile, BPF=givenBPF)
+\end{minted}
+\vspace{8pt}
+
+The \mip{BPF} argument can be either:
+\vspace{5pt}
+\begin{easylist}[itemize]
+# A Numpy array containing the BPF, in the format specified in Sect. \ref{sec:bpf}
+# A scalar, in which case the treatment performed is static
+\end{easylist}
+\vspace{8pt}
+
+In this usage scenario, only one file is output, stored at the  {\mip{<outPath>} folder, as specified in the configuration file.
+
+\subsection{Passing a given time vector}
+
+Instead of passing a full BPF (time+values), it is also possible to just pass a given time vector, containing the time instants (in seconds), at which the treatments change. The amount of modification will be randomly generated, but they will always happen at the given time tags. This might be useful to perform random modifications at specific onset locations, previously obtained manually or automatically.
+
+The time vector is passed via the \mip{timeVec} argument:
+
+\vspace{8pt}
+\begin{minted}[bgcolor=bg]{python}
+import cleese
+
+inputFile  = 'path_to_input_sound.wav'
+configFile = 'path_to_config_file.py'
+
+import numpy as np
+givenTimeVec = np.array([0.1,0.15,0.3])
+cleese.process(soundData=inputFile, configFile=configFile, timeVec=givenTimeVec)
+\end{minted}
+\vspace{8pt}
+
+\subsection{Array input and output}
+
+Instead of providing a file name for the input sound, it is possible to pass a Numpy array containing the input waveform. In this case, the main function will provide as output both the modified sound and the generated BPF as Numpy arrays. No files or folder structures are created as output: 
+
+\vspace{8pt}
+\begin{minted}[bgcolor=bg]{python}
+import cleese
+
+inputFile  = 'path_to_input_sound.wav'
+configFile = 'path_to_config_file.py'
+
+waveIn,sr,__ = cleese.wavRead(inputFile)
+waveOut,BPFout = cleese.process(soundData=waveIn, configFile=configFile, sr=sr)
+\end{minted}
+\vspace{8pt}
+
+Note that the sampling rate \mip{sr} has to be passed as well! Like when passing a BPF, only a single sound is generated.
+
+
+
+
+
+\section{Configuration script}\label{sec:pars}
+
+All the generation parameters are set in the configuration script. Please refer to the included configuration script \mip{cleeseConfig_all.py} for an example.
+
+\subsection{Main parameters}
+
+The main parameters are set as follows:
+
+\vspace{5pt}
+\begin{minted}[bgcolor=bg]{python}
+# main parameters
+main_pars = {
+    'outPath': '/path_to_output_folder/',      # output root folder
+    'numFiles': 10,     # number of output files to generate (for random modifications)
+    'chain': True,      # apply transformation in series (True) or parallel (False)
+    'transf': ['stretch','pitch','eq','gain']  # modifications to apply
+}
+
+# global analysis parameters
+ana_pars = {
+    'anaWinLen':   0.04,    # analysis window length in sec 
+    'oversampling':   8,    # number of hops per analysis window
+}
+\end{minted}
+
+\subsubsection*{Chaining of transformations}
+
+If \mip{'chain'} is set to \mip{True}, the transformations specified in the \mip{'transf'} list will be applied as a chain, in the order implied by the list. For instance, the list \mip{['stretch','pitch','eq','gain']} will produce the output folders \mip{stretch}, \mip{stretch_pitch}, \mip{stretch_pitch_eq} and \mip{stretch_pitch_eq_gain}, each one containing an additional step in the process chain.
+
+If \mip{'chain'} is set to \mip{False}, the transformations will be in parallel (all starting from the original sound file), producing the output folders \mip{stretch}, \mip{pitch}, \mip{eq} and \mip{gain}.
+
+\subsection{Common parameters}
+
+The following parameters are shared by all treatments, but can take different values for each of them. Treatment-specific parameters will be covered in Sect. \ref{sec:treatments}.
+
+In the following, \mip{<treatment>} has to be replaced by one of the strings in \mip{['stretch','pitch','eq','gain']}:
+
+\vspace{5pt}
+\begin{minted}[bgcolor=bg]{python}
+# common treatment parameters
+<treatment>_pars = {
+    'winLen': 0.11,    # BPF window in seconds. If 0 : static transformation
+    'numWin': 6,       # number of BPF windows. If 0 : static transformation
+    'winUnit': 'n',    # 's': force winLen in seconds,
+    	 	  # 'n': force number of windows (of equal length)
+    'std': 300,        # standard deviation for each BPF point of the random modification
+    'trunc': 1,        # truncate distribution values (factor of std)
+    'BPFtype': 'ramp', # type of breakpoint function:
+                       #      'ramp': linear interpolation between breakpoints
+                       #      'square': square BPF, with specified transition times at edges
+    'trTime': 0.02     # in sec: transition time for square BPF
+}
+\end{minted}
+
+\vspace{10pt}
+\begin{easylist}[itemize]
+# \mip{winLen}: Length in seconds of the treatment window (i.e., the window used to generate the timestamps in the BPFs - see Sect. \ref{sec:bpf}). It should be longer than \mip{anaWinLen}. This is only used if \mip{'winUnit': 's'} (see below).
+## Static treatment: if \mip{'winLen': 0}, the treatment is static (flat BPF).
+# \mip{numWin}: Total number of treatment windows. This is only used if \mip{'winUnit': 'n'} (see below).
+## Static treatment: if \mip{'numWin': 0}, the treatment is static (flat BPF).
+# \mip{winUnit}: Whether to enforce window length in seconds (\mip{'s'}) or integer number of windows (\mip{'n'}). 
+# \mip{std}: Standard deviation of a Gaussian distribution from which the random values at each timestamp of the BPFs will be sampled. The unit of the std is specific to each treatment:
+## For \mip{pitch}: cents
+## For \mip{eq} and \mip{gain}: amplitude dBs
+## For \mip{stretch}: stretching factor ( >1: expansion, <1: compression)
+# \mip{trunc}: Factor of the std above which distribution samples are not allowed. If a sample is higher than \mip{std*trunc}, a new random value is sampled at that point.
+# \mip{BPFtype}: Type of BPF. Can be either \mip{ramp} or \mip{square} (see Sect. \ref{sec:bpf}).
+# \mip{trTime}: For BPFs of type \mip{square}, length in seconds of the transition phases.
+\end{easylist}
+\vspace{8pt}
+
+\section{BPFs}\label{sec:bpf}
+
+In CLEESE, sound transformations can be time-varying: the amount of modification (e.g. the pitch shifting or time stretching factors) can dynamically change over the duration of the input sound file. The breakpoint functions (BPFs) determine how these modifications vary over time. For the \mip{pitch}, \mip{stretch} and \mip{gain} treatments, BPFs are one-dimensional (temporal). For the \mip{eq} treatment, BPFs are two-dimensional (spectro-temporal).
+
+As has been seen, BPFs can be either randomly generated by CLEESE or provided by the user.
+
+\subsection{Temporal BPFs}
+
+For the \mip{pitch}, \mip{stretch} and \mip{gain} treatments, BPFs are temporal: they are two-column matrices  with rows of the form:
+
+\begin{figure}[ht!]
+\center
+\subfigure[Ramp BPF with window specified in seconds]{\includegraphics[height=6cm]{graph/ramps_s.png}\label{fig:ramps_s}}
+\subfigure[Ramp BPF with window specified in number]{\includegraphics[height=6cm]{graph/ramps_n.png}
+\label{fig:ramps_n}}
+\subfigure[Square BPF with window specified in seconds]{\includegraphics[height=6cm]{graph/square_s}
+\label{fig:square_s}}
+\subfigure[Square BPF with window specified in number]{\includegraphics[height=6cm]{graph/square_n}
+\label{fig:square_n}}
+\caption{Examples of randomly generated temporal BPFs.}
+\label{fig:voronoi}
+\end{figure}
+
+
+\vspace{8pt}
+ \mip{time value}
+\vspace{8pt}
+
+\mip{time} is in seconds, and \mip{value} is in the same units than the \mip{std} parameter. 
+CLEESE can randomly generate one-dimensional BPFs of two types:
+
+\vspace{5pt}
+\begin{easylist}[itemize]
+# \textbf{Ramps} (\mip{'BPFtype': 'ramp'}): the BPF is interpreted as a linearly interpolated function. The result is that the corresponding sound parameter is changed gradually (linearly) between timestamps. Examples are shown on Fig. 1 for a treatment window defined in terms of seconds (\mip{'winUnit': 's'}), and on Fig. 2 for a treatment window defined in terms of window number (\mip{'winUnit': 'n'}). Note that in the first case, the length of the last window depends on the length of the input sound. In the second case, all windows have the same length.
+# \textbf{Square} (\mip{'BPFtype': 'square'}): the BPF is a square wave with sloped transitions, whose length is controlled by \mip{trTime}. Examples are shown on Fig. 3 for a treatment window defined in terms of seconds (\mip{'winUnit': 's'}), and on Fig. 4 for a treatment window defined in terms of window number (\mip{'winUnit': 'n'}).
+\end{easylist}
+\vspace{8pt}
+
+\subsection{Spectro-temporal BPFs}\label{sec:bpf_2d}
+
+The \mip{eq} treatment performs time-varying filtering over a number of determined frequency bands. It thus expects a spectro-temporal (two-dimensional) BPF whose rows are defined as follows:
+
+\vspace{8pt}
+\mip{time numberOfBands freq1 value1 freq2 value2 freq3 value3 ...}
+\vspace{8pt}
+
+The temporal basis can again be generated as \mip{ramp} or \mip{square}. In contrast, in the frequency axis, points are always interpolated linearly. Thus, a spectro-temporal BPF can be interpreted as a time-varying piecewise-linear spectral envelope.
+
+\section{Treatments}\label{sec:treatments}
+
+\subsection{Time stretching (\mip{stretch})}
+
+This treatment stretches or compresses locally the sound file without changing the pitch, according to the current stretching factor (oscillating around 1) at the current timestamp. This is the only treatment that changes the duration of the output compared to the base sound. The used algorithm is a phase vocoder with phase locking based on frame-wise peak picking.
+
+\subsection{Pitch shifting (\mip{pitch})}
+
+The BPF is used to transpose up and down the pitch of the sound, without changing its duration. The used algorithm is a phase vocoder with phase locking based on frame-wise peak picking, followed by resampling on a window-by-window basis.
+
+\subsection{Time-varying equalization (\mip{eq})}
+
+This treatment divides the spectrum into a set of frequency bands, and applies random amplitudes to the bands. The definition of band edges is constant, the amplitudes can be time-varying. The corresponding BPF is thus two-dimensional and follows the format described in Sect. \ref{sec:bpf_2d}.
+
+There are two possible ways to define the band division:
+
+\vspace{5pt}
+\begin{easylist}[itemize]
+# \textbf{Linear} division into a given number of bands between 0 Hz and Nyquist.
+# Division according to a \textbf{mel} scale into a given number of bands. Note that it it possible to specify any number of filters (less or more than the traditional 40 filters for mel cepstra).
+\end{easylist}
+\vspace{8pt}
+
+These settings are defined by the following treatment-specific parameters:
+
+\vspace{5pt}
+\begin{minted}[bgcolor=bg]{python}
+eq_pars = {
+    'scale': 'mel',   # mel, linear
+    'numBands': 10
+}
+\end{minted}
+
+\subsection{Time-varying gain (\mip{gain})}
+
+For gain or level randomization, the BPF is interpolated and interpreted as an amplitude modulator. Note that the corresponding standard deviation is specified in dBs (base-10 logarithm). If the resulting output exceeds the maximum float amplitude of \mip{1.0}, the whole output signal is normalized.
+
+\bibliography{}
+\bibliographystyle{plain}
+
+\end{document}
