@@ -10,9 +10,11 @@ import cleese
 
 inputFile = './tutorial/sounds/female_anniversaire_isochrone.wav'
 configFile = './cleeseConfig_all.py'
+tomlConfig = './cleese-vanilla.toml'
 
 # example 1: run with random BPFs
-cleese.process(soundData=inputFile, configFile=configFile)
+# cleese.process(soundData=inputFile, configFile=configFile)
+cleese.generate_stimuli(cleese.Engine.PHASE_VOCODER, inputFile, tomlConfig)
 
 # # example 2: run with given BPF
 # import numpy as np

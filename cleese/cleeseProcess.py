@@ -15,59 +15,62 @@ import shutil
 from cleese.cleeseBPF import *
 from cleese.cleeseEngine import *
 
-def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
+
+def generate_stimuli(soundData, config, BPF=None, sample_rate=None,
+                     sample_format=None,
+                     timeVec=None):
+    if "main" not in config or "numFiles" not in config["main"]:
+        print("Missing `main.numFiles` variable from config")
+        return
+
+    process(soundData, config, BPF=BPF, sample_rate=sample_rate,
+            sample_format=sample_format, timeVec=timeVec,
+            file_output=True)
+
+
+def process(soundData, config, BPF=None, sample_rate=None,
+            sample_format=None, timeVec=None,
+            file_output=False):
 
     data = {}
-    exec(open(configFile).read(),data)
+    exec(open("./cleeseConfig_all.py").read(), data)
     pars = data['pars']
 
     doCreateBPF = False
     if BPF is None:
         doCreateBPF = True
 
-    try:
-        basestring
-    except NameError:
-        basestring = str
+    if not sample_rate:
+        print("Error: missing sample rate")
+        return
 
-    if isinstance(soundData, basestring):
-        fileInput = True
-        waveIn,sr,sampleFormat = wavRead(soundData)     # read input sound file
-    else:
-        fileInput = False
-        waveIn = soundData
-        numFiles = 1
+    if file_output:
+        if not sample_rate or not sample_format:
+            print("Error: missing sample format")
+            return
 
-    if len(waveIn.shape)==2:
+    sr = sample_rate
+    sampleFormat = sample_format
+
+    waveIn = soundData
+    numFiles = 1
+
+    if len(waveIn.shape) == 2:
         print('Warning: stereo file detected. Reading only left channel.')
-        waveIn = np.ravel(waveIn[:,0])
+        waveIn = np.ravel(waveIn[:, 0])
 
     pars['main_pars']['inSamples'] = len(waveIn)
     pars['main_pars']['sr'] = sr
 
-    if doCreateBPF and fileInput:
+    if doCreateBPF and file_output:
 
         numFiles = pars['main_pars']['numFiles']
-
-        # generate experiment name and folder
-        if pars['main_pars']['generateExpFolder']:
-            pars['main_pars']['expBaseDir'] = os.path.join(pars['main_pars']['outPath'],time.strftime("%Y-%m-%d_%H-%M-%S"))
-        else:
-            pars['main_pars']['expBaseDir'] = pars['main_pars']['outPath']
-        if not os.path.exists(pars['main_pars']['expBaseDir']):
-            os.makedirs(pars['main_pars']['expBaseDir'])
-
-        # copy base audio to experiment folder
-        shutil.copy2(soundData,pars['main_pars']['expBaseDir'])
-
-        # copy configuration file to experiment folder
-        shutil.copy2(configFile,pars['main_pars']['expBaseDir'])
 
     else:
 
         numFiles = 1
         if np.isscalar(BPF):
-            BPF = np.array([[0.,float(BPF)]])
+            BPF = np.array([[0., float(BPF)]])
 
     currOutFile = []
     for t in range(0,len(pars['main_pars']['transf'])):
@@ -84,8 +87,8 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
 
         if doCreateBPF:
 
-            if fileInput:
-                pars['main_pars']['currOutPath'] = os.path.join(pars['main_pars']['expBaseDir'],currTrString)
+            if file_output:
+                pars['main_pars']['currOutPath'] = os.path.join(config['main']['expBaseDir'], currTrString)
 
             # create BPF time vector
             duration = pars['main_pars']['inSamples']/float(sr)
@@ -95,10 +98,10 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
             pars['main_pars']['currOutPath'] = pars['main_pars']['outPath']
 
         # create output folder
-        if fileInput:
+        if file_output:
             if not os.path.exists(pars['main_pars']['currOutPath']):
                 os.makedirs(pars['main_pars']['currOutPath'])
-            path,inFileNoExt = os.path.split(soundData)
+            path, inFileNoExt = os.path.split(config["main"]["filename"])
             inFileNoExt = os.path.splitext(inFileNoExt)[0]
 
         # create frequency bands for random EQ
@@ -112,7 +115,7 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
             currFileNo = "%04u" % (i+1)
 
             if pars['main_pars']['chain'] and t>0:
-                if fileInput:
+                if file_output:
                     waveIn,sr,sampleFormat = wavRead(currOutFile[i])
                 else:
                     waveIn = waveOut
@@ -125,7 +128,7 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
                 BPF = createBPF(tr,pars,BPFtime,numPoints,endOnTrans,eqFreqVec)
 
             # export BPF as text file
-            if fileInput:
+            if file_output:
                 currBPFfile = os.path.join(pars['main_pars']['currOutPath'],inFileNoExt+'.'+currFileNo+'.'+currTrString+'_BPF.txt')
                 np.savetxt(currBPFfile,BPF,'%.8f')
 
@@ -163,22 +166,23 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
                     gainVec = np.interp(np.linspace(0,duration,pars['main_pars']['inSamples']),BPF[:,0],BPF[:,1])
                     waveOut = waveIn * gainVec
 
-            if fileInput:
+            if file_output:
                 # normalize
                 if np.max(np.abs(waveOut)) >= 1.0:
                     waveOut = waveOut/np.max(np.abs(waveOut))*0.999
                 wavWrite(waveOut,fileName=currOutFile[i],sr=sr,sampleFormat=sampleFormat)
 
-    if not fileInput:
+    if not file_output:
         return waveOut,BPF
 
-def wavRead(fileName):
 
-    sr,wave = wav.read(fileName)
+def load_file(fileName):
+
+    sampleRate, wave = wav.read(fileName)
 
     sampleFormat = wave.dtype
 
-    if sampleFormat in ('int16','int32'):
+    if sampleFormat in ('int16', 'int32'):
         # convert to float
         if sampleFormat == 'int16':
             n_bits = 16
@@ -187,7 +191,17 @@ def wavRead(fileName):
         wave = wave/(float(2**(n_bits - 1)))
         wave = wave.astype('float32')
 
-    return wave,sr,sampleFormat
+    attributes = {
+        "sample_rate": sampleRate,
+        "sample_format": sampleFormat,
+    }
+    return wave, attributes
+
+
+def wavRead(filename):
+    wave, attr = load_file(filename)
+    return wave, attr["sample_rate"], attr["sample_format"]
+
 
 def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
 
