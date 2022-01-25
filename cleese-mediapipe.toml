@@ -1,0 +1,46 @@
+[main]
+
+# output root folder
+outPath = "./CLEESE_output_data/"
+
+# number of output files to generate (for random modifications)
+numFiles = 10
+
+# apply transformation in series (True) or parallel (False)
+chain = true
+
+# transformations to apply `transf = ["pitch"]`
+transf = ["stretch", "pitch", "eq", "gain"]
+
+# generate experiment folder with name based on current time
+generateExpFolder = true
+
+[mediapipe.random_gen]
+
+# Indices of the landmarks to be modified, using Dlib's 68 landmarks indexing
+landmarks.dlib = []
+
+# Indices of the landmarks to be modified, using Mediapipe's 468 landmarks indexing
+#landmarks.mediapipe = [61, 40, 78, 91, 270, 308, 321, 291]  # lips corners
+landmarks.mediapipe = [61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 181, 91,
+                       78, 80, 13, 311, 308, 402, 14, 178]  # dlib full lips
+
+# Sets of landmarks to be modified, using precomputed sets
+# "mouth-20", "eyes-20", ...
+# TODO define those groups
+landmarks.presets = []
+
+# Covariance matrix used to generate the gaussian distribution of landmarks
+# offsets. It is scaled according to the height of the detected face. As a
+# result, the amount of deformation should be resolution-invariant.
+covMat = [[0.0002, 0.0], [0.0, 0.0002]]
+
+[mediapipe.mls]
+
+# Alpha parameter of the MLS deformation. Affect how much the deformation "spreads" from the landmarks
+alpha = 1.2
+
+[mediapipe.face_detect]
+
+# Minimum face detection confidence
+threshold = 0.5

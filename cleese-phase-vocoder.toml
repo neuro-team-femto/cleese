@@ -11,11 +11,11 @@ numFiles = 10
 # apply transformation in series (True) or parallel (False)
 chain = true
 
-# transformations to apply 'transf': ['pitch'],
+# transformations to apply `transf = ["pitch"]`
 transf = ["stretch", "pitch", "eq", "gain"]
 
-generateExpFolder = true
 # generate experiment folder with name based on current time
+generateExpFolder = true
 
 
 [analysis]
@@ -64,7 +64,7 @@ BPFtype = 'ramp'
 trTime = 0.05
 
 
-[EQ]
+[eq]
 window.len = 0.1
 window.count = 5
 window.unit = 'n'

@@ -4,31 +4,17 @@ import os
 import shutil
 import time
 
-import cleese.cleeseProcess
-
-
-class Engine(enum.Enum):
-    MEDIAPIPE = enum.auto()
-    PHASE_VOCODER = enum.auto()
+from cleese import engines
 
 
 def process_file(engine, filename, config_file, **kwargs):
-    if engine == Engine.PHASE_VOCODER:
-        data, attr = cleese.cleeseProcess.load_file(filename)
-        process_data(engine, data, config_file, **attr, **kwargs)
-    elif engine == Engine.MEDIAPIPE:
-        print("mediapipe engine not yet implemented")
-    else:
-        print("unknown engine")
+    data, attr = engine.load_file(filename)
+    return process_data(engine, data, config_file, **attr, **kwargs)
 
 
 def process_data(engine, data, config_file, **kwargs):
-    if engine == Engine.PHASE_VOCODER:
-        cleese.cleeseProcess.process(data, config_file, **kwargs)
-    elif engine == Engine.MEDIAPIPE:
-        print("mediapipe engine not yet implemented")
-    else:
-        print("unknown engine")
+    conf = load_config(config_file)
+    return engine.process(data, conf, **kwargs)
 
 
 def generate_stimuli(engine, filename, config_file, **kwargs):
@@ -43,11 +29,11 @@ def generate_stimuli(engine, filename, config_file, **kwargs):
     # generate experiment name and folder
     if "generateExpFolder" in main and main["generateExpFolder"]:
         if "outPath" not in main:
-            print("Error: [main] outPath missing while generateExpFolder is true in {}".format(config_file))
+            print("ERROR: [main] outPath missing while generateExpFolder is true in {}".format(config_file))
             return
 
-        base_dir = os.path.join(main["outPath"],
-                                time.strftime("%Y-%m-%d_%H-%M-%S"))
+        base_dir = os.path.join(main["outPath"], "[{}]_{}".format(
+                engine.name(), time.strftime("%Y-%m-%d_%H-%M-%S")))
     else:
         base_dir = main["outPath"]
 
@@ -63,13 +49,8 @@ def generate_stimuli(engine, filename, config_file, **kwargs):
     # copy configuration file to experiment folder
     shutil.copy2(config_file, base_dir)
 
-    if engine == Engine.PHASE_VOCODER:
-        data, attr = cleese.cleeseProcess.load_file(filename)
-        cleese.cleeseProcess.generate_stimuli(data, conf, **attr, **kwargs)
-    elif engine == Engine.MEDIAPIPE:
-        print("mediapipe engine not yet implemented")
-    else:
-        print("unknown engine")
+    data, attr = engine.load_file(filename)
+    return engine.generate_stimuli(data, conf, **attr, **kwargs)
 
 
 def load_config(filename):
@@ -77,7 +58,6 @@ def load_config(filename):
     with open(filename, "rb") as f:
         try:
             conf = tomli.load(f)
-            print(conf)
         except tomli.TOMLDecodeError as e:
             print("Could not load configuration from '{}':\n  {}"
                   .format(filename, e))
