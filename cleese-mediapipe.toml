@@ -22,13 +22,15 @@ landmarks.dlib = []
 
 # Indices of the landmarks to be modified, using Mediapipe's 468 landmarks indexing
 #landmarks.mediapipe = [61, 40, 78, 91, 270, 308, 321, 291]  # lips corners
-landmarks.mediapipe = [61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 181, 91,
-                       78, 80, 13, 311, 308, 402, 14, 178]  # dlib full lips
+#landmarks.mediapipe = [61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 181, 91,
+#                       78, 80, 13, 311, 308, 402, 14, 178]  # dlib full lips
 
 # Sets of landmarks to be modified, using precomputed sets
-# "mouth-20", "eyes-20", ...
-# TODO define those groups
-landmarks.presets = []
+# "dlib-eyebrow-right", "dlib-eyebrow-left", "dlib-nose",
+# "dlib-eye-right", "dlib-eye-left", "dlib-outer-lips",
+# "dlib-inner-lips", "dlib-lips", etc...
+# See cleese/engines/mediapipe.py for a full list
+landmarks.presets = ["dlib-lips"]
 
 # Covariance matrix used to generate the gaussian distribution of landmarks
 # offsets. It is scaled according to the height of the detected face. As a

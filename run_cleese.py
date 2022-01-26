@@ -11,6 +11,7 @@ import cv2
 
 inputFile = './tutorial/sounds/female_anniversaire_isochrone.wav'
 imgFile = './tutorial/pics/monalisa.jpg'
+dfmFile = './tutorial/dfm/default.dfm'
 configFile = './cleeseConfig_all.py'
 tomlConfig = './cleese-phase-vocoder.toml'
 mediapipeConfig = './cleese-mediapipe.toml'
@@ -54,4 +55,13 @@ mediapipeConfig = './cleese-mediapipe.toml'
 # k = cv2.waitKey(0)
 
 # example 7: Generate randomly deformed images
-cleese.generate_stimuli(cleese.engines.Mediapipe, imgFile, mediapipeConfig)
+#cleese.generate_stimuli(cleese.engines.Mediapipe, imgFile, mediapipeConfig)
+
+# example 8: Apply existing .dfm
+dfm = cleese.engines.Mediapipe.load_dfm(dfmFile)
+img = cleese.process_file(cleese.engines.Mediapipe,
+                          imgFile,
+                          mediapipeConfig,
+                          dfm=dfm)
+cv2.imshow("Cleese v2", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+k = cv2.waitKey(0)

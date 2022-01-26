@@ -2,12 +2,179 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from numpy.lib import recfunctions as rfn
 from PIL import Image
 import mediapipe as mp
 from os import path
 
 from .engine import Engine
 from cleese.third_party.mls.img_utils import mls_rigid_deformation
+
+
+DLIB_TO_MEDIAPIPE = [
+        162, 254, 132, 58, 172, 136, 150, 176,  # Face oval right
+        152,  # Chin
+        400, 379, 365, 397, 288, 361, 454, 389,  # Face oval left
+        70, 63, 105, 66, 107,  # Eyebrow top right
+        336, 296, 334, 293, 300,  # Eyebrow top left
+        168, 187, 5, 1, 98, 97, 2, 326, 327,  # Nose
+        33, 160, 158, 133, 153, 144,  # Eye right
+        362, 385, 387, 263, 373, 380,  # Eye left
+        61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 91,  # Outer lips
+        78, 80, 13, 311, 308, 402, 14, 178,  # Inner lips
+]
+
+LANDMARKS_SETS = {
+        "dlib-eyebrow-right": DLIB_TO_MEDIAPIPE[17:22],
+        "dlib-eyebrow-left": DLIB_TO_MEDIAPIPE[22:27],
+        "dlib-nose": DLIB_TO_MEDIAPIPE[27:36],
+        "dlib-eye-right": DLIB_TO_MEDIAPIPE[36:42],
+        "dlib-eye-left": DLIB_TO_MEDIAPIPE[42:48],
+        "dlib-outer-lips": DLIB_TO_MEDIAPIPE[48:60],
+        "dlib-inner-lips": DLIB_TO_MEDIAPIPE[60:68],
+        "dlib-lips": DLIB_TO_MEDIAPIPE[48:68],
+}
+
+MEDIAPIPE_TO_DLIB = [
+        51,  # [0]
+        30,  # [1]
+        33,  # [2]
+        -1, -1,
+        29,  # [5]
+        -1, -1, -1, -1, -1, -1, -1,
+        62,  # [13]
+        66,  # [14]
+        -1, -1,
+        57,  # [17]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        36,  # [33]
+        -1, -1, -1,
+        50,  # [37]
+        -1, -1,
+        49,  # [40]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        3,  # [58]
+        -1, -1,
+        48,  # [61]
+        -1,
+        18,  # [63]
+        -1, -1,
+        20,  # [66]
+        -1, -1, -1,
+        17,  # [70]
+        -1, -1, -1, -1, -1, -1, -1,
+        60,  # [78]
+        -1,
+        61,  # [80]
+        -1, -1, -1,
+        58,  # [84]
+        -1, -1, -1, -1, -1, -1,
+        59,  # [91]
+        -1, -1, -1, -1, -1,
+        32,  # [97]
+        31,  # [98]
+        -1, -1, -1, -1, -1, -1,
+        19,  # [105]
+        -1,
+        21,  # [107]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        2,  # [132]
+        39,  # [133]
+        -1, -1,
+        5,  # [136]
+        -1, -1, -1, -1, -1, -1, -1,
+        41,  # [144]
+        -1, -1, -1, -1, -1,
+        6,  # [150]
+        -1,
+        8,  # [152]
+        40,  # [153]
+        -1, -1, -1, -1,
+        38,  # [158]
+        -1,
+        37,  # [160]
+        -1,
+        0,  # [162]
+        -1, -1, -1, -1, -1,
+        27,  # [168]
+        -1, -1, -1,
+        4,  # [172]
+        -1, -1, -1,
+        7,  # [176]
+        -1,
+        67,  # [178]
+        -1, -1, -1, -1, -1, -1, -1, -1,
+        28,  # [187]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        1,  # [254]
+        -1, -1, -1, -1, -1, -1, -1, -1,
+        45,  # [263]
+        -1, -1, -1,
+        52,  # [267]
+        -1, -1,
+        53,  # [270]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        13,  # [288]
+        -1, -1,
+        54,  # [291]
+        -1,
+        25,  # [293]
+        -1, -1,
+        23,  # [296]
+        -1, -1, -1,
+        26,  # [300]
+        -1, -1, -1, -1, -1, -1, -1,
+        64,  # [308]
+        -1, -1,
+        63,  # [311]
+        -1, -1,
+        56,  # [314]
+        -1, -1, -1, -1, -1, -1,
+        55,  # [321]
+        -1, -1, -1, -1,
+        34,  # [326]
+        35,  # [327]
+        -1, -1, -1, -1, -1, -1,
+        24,  # [334]
+        -1,
+        22,  # [336]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1,
+        14,  # [361]
+        42,  # [362]
+        -1, -1,
+        11,  # [365]
+        -1, -1, -1, -1, -1, -1, -1,
+        46,  # [373]
+        -1, -1, -1, -1, -1,
+        10,  # [379]
+        47,  # [380]
+        -1, -1, -1, -1,
+        43,  # [385]
+        -1,
+        44,  # [387]
+        -1,
+        16,  # [389]
+        -1, -1, -1, -1, -1, -1, -1,
+        12,  # [397]
+        -1, -1,
+        9,  # [400]
+        -1,
+        65,  # [402]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        15,  # [454]
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+]
+
+
+def dlib_to_mediapipe(dlib_landmarks):
+    return np.take(DLIB_TO_MEDIAPIPE, dlib_landmarks, axis=0)
 
 
 class Mediapipe(Engine):
@@ -17,62 +184,105 @@ class Mediapipe(Engine):
         return np.array(Image.open(filename)), {}
 
     @staticmethod
-    def process(image, config, file_output=False, **kwargs):
-        # FIXME Replace with config values
-        lips_idx = [61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 181, 91,
-                    78, 80, 13, 311, 308, 402, 14, 178]
-        mls_idx = [61, 40, 78, 91, 270, 308, 321, 291]
+    def load_dfm(filename):
+        dfm = None
+        try:
+            dfm = np.genfromtxt(filename,
+                                dtype=[
+                                    ("group", "i4"),
+                                    ("index", "i4"),
+                                    ("v1", "i4"),
+                                    ("v2", "i4"),
+                                    ("v3", "i4"),
+                                    ("alpha", "f8"),
+                                    ("beta", "f8"),
+                                    ("gamma", "f8"),
+                                ],
+                                delimiter=",",
+                                invalid_raise=True)
+        except ValueError:
+            print("ERROR: invalid dfm file: {}".format(filename))
+        return dfm
 
-        # TODO Apply dfm to image
-        height, width, _ = image.shape
-        target_img = image.copy()
+    @staticmethod
+    def process(img, config, file_output=False, dfm=None, dfmxy=None):
 
-        p = []
-        q = []
+        # Check all the needed user-provided config values are here
+        try:
+            MLS_ALPHA = config["mediapipe"]["mls"]["alpha"]
+            COVARIANCE_MAT = config["mediapipe"]["random_gen"]["covMat"]
+            LANDMARKS_TYPES = config["mediapipe"]["random_gen"]["landmarks"]
+            NUM_FILES = config["main"]["numFiles"]
+            FACE_THRESH = config["mediapipe"]["face_detect"]["threshold"]
+        except KeyError as e:
+            print("ERROR: missing config element: {}".format(e))
+            return
 
+        if dfm is not None and dfmxy is not None:
+            print("WARN: non empty dfm and dfmxy provided. Ignoring dfmxy")
+
+        mls_targets = []
+        if dfm is not None:
+            mls_targets += dlib_to_mediapipe(dfm["index"]).tolist()
+            triangles_indices = dlib_to_mediapipe(
+                    rfn.structured_to_unstructured(
+                        dfm[["v1", "v2", "v3"]]))
+        elif dfmxy is not None:
+            raise NotImplementedError()
+        else:
+            # TODO figure out what to do in that case
+            raise NotImplementedError()
+
+        # Retrieve face landmarks from Mediapipe
+        results = None
         with mp.solutions.face_mesh.FaceMesh(
                 static_image_mode=True,
                 max_num_faces=1,
                 refine_landmarks=True,
-                min_detection_confidence=0.5) as face_mesh:
+                min_detection_confidence=FACE_THRESH) as face_mesh:
 
-            results = face_mesh.process(image)
+            results = face_mesh.process(img)
 
-            if results.multi_face_landmarks:
-                for face_landmarks in results.multi_face_landmarks:
+        # Get points for the MLS
+        if not results or not results.multi_face_landmarks:
+            print("ERROR: unable to detect any faces")
+            return
 
-                    selected_con = mp.solutions.face_mesh.FACEMESH_CONTOURS
-                    mp.solutions.drawing_utils.draw_landmarks(
-                            image=target_img,
-                            landmark_list=face_landmarks,
-                            connections=selected_con,
-                            landmark_drawing_spec=None,
-                            connection_drawing_spec=mp.solutions.drawing_styles
-                            .get_default_face_mesh_contours_style())
+        # Retrieve targeted landmarks for Mediapipe's results
+        height, width, _ = img.shape
+        for face_landmarks in results.multi_face_landmarks:
+            # Compute pixel size of the detected face
+            x = [int(lm.x * width) for lm in face_landmarks.landmark]
+            y = [int(lm.y * height) for lm in face_landmarks.landmark]
+            np_landmarks = np.column_stack((x, y))
+            # face_min = np.amin(np_landmarks, axis=0)
+            # face_max = np.amax(np_landmarks, axis=0)
+            # face_size = face_max[1] - face_min[1]
 
-                    # Get points for the MLS
-                    for i in lips_idx:
-                        lm = face_landmarks.landmark[i]
-                        x = int(lm.x * width)
-                        y = int(lm.y * height)
-                        p.append([x, y])
-                        if i in mls_idx:
-                            q.append([x, y + abs(x - 230) * 0.5 - 5])
-                        else:
-                            q.append([x, y])
+            if dfm is not None:
+                # Apply barycentric coordinates to get target points
+                t = np.take(np_landmarks, triangles_indices, axis=0)
+                weights = rfn.structured_to_unstructured(
+                        dfm[["alpha", "beta", "gamma"]])
+                q = np.sum(t * weights[:, :, np.newaxis], axis=1)
+                q = q.astype(np.int16)
+            elif dfmxy is not None:
+                raise NotImplementedError()
+            else:
+                raise NotImplementedError()
+
+            # Select landmarks to be deformed
+            p = np.take(np_landmarks, np.array(mls_targets), axis=0)
 
         # Setup fixed anchor point on the image's corners for the MLS
-        p.append([0, 0])
-        q.append([0, 0])
-        p.append([width - 1, 0])
-        q.append([width - 1, 0])
-        p.append([width - 1, height - 1])
-        q.append([width - 1, height - 1])
-        p.append([0, height - 1])
-        q.append([0, height - 1])
-
-        p = np.array(p)
-        q = np.array(q)
+        box = np.array([
+            (0, 0),
+            (width - 1, 0),
+            (width - 1, height - 1),
+            (0, height - 1),
+        ])
+        p = np.concatenate((p, box))
+        q = np.concatenate((q, box))
 
         gridX = np.arange(0, width, dtype=np.int16)
         gridY = np.arange(0, height, dtype=np.int16)
@@ -81,17 +291,18 @@ class Mediapipe(Engine):
         # mls_rigid_deformation expects coordinates in the (y, x) order
         p_mls = p[:, [1, 0]]
         q_mls = q[:, [1, 0]]
-        rigid = mls_rigid_deformation(vy, vx, p_mls, q_mls, alpha=1.2)
-        aug3 = np.ones_like(image)
-        aug3[vx, vy] = image[tuple(rigid)]
+        rigid = mls_rigid_deformation(vy, vx,
+                                      p_mls, q_mls,
+                                      alpha=MLS_ALPHA)
 
-        return aug3
+        # Apply the computed deformation to the image
+        deformed_img = np.ones_like(img)
+        deformed_img[vx, vy] = img[tuple(rigid)]
+
+        return deformed_img
 
     @staticmethod
     def generate_stimuli(img, config, **kwargs):
-        # FIXME Replace with config values
-        lips_idx = [61, 40, 37, 0, 267, 270, 291, 321, 314, 17, 84, 181, 91,
-                    78, 80, 13, 311, 308, 402, 14, 178]
 
         # Check all the needed user-provided config values are here
         try:
@@ -108,17 +319,24 @@ class Mediapipe(Engine):
         BASE_DIR = config["main"]["expBaseDir"]
         FILENAME = config["main"]["filename"]
 
-        height, width, _ = img.shape
-
-        p = []
+        # Load all the different sources of landmark targets
         mls_targets = []
         for key in LANDMARKS_TYPES:
             if key == "mediapipe":
                 mls_targets += LANDMARKS_TYPES[key]
             elif key == "dlib":
-                print("WARN: dlib indices not yet implemented")
+                try:
+                    mls_targets += dlib_to_mediapipe(
+                            LANDMARKS_TYPES[key]).tolist()
+                except IndexError:
+                    print("WARN: dlib landmark index outside of [0, 67]")
             elif key == "presets":
-                print("WARN: landmarks presets not yet implemented")
+                for preset in LANDMARKS_TYPES[key]:
+                    if preset in LANDMARKS_SETS:
+                        mls_targets += LANDMARKS_SETS[preset]
+                    else:
+                        print("WARN: unknown landmark preset: {}"
+                              .format(preset))
             else:
                 print("ERROR: unknown landmark indexing: {}".format(key))
 
@@ -139,7 +357,10 @@ class Mediapipe(Engine):
             print("ERROR: unable to detect any faces")
             return
 
+        # Retrieve targeted landmarks for Mediapipe's results
+        height, width, _ = img.shape
         np_landmarks = []
+        p = []
         for face_landmarks in results.multi_face_landmarks:
             # Compute pixel size of the detected face
             x = [int(lm.x * width) for lm in face_landmarks.landmark]
@@ -154,7 +375,7 @@ class Mediapipe(Engine):
                 pt = np_landmarks[lm_idx]
                 p.append(pt)
 
-        # Export landmark positions to file
+        # Export landmarks positions to file
         basename = path.splitext(path.basename(FILENAME))
         output_landmarks_file = path.join(
                 BASE_DIR, "{}.landmarks.txt".format(basename[0]))
