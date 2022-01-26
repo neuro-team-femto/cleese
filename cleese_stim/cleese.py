@@ -4,7 +4,7 @@ import os
 import shutil
 import time
 
-from cleese import engines
+from . import engines
 
 
 def process_file(engine, filename, config_file, **kwargs):

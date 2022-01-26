@@ -8,7 +8,7 @@ import mediapipe as mp
 from os import path
 
 from .engine import Engine
-from cleese.third_party.mls.img_utils import mls_rigid_deformation
+from cleese_stim.third_party.mls.img_utils import mls_rigid_deformation
 
 
 DLIB_TO_MEDIAPIPE = [

@@ -6,7 +6,7 @@ mar 2018, J.J. Burred <jjburred@jjburred.com> for IRCAM/CNRS
 Usage examples.
 '''
 
-import cleese
+import cleese_stim as cleese
 import cv2
 
 inputFile = './tutorial/sounds/female_anniversaire_isochrone.wav'
