@@ -1,10 +1,21 @@
-import enum
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+'''
+CLEESE toolbox v2.0
+jan 2022, Lara Kermarec <lara.git@kermarec.bzh> for CNRS
+
+External API for CLEESE
+'''
+
 import tomli
 import os
 import shutil
 import time
+import sys
 
-from . import engines
+
+def log(*args):
+    print(*args, file=sys.stderr)
 
 
 def process_file(engine, filename, config_file, **kwargs):
@@ -20,22 +31,20 @@ def process_data(engine, data, config_file, **kwargs):
 def generate_stimuli(engine, filename, config_file, **kwargs):
     conf = load_config(config_file)
 
-    if "main" not in conf:
-        print("Error: missing [main] table in {}".format(config_file))
+    # Check all the needed user-provided config values are here
+    try:
+        OUT_PATH = conf["main"]["outPath"]
+    except KeyError as e:
+        log("ERROR: missing config element: {}".format(e))
         return
 
-    main = conf["main"]
-
     # generate experiment name and folder
+    main = conf["main"]
     if "generateExpFolder" in main and main["generateExpFolder"]:
-        if "outPath" not in main:
-            print("ERROR: [main] outPath missing while generateExpFolder is true in {}".format(config_file))
-            return
-
-        base_dir = os.path.join(main["outPath"], "[{}]_{}".format(
+        base_dir = os.path.join(OUT_PATH, "[{}]_{}".format(
                 engine.name(), time.strftime("%Y-%m-%d_%H-%M-%S")))
     else:
-        base_dir = main["outPath"]
+        base_dir = OUT_PATH
 
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
@@ -43,7 +52,7 @@ def generate_stimuli(engine, filename, config_file, **kwargs):
     conf["main"]["expBaseDir"] = base_dir
     conf["main"]["filename"] = filename
 
-    # copy base audio to experiment folder
+    # copy original data to experiment folder
     shutil.copy2(filename, base_dir)
 
     # copy configuration file to experiment folder
@@ -59,8 +68,8 @@ def load_config(filename):
         try:
             conf = tomli.load(f)
         except tomli.TOMLDecodeError as e:
-            print("Could not load configuration from '{}':\n  {}"
-                  .format(filename, e))
+            log("Could not load configuration from '{}':\n  {}"
+                .format(filename, e))
     return conf
 
 

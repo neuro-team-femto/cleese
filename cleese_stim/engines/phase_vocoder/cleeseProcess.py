@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
-CLEESE toolbox v1.0
-mar 2018, J.J. Burred <jjburred@jjburred.com> for IRCAM/CNRS
+CLEESE toolbox
+v1.0: mar 2018, J.J. Burred <jjburred@jjburred.com> for IRCAM/CNRS
+v2.0: jan 2022, Lara Kermarec <lara.git@kermarec.bzh> for CNRS
 
-Main functions for CLEESE
+Main functions for CLEESE's phase vocoder engine
 '''
 
 import os
@@ -23,6 +25,7 @@ from .cleeseEngine import (
         istft_resamp,
         phaseVocoder_varHop,)
 from ..engine import Engine
+from ...cleese import log
 
 
 class PhaseVocoder(Engine):
@@ -46,12 +49,12 @@ class PhaseVocoder(Engine):
             doCreateBPF = True
 
         if not sample_rate:
-            print("Error: missing sample rate")
+            log("ERROR: missing sample rate")
             return
 
         if file_output:
             if not sample_rate or not sample_format:
-                print("Error: missing sample format")
+                log("ERROR: missing sample format")
                 return
 
         sr = sample_rate
@@ -61,7 +64,7 @@ class PhaseVocoder(Engine):
         numFiles = 1
 
         if len(waveIn.shape) == 2:
-            print('Warning: stereo file detected. Reading only left channel.')
+            log('WARN: stereo file detected. Reading only left channel.')
             waveIn = np.ravel(waveIn[:, 0])
 
         config["main"]['inSamples'] = len(waveIn)
@@ -117,7 +120,7 @@ class PhaseVocoder(Engine):
 
             for i in range(0, numFiles):
 
-                print(currTrString+' variation '+str(i+1)+'/'+str(numFiles))
+                log(currTrString+' variation '+str(i+1)+'/'+str(numFiles))
                 currFileNo = "%08u" % (i+1)
 
                 if config["main"]['chain'] and t > 0:
@@ -199,8 +202,8 @@ class PhaseVocoder(Engine):
                     if np.max(np.abs(waveOut)) >= 1.0:
                         waveOut = waveOut/np.max(np.abs(waveOut))*0.999
 
-                    wavWrite(waveOut, fileName=currOutFile[i],
-                             sr=sr, sampleFormat=sampleFormat)
+                    PhaseVocoder.wavWrite(waveOut, fileName=currOutFile[i],
+                                          sr=sr, sampleFormat=sampleFormat)
 
         if not file_output:
             return waveOut, BPF
@@ -228,25 +231,25 @@ class PhaseVocoder(Engine):
         return wave, attributes
 
     @staticmethod
+    def name():
+        return "phase_vocoder"
+
+    @staticmethod
     def wavRead(filename):
         wave, attr = PhaseVocoder.load_file(filename)
         return wave, attr["sample_rate"], attr["sample_format"]
 
     @staticmethod
-    def name():
-        return "phase_vocoder"
+    def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
 
-
-def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
-
-    if sampleFormat == 'int16':
-        waveOutFormat = waveOut * 2**15
-    elif sampleFormat == 'int32':
-        waveOutFormat = waveOut * 2**31
-    else:
-        waveOutFormat = waveOut
-    waveOutFormat = waveOutFormat.astype(sampleFormat)
-    wav.write(fileName, sr, waveOutFormat)
+        if sampleFormat == 'int16':
+            waveOutFormat = waveOut * 2**15
+        elif sampleFormat == 'int32':
+            waveOutFormat = waveOut * 2**31
+        else:
+            waveOutFormat = waveOut
+        waveOutFormat = waveOutFormat.astype(sampleFormat)
+        wav.write(fileName, sr, waveOutFormat)
 
 
 def processWithSTFT(waveIn, config, BPF):

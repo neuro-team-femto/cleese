@@ -1,5 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+'''
+CLEESE toolbox v2.0
+jan 2022, Lara Kermarec <lara.git@kermarec.bzh> for CNRS
+
+Image deformation engine for CLEESE, using mediapipe
+'''
 
 import numpy as np
 from numpy.lib import recfunctions as rfn
@@ -8,7 +14,8 @@ import mediapipe as mp
 from os import path
 
 from .engine import Engine
-from cleese_stim.third_party.mls.img_utils import mls_rigid_deformation
+from ..cleese import log
+from ..third_party.mls.img_utils import mls_rigid_deformation
 
 
 DLIB_TO_MEDIAPIPE = [
@@ -201,7 +208,7 @@ class Mediapipe(Engine):
                                 delimiter=",",
                                 invalid_raise=True)
         except ValueError:
-            print("ERROR: invalid dfm file: {}".format(filename))
+            log("ERROR: invalid dfm file: {}".format(filename))
         return dfm
 
     @staticmethod
@@ -210,16 +217,16 @@ class Mediapipe(Engine):
         # Check all the needed user-provided config values are here
         try:
             MLS_ALPHA = config["mediapipe"]["mls"]["alpha"]
-            COVARIANCE_MAT = config["mediapipe"]["random_gen"]["covMat"]
-            LANDMARKS_TYPES = config["mediapipe"]["random_gen"]["landmarks"]
-            NUM_FILES = config["main"]["numFiles"]
+            # COVARIANCE_MAT = config["mediapipe"]["random_gen"]["covMat"]
+            # LANDMARKS_TYPES = config["mediapipe"]["random_gen"]["landmarks"]
+            # NUM_FILES = config["main"]["numFiles"]
             FACE_THRESH = config["mediapipe"]["face_detect"]["threshold"]
         except KeyError as e:
-            print("ERROR: missing config element: {}".format(e))
+            log("ERROR: missing config element: {}".format(e))
             return
 
         if dfm is not None and dfmxy is not None:
-            print("WARN: non empty dfm and dfmxy provided. Ignoring dfmxy")
+            log("WARN: non empty dfm and dfmxy provided. Ignoring dfmxy")
 
         mls_targets = []
         if dfm is not None:
@@ -245,7 +252,7 @@ class Mediapipe(Engine):
 
         # Get points for the MLS
         if not results or not results.multi_face_landmarks:
-            print("ERROR: unable to detect any faces")
+            log("ERROR: unable to detect any faces")
             return
 
         # Retrieve targeted landmarks for Mediapipe's results
@@ -312,7 +319,7 @@ class Mediapipe(Engine):
             NUM_FILES = config["main"]["numFiles"]
             FACE_THRESH = config["mediapipe"]["face_detect"]["threshold"]
         except KeyError as e:
-            print("ERROR: missing config element: {}".format(e))
+            log("ERROR: missing config element: {}".format(e))
             return
 
         # Internal values, should never be missing
@@ -329,16 +336,15 @@ class Mediapipe(Engine):
                     mls_targets += dlib_to_mediapipe(
                             LANDMARKS_TYPES[key]).tolist()
                 except IndexError:
-                    print("WARN: dlib landmark index outside of [0, 67]")
+                    log("WARN: dlib landmark index outside of [0, 67]")
             elif key == "presets":
                 for preset in LANDMARKS_TYPES[key]:
                     if preset in LANDMARKS_SETS:
                         mls_targets += LANDMARKS_SETS[preset]
                     else:
-                        print("WARN: unknown landmark preset: {}"
-                              .format(preset))
+                        log("WARN: unknown landmark preset: {}".format(preset))
             else:
-                print("ERROR: unknown landmark indexing: {}".format(key))
+                log("ERROR: unknown landmark indexing: {}".format(key))
 
         rng = np.random.default_rng()
 
@@ -354,7 +360,7 @@ class Mediapipe(Engine):
 
         # Get points for the MLS
         if not results or not results.multi_face_landmarks:
-            print("ERROR: unable to detect any faces")
+            log("ERROR: unable to detect any faces")
             return
 
         # Retrieve targeted landmarks for Mediapipe's results
@@ -396,8 +402,8 @@ class Mediapipe(Engine):
         vy, vx = np.meshgrid(gridX, gridY)
 
         for i in range(NUM_FILES):
-            print("Random face deformation [mediapipe]: {}/{}"
-                  .format(i + 1, NUM_FILES))
+            log("Random face deformation [mediapipe]: {}/{}"
+                .format(i + 1, NUM_FILES))
 
             # Compute gaussian-distributed offsets
             mls_offsets = rng.multivariate_normal((0, 0),
