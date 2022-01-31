@@ -1,6 +1,4 @@
-# TODO regroup configs for each engine under their own table
 [main]
-# TODO rename config values
 
 # output root folder
 outPath = "./CLEESE_output_data/"

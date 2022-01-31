@@ -12,6 +12,7 @@ from numpy.lib import recfunctions as rfn
 from PIL import Image
 import mediapipe as mp
 from os import path
+from scipy.spatial import Delaunay
 
 from .engine import Engine
 from ..cleese import log
@@ -184,6 +185,13 @@ def dlib_to_mediapipe(dlib_landmarks):
     return np.take(DLIB_TO_MEDIAPIPE, dlib_landmarks, axis=0)
 
 
+def mediapipe_to_dlib(mediapipe_landmarks):
+    dlib = np.take(MEDIAPIPE_TO_DLIB, mediapipe_landmarks, axis=0)
+    if -1 in dlib:
+        raise IndexError()
+    return dlib
+
+
 class Mediapipe(Engine):
 
     @staticmethod
@@ -209,7 +217,42 @@ class Mediapipe(Engine):
                                 invalid_raise=True)
         except ValueError:
             log("ERROR: invalid dfm file: {}".format(filename))
+        except OSError as e:
+            log("ERROR: {}".format(e))
         return dfm
+
+    @staticmethod
+    def load_dfmxy(filename):
+        dfm = None
+        try:
+            dfm = np.genfromtxt(filename,
+                                dtype=[
+                                    ("index", "i4"),
+                                    ("posX", "i4"),
+                                    ("posY", "i4"),
+                                    ("defX", "f8"),
+                                    ("defY", "f8"),
+                                ],
+                                delimiter=",",
+                                invalid_raise=True)
+        except ValueError:
+            log("ERROR: invalid dfm file: {}".format(filename))
+        except OSError as e:
+            log("ERROR: {}".format(e))
+        return dfm
+
+    @staticmethod
+    def load_landmarks(filename):
+        lm = None
+        try:
+            lm = np.loadtxt(filename)
+            if lm.ndim != 2 or lm.shape[1] != 2:
+                log(("ERROR: {}, expected landmarks file with shape (N, 2), "
+                     "got {}").format(filename, lm.shape))
+                return None
+        except OSError as e:
+            log("ERROR: {}".format(e))
+        return lm
 
     @staticmethod
     def process(img, config, file_output=False, dfm=None, dfmxy=None):
@@ -217,8 +260,8 @@ class Mediapipe(Engine):
         # Check all the needed user-provided config values are here
         try:
             MLS_ALPHA = config["mediapipe"]["mls"]["alpha"]
-            # COVARIANCE_MAT = config["mediapipe"]["random_gen"]["covMat"]
-            # LANDMARKS_TYPES = config["mediapipe"]["random_gen"]["landmarks"]
+            COVARIANCE_MAT = config["mediapipe"]["random_gen"]["covMat"]
+            LANDMARKS_TYPES = config["mediapipe"]["random_gen"]["landmarks"]
             # NUM_FILES = config["main"]["numFiles"]
             FACE_THRESH = config["mediapipe"]["face_detect"]["threshold"]
         except KeyError as e:
@@ -235,10 +278,26 @@ class Mediapipe(Engine):
                     rfn.structured_to_unstructured(
                         dfm[["v1", "v2", "v3"]]))
         elif dfmxy is not None:
-            raise NotImplementedError()
+            mls_targets += dfmxy["index"].tolist()
         else:
-            # TODO figure out what to do in that case
-            raise NotImplementedError()
+            for key in LANDMARKS_TYPES:
+                if key == "mediapipe":
+                    mls_targets += LANDMARKS_TYPES[key]
+                elif key == "dlib":
+                    try:
+                        mls_targets += dlib_to_mediapipe(
+                                LANDMARKS_TYPES[key]).tolist()
+                    except IndexError:
+                        log("WARN: dlib landmark index outside of [0, 67]")
+                elif key == "presets":
+                    for preset in LANDMARKS_TYPES[key]:
+                        if preset in LANDMARKS_SETS:
+                            mls_targets += LANDMARKS_SETS[preset]
+                        else:
+                            log("WARN: unknown landmark preset: {}".format(
+                                    preset))
+                else:
+                    log("ERROR: unknown landmark indexing: {}".format(key))
 
         # Retrieve face landmarks from Mediapipe
         results = None
@@ -255,6 +314,8 @@ class Mediapipe(Engine):
             log("ERROR: unable to detect any faces")
             return
 
+        rng = np.random.default_rng()
+
         # Retrieve targeted landmarks for Mediapipe's results
         height, width, _ = img.shape
         for face_landmarks in results.multi_face_landmarks:
@@ -262,9 +323,12 @@ class Mediapipe(Engine):
             x = [int(lm.x * width) for lm in face_landmarks.landmark]
             y = [int(lm.y * height) for lm in face_landmarks.landmark]
             np_landmarks = np.column_stack((x, y))
-            # face_min = np.amin(np_landmarks, axis=0)
-            # face_max = np.amax(np_landmarks, axis=0)
-            # face_size = face_max[1] - face_min[1]
+            face_min = np.amin(np_landmarks, axis=0)
+            face_max = np.amax(np_landmarks, axis=0)
+            face_size = face_max[1] - face_min[1]
+
+            # Select landmarks to be deformed
+            p = np.take(np_landmarks, np.array(mls_targets), axis=0)
 
             if dfm is not None:
                 # Apply barycentric coordinates to get target points
@@ -274,12 +338,16 @@ class Mediapipe(Engine):
                 q = np.sum(t * weights[:, :, np.newaxis], axis=1)
                 q = q.astype(np.int16)
             elif dfmxy is not None:
-                raise NotImplementedError()
+                mls_offsets = rfn.structured_to_unstructured(
+                        dfmxy[["defX", "defY"]])
+                q = p + mls_offsets
             else:
-                raise NotImplementedError()
-
-            # Select landmarks to be deformed
-            p = np.take(np_landmarks, np.array(mls_targets), axis=0)
+                # Compute gaussian-distributed offsets
+                mls_offsets = rng.multivariate_normal((0, 0),
+                                                      COVARIANCE_MAT,
+                                                      len(mls_targets))
+                mls_offsets *= face_size
+                q = p + mls_offsets
 
         # Setup fixed anchor point on the image's corners for the MLS
         box = np.array([
@@ -438,6 +506,51 @@ class Mediapipe(Engine):
                        dfmxy,
                        fmt="%d,%d,%d,%.8f,%.8f",
                        header="mediapipe idx, posX, posY, defX, defY")
+
+    @staticmethod
+    def dfmxy_to_dfm(dfmxy_file, landmarks_file, output_dfm_file=None):
+        dfmxy = Mediapipe.load_dfmxy(dfmxy_file)
+        if dfmxy is None:
+            return
+
+        landmarks = Mediapipe.load_landmarks(landmarks_file)
+        if landmarks is None:
+            return
+
+        if output_dfm_file is None:
+            output_dfm_file = path.splitext(dfmxy_file)[0] + ".dfm"
+
+        dfmxy_pts = rfn.structured_to_unstructured(dfmxy[["posX", "posY"]])
+        dfmxy_def = rfn.structured_to_unstructured(dfmxy[["defX", "defY"]])
+        targets = dfmxy_pts + dfmxy_def
+
+        try:
+            dlib_idx = mediapipe_to_dlib(dfmxy["index"])
+        except IndexError:
+            log(("ERROR: dfmxy has indices without dlib counterparts. "
+                 "Cannot convert."))
+            return
+
+        dlib_landmarks = np.take(landmarks, DLIB_TO_MEDIAPIPE, axis=0)
+        tri = Delaunay(dlib_landmarks)
+        target_triangles = tri.find_simplex(targets, bruteforce=True, tol=0.01)
+
+        dfm = np.empty((len(dlib_idx), 8))
+        trans_targets = targets - tri.transform[target_triangles, 2]
+        for i, t in enumerate(target_triangles):
+            b = tri.transform[t, :2].dot(np.transpose(trans_targets[i]))
+            # group all landmarks in group 0
+            # better than trying to guess at group composition
+            dfm[i] = np.concatenate(([0, dlib_idx[i]],
+                                     tri.simplices[t],
+                                     np.transpose(b),
+                                     [1 - b.sum(axis=0)]))
+
+        np.savetxt(output_dfm_file,
+                   dfm,
+                   fmt="%d,%d,%d,%d,%d,%.8f,%.8f,%.8f",
+                   header=("group, index, triangle indices {0, 1, 2}, "
+                           "barycentric coords weights {alpha, beta, gamma}"))
 
     @staticmethod
     def name():
