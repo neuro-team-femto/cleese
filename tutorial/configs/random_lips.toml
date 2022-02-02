@@ -1,13 +1,13 @@
 [main]
 
 # output root folder
-outPath = "./CLEESE_output_data/"
+outPath = "tutorial/output"
 
 # number of output files to generate (for random modifications)
 numFiles = 10
 
 # generate experiment folder with name based on current time
-generateExpFolder = true
+generateExpFolder = false
 
 [mediapipe.random_gen]
 
