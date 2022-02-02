@@ -25,7 +25,7 @@ from .cleeseEngine import (
         istft_resamp,
         phaseVocoder_varHop,)
 from ..engine import Engine
-from ...cleese import log
+from ...cleese import log, load_config
 
 
 class PhaseVocoder(Engine):
@@ -250,6 +250,13 @@ class PhaseVocoder(Engine):
             waveOutFormat = waveOut
         waveOutFormat = waveOutFormat.astype(sampleFormat)
         wav.write(fileName, sr, waveOutFormat)
+
+    @staticmethod
+    def create_BPF(trans, config_file, time_points, num_points, eq_freqs=None):
+        config = load_config(config_file)
+        if config is None:
+            return
+        return createBPF(trans, config, time_points, num_points, eq_freqs)
 
 
 def processWithSTFT(waveIn, config, BPF):

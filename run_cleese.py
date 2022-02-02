@@ -69,12 +69,12 @@ mediapipeConfig = './cleese-mediapipe.toml'
 # Image.fromarray(img).show()
 
 # example 9: Apply existing .dfmxy
-dfmxy = cleese.engines.Mediapipe.load_dfmxy(dfmxyFile)
-img = cleese.process_file(cleese.engines.Mediapipe,
-                          imgFile,
-                          mediapipeConfig,
-                          dfmxy=dfmxy)
-Image.fromarray(img).show()
+# dfmxy = cleese.engines.Mediapipe.load_dfmxy(dfmxyFile)
+# img = cleese.process_file(cleese.engines.Mediapipe,
+#                           imgFile,
+#                           mediapipeConfig,
+#                           dfmxy=dfmxy)
+# Image.fromarray(img).show()
 
 # example 10: Convert dfmxy to dfm
 # cleese.engines.Mediapipe.dfmxy_to_dfm(dfmxyFile,

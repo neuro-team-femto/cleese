@@ -196,7 +196,7 @@ class Mediapipe(Engine):
 
     @staticmethod
     def load_file(filename):
-        return np.array(Image.open(filename)), {}
+        return np.array(Image.open(filename).convert("RGB")), {}
 
     @staticmethod
     def load_dfm(filename):
