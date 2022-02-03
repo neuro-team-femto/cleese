@@ -25,7 +25,9 @@ from the European Research Council (CREAM 335536, 2014-2019, PI: JJ
 Aucouturier), and support for face deformation was added by Lara Kermarec
 (2022).
 
-A tutorial notebook is available [here](tutorial.ipynb).
+Jupyter notebooks are available as tutorials form
+[sound manipulation](tutorial_audio.ipynb) and
+[image manipulation](tutorial_images.ipynb).
 
 The user manual in PDF format is available
 [here](https://github.com/creamlab/cleese/raw/master/doc/CLEESE_manual_v2.0.pdf).
