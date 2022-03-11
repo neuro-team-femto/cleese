@@ -79,7 +79,7 @@ def createBPFtimeVec(duration, local_pars, timeVec=None):
     elif local_pars['BPFtype'] == 'square':
         BPFtime = np.sort(np.concatenate((BPFtime[1:-1]-local_pars['trTime']/2,BPFtime[1:-1]+local_pars['trTime']/2)))
         if BPFtime[-1] > duration:
-            BPFtime = np.delete(temp,-1)
+            BPFtime = np.delete(BPFtime,-1)
             endOnTrans = 1
         BPFtime = np.append(BPFtime,duration)
         BPFtime = np.insert(BPFtime,0,0.)
