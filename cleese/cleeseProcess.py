@@ -69,8 +69,14 @@ def process(soundData, configFile, BPF=None, sr=None, timeVec=None):
         if np.isscalar(BPF):
             BPF = np.array([[0.,float(BPF)]])
 
+    num_transf = len(pars['main_pars']['transf'])
+    # when passing a given BPF, allow only one transformation
+    if not doCreateBPF and len(pars['main_pars']['transf']) > 1:
+        print("Warning: when passing a given BPF, only one transfomation is allowed. Applying the first transformation in the chain...")
+        num_transf = 1
+
     currOutFile = []
-    for t in range(0,len(pars['main_pars']['transf'])):
+    for t in range(0,num_transf):
 
         tr = pars['main_pars']['transf'][t]
 
