@@ -265,6 +265,10 @@ def processWithPV(waveIn, pars, BPF, doPitchShift=False):
             rateVec = BPF[:,1]
             numSeg = BPF.shape[0]
 
+        # check stretch factor: must be positive
+        assert np.sum(rateVec == 0) == 0, "BPF contains a zero stretch factor. Stretch factors must be always >0"
+
+
     else:
 
         bins_per_octave = 12
