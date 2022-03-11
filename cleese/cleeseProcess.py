@@ -265,9 +265,14 @@ def processWithPV(waveIn, pars, BPF, doPitchShift=False):
             rateVec = BPF[:,1]
             numSeg = BPF.shape[0]
 
-        # check stretch factor: must be positive
-        assert np.sum(rateVec == 0) == 0, "BPF contains a zero stretch factor. Stretch factors must be always >0"
-
+        # stretch factor: clip to range
+        stretch_range = [0.1,10]
+        if np.sum(rateVec < stretch_range[0]):
+            rateVec[rateVec < stretch_range[0]] = stretch_range[0]
+            print("Warning: BPF contains stretch factors smaller than "+str(stretch_range[0])+". They have been replaced by "+str(stretch_range[0])+".")
+        if np.sum(rateVec > stretch_range[1]):
+            rateVec[rateVec > stretch_range[1]] = stretch_range[1]
+            print("Warning: BPF contains stretch factors larger than "+str(stretch_range[1])+". They have been replaced by "+str(stretch_range[1])+".")
 
     else:
 
