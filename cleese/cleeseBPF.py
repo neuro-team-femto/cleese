@@ -127,6 +127,23 @@ def createBPFfreqs(pars):
 
     return eqFreqVec
 
+def checkBPF(tr,BPF):
+
+    if tr == 'stretch':
+
+        # stretch factor: clip to range
+        stretch_range = [0.1,10]
+        rateVec = BPF[:,1]
+        if np.sum(rateVec < stretch_range[0]):
+            rateVec[rateVec < stretch_range[0]] = stretch_range[0]
+            print("Warning: BPF contains stretch factors smaller than "+str(stretch_range[0])+". They have been replaced by "+str(stretch_range[0])+".")
+        if np.sum(rateVec > stretch_range[1]):
+            rateVec[rateVec > stretch_range[1]] = stretch_range[1]
+            print("Warning: BPF contains stretch factors larger than "+str(stretch_range[1])+". They have been replaced by "+str(stretch_range[1])+".")
+        BPF[:,1] = rateVec
+
+    return BPF
+
 def freq2mel(freq):
     return 1127.01048*np.log(1.+freq/700.)
 
