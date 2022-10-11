@@ -80,7 +80,7 @@ def istft_resamp(stft,win,winSize,hopSize,ratesVec,oriLength):
         n_currLen = int(round(winSize/ratesVec[i]))
 
         if (pos+n_currLen) > numSamples:
-            break 
+            break
 
         outWaveform[pos:(pos+n_currLen)] += sig.resample(currAtom,n_currLen)
         winSum[pos:(pos+n_currLen)]      += sig.resample(winSq,n_currLen)
@@ -93,7 +93,8 @@ def istft_resamp(stft,win,winSize,hopSize,ratesVec,oriLength):
 
     return outWaveform
 
-def phaseVocoder_varHop(specIn, anaHopVec, synHop = 256, phase_locking=True):
+
+def phaseVocoder_varHop(specIn, anaHopVec, synHop=256, phase_locking=True):
 
     specOut = np.zeros(specIn.shape,dtype=complex)
     specOut[:,0] = specIn[:,0]
@@ -122,7 +123,7 @@ def phaseVocoder_varHop(specIn, anaHopVec, synHop = 256, phase_locking=True):
             peakIndVec, regStart, regEnd = findPeaks(np.abs(specIn[:,i]))
 
             theta = np.zeros(len(specOut[:,i]))
-            for pk,st,en in zip(peakIndVec, regStart, regEnd):
+            for pk, st, en in zip(peakIndVec, regStart, regEnd):
                 theta[st:en+1] = lastOutPhase[pk] + hopAdv[pk] - currPhase[pk]
 
         else:
