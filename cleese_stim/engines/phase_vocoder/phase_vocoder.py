@@ -15,11 +15,11 @@ import scipy.signal as sig
 import time
 import shutil
 
-from .cleeseBPF import (
+from .bpf import (
         createBPFtimeVec,
         createBPFfreqs,
         createBPF,)
-from .cleeseEngine import (
+from .audio_engine import (
         stft,
         istft,
         istft_resamp,
