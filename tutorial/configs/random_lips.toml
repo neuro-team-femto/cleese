@@ -1,13 +1,13 @@
 [main]
 
 # output root folder
-outPath = "tutorial/output"
+outPath = "output"
 
 # number of output files to generate (for random modifications)
 numFiles = 10
 
 # generate experiment folder with name based on current time
-generateExpFolder = false
+generateExpFolder = true
 
 [mediapipe.random_gen]
 
@@ -30,12 +30,12 @@ landmarks.presets = ["dlib-lips"]
 # Covariance matrix used to generate the gaussian distribution of landmarks
 # offsets. It is scaled according to the height of the detected face. As a
 # result, the amount of deformation should be resolution-invariant.
-covMat = [[0.0002, 0.0], [0.0, 0.0002]]
+covMat = [[0.0001, 0.0], [0.0, 0.0001]]
 
 [mediapipe.mls]
 
 # Alpha parameter of the MLS deformation. Affect how much the deformation "spreads" from the landmarks
-alpha = 1.2
+alpha = 1.1
 
 [mediapipe.face_detect]
 

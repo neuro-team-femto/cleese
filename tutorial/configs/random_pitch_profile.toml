@@ -1,7 +1,7 @@
 [main]
 
 # output root folder
-outPath = "tutorial/output"
+outPath = "output"
 
 # number of output files to generate (for random modifications)
 numFiles = 10
@@ -12,6 +12,8 @@ chain = true
 # transformations to apply `transf = ["pitch"]`
 transf = ["pitch"]
 
+# generate experiment folder with name based on current time
+generateExpFolder = true
 
 [analysis]
 
