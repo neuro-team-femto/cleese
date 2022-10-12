@@ -1,8 +1,7 @@
-
-.ipynb_checkpoints
-/CLEESE_output_data/
-/cleese.egg-info/
-/example.wav
 /tutorial/output/
+/tutorial/.ipynb_checkpoints
 
-__pycache__/
+/cleese_stim/__pycache__/
+/cleese_stim/engines/__pycache__/
+/cleese_stim/engines/phase_vocoder/__pycache__/
+/cleese_stim/third_party/__pycache__/
