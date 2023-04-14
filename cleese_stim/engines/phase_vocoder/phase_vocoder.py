@@ -304,7 +304,7 @@ def processWithSTFT(waveIn, config, BPF):
             filterMat[i, :] = np.interp(np.arange(0, numFrames),
                                         frameVec, interpBPF[i, :])
 
-    stftMat *= filterMat
+    stftMat *= np.power(10,filterMat/20)
 
     waveOut = istft(stftMat, win, n_fft, synHop)
 
