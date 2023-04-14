@@ -292,7 +292,8 @@ def processWithSTFT(waveIn, config, BPF):
         currBinVec = freqMat[i, :]/sr*2 * (n_fft//2+1)
         # piecewise-linear spectral envelope
         interpBPF[:, i] = np.interp(np.arange(0, n_fft//2+1),
-                                    currBinVec, amplMat[i, :])
+                                    currBinVec, amplMat[i, :],
+                                    left=0, right=0)
 
     # interpolate in time
     filterMat = np.zeros(stftMat.shape)
