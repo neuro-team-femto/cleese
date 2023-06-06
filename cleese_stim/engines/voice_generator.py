@@ -22,9 +22,9 @@ class VoiceGenerator(Engine):
         xmlns="http://www.w3.org/2001/10/synthesis" 
         xmlns:mstts="http://www.w3.org/2001/mstts" 
         xmlns:emo="http://www.w3.org/2009/10/emotionml" 
-        version="1.0" xml:lang=LANGUAGE
+        version="1.0" xml:lang="LANGUAGE"
         >
-        <voice name=VOICE>
+        <voice name="VOICE">
           <mstts:express-as style="Neutral" >
             TEXT
           </mstts:express-as>
