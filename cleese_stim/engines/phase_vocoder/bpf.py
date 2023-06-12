@@ -123,10 +123,17 @@ def createBPFfreqs(config):
     band_count = config["eq"]["band"]["count"]
 
     if config["eq"]["scale"] == "linear":
-        eqFreqVec = np.linspace(0., sr/float(2), band_count+1)
+        min_freq = float(config["eq"]["min_freq"])
+        max_freq = float(config["eq"]["max_freq"])
+        eqFreqVec = np.linspace(min_freq, max_freq, band_count+1)
+
     elif config["eq"]["scale"] == "mel":
-        minMel = 0
-        maxMel = freq2mel(sr/float(2))
+        minMel = freq2mel(config["eq"]["min_freq"])
+        if np.isnan(config["eq"]["max_freq"]):
+            maxMel = freq2mel(sr/float(2))
+        else:
+            maxMel = freq2mel(config["eq"]["max_freq"])
+
         melPerBin = (maxMel-minMel)/(band_count)
         eqFreqVec = melPerBin*np.ones(band_count)
         eqFreqVec = np.insert(eqFreqVec, 0, minMel)

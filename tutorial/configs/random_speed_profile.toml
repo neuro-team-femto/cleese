@@ -73,6 +73,8 @@ trTime = 0.05
 # # mel, linear
 # scale = 'mel'
 # band.count = 10
+# min_freq = 0
+# max_freq = nan
 #
 #
 # [gain]
