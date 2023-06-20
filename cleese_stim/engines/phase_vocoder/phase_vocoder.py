@@ -197,11 +197,11 @@ class PhaseVocoder(Engine):
                                 BPF[:, 0], BPF[:, 1])
                         waveOut = waveIn * gainVec
 
-                if file_output:
-                    # normalize
-                    if np.max(np.abs(waveOut)) >= 1.0:
-                        waveOut = waveOut/np.max(np.abs(waveOut))*0.999
-
+                # if gain > 1.0, normalize to avoid clipping
+                if np.max(np.abs(waveOut)) >= 1.0:
+                    waveOut = waveOut/np.max(np.abs(waveOut))*0.999
+                
+                if file_output:            
                     PhaseVocoder.wavWrite(waveOut, fileName=currOutFile[i],
                                           sr=sr, sampleFormat=sampleFormat)
 
