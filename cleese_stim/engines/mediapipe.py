@@ -41,6 +41,8 @@ LANDMARKS_SETS = {
         "dlib-outer-lips": DLIB_TO_MEDIAPIPE[48:60],
         "dlib-inner-lips": DLIB_TO_MEDIAPIPE[60:68],
         "dlib-lips": DLIB_TO_MEDIAPIPE[48:68],
+        "dlib-all": DLIB_TO_MEDIAPIPE[17:68],
+        "mediapipe-all": list(np.arange(468))
 }
 
 MEDIAPIPE_TO_DLIB = [
