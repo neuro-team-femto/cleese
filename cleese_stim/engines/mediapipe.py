@@ -381,6 +381,12 @@ class Mediapipe(Engine):
     @staticmethod
     def generate_stimuli(img, config, **kwargs):
 
+        # default configuration values
+        try:
+            DFMXY_EXT = config["mediapipe"]["io"]["dfmxy_ext"]
+        except KeyError as e:
+            DFMXY_EXT = '.dfmxy'
+
         # Check all the needed user-provided config values are here
         try:
             MLS_ALPHA = config["mediapipe"]["mls"]["alpha"]
@@ -502,7 +508,7 @@ class Mediapipe(Engine):
 
             # Export deformed landmarks to file
             output_dfm_file = path.join(BASE_DIR, "{}.{:08d}{}".format(
-                    basename[0], i + 1, ".dfmxy"))
+                    basename[0], i + 1, DFMXY_EXT))
             dfmxy = np.hstack((np.array([mls_targets]).T, p[:-4], mls_offsets))
             np.savetxt(output_dfm_file,
                        dfmxy,
