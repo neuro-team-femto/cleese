@@ -1,0 +1,1973 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../time-management/">
+      
+      
+        <link rel="next" href="../cafe-neuro/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.19">
+    
+    
+      
+        <title>Using Slack - IGOR, lab manual for the FEMTO Neuro Group</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="brown" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-slack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="IGOR, lab manual for the FEMTO Neuro Group" class="md-header__button md-logo" aria-label="IGOR, lab manual for the FEMTO Neuro Group" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            IGOR, lab manual for the FEMTO Neuro Group
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using Slack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/neuro-team-femto/lab_manual" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neuro-team-femto/lab_manual
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about-this-manual/manual-metadata/" class="md-tabs__link">
+          
+  
+  About this manual
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../about-the-lab/lab-mission-and-focus/" class="md-tabs__link">
+          
+  
+  About the lab
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../becoming-a-lab-member/zrr-application/" class="md-tabs__link">
+          
+  
+  Becoming a lab member
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../roles-and-expectations/big-picture/" class="md-tabs__link">
+          
+  
+  Being a lab member
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../running-a-study/preparation/consent-form/" class="md-tabs__link">
+          
+  
+  Running a study
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../leaving-the-lab/who-to-contact-and-when/" class="md-tabs__link">
+          
+  
+  Leaving the Lab
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="IGOR, lab manual for the FEMTO Neuro Group" class="md-nav__button md-logo" aria-label="IGOR, lab manual for the FEMTO Neuro Group" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
+
+    </a>
+    IGOR, lab manual for the FEMTO Neuro Group
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/neuro-team-femto/lab_manual" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neuro-team-femto/lab_manual
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    About this manual
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            About this manual
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-this-manual/manual-metadata/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manual metadata
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-this-manual/why-we-use-a-lab-manual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Why we use a lab manual
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-this-manual/how-to-update-the-manual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    How to update the manual
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-this-manual/why-igor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Why Igor ?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    About the lab
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            About the lab
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/lab-mission-and-focus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab mission & focus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/lab-philosophy-values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab philosophy/values
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/lab-history/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab history
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/lab-space/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab space
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/about-the-team-dept-and-institute/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About the team, dept and institute
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about-the-lab/about-our-operating-institutions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About our operating institutions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Becoming a lab member
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Becoming a lab member
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../becoming-a-lab-member/zrr-application/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ZRR application
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../becoming-a-lab-member/lab-registration-procedure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FEMTO registration procedure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../becoming-a-lab-member/important-lab-accounts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Important lab accounts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../becoming-a-lab-member/femto-st-web-services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    List of useful web services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../becoming-a-lab-member/skills-updating/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Skills updating
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Being a lab member
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Being a lab member
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Roles and expectations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            Roles and expectations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roles-and-expectations/big-picture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Doing science here
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roles-and-expectations/small-picture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Life in the lab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roles-and-expectations/roles-and-expectations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PhDs, Postdocs and PIs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How We Do Things
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            How We Do Things
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Using Slack
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Using Slack
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principle
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-project-1-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 project, 1 channel
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cafe-neuro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Café neuro
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setting-a-zoom-talk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setting up for zoom or café neuro
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../printing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Printing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../travel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Travel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../health-and-safety/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Health & Safety
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Running a study
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Running a study
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Preparation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Preparation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/preparation/consent-form/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethics & Consent forms
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Data collection
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Data collection
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/data-collection/advertise-your-experiment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Finding participants
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/data-collection/run-a-group-behavioural-study/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Group behavioural study
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/data-collection/run-an-online-study/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Online study
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/data-collection/run-an-EEG-study/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    EEG study
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Publication
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Publication
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../running-a-study/publication/you-ve-published/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Steps when you've published
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Leaving the Lab
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Leaving the Lab
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leaving-the-lab/who-to-contact-and-when/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Who to contact and when
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leaving-the-lab/update-revoke-access/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Update/Revoke Access
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leaving-the-lab/requesting-letters-of-recommendation/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Requesting Letters of Recommendation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leaving-the-lab/future-steps/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Future steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../leaving-the-lab/keeping-contact-with-ex-members/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
+  
+  <span class="md-ellipsis">
+    Keeping contact with ex-members
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principle
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#good-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good practices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-project-1-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 project, 1 channel
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/neuro-team-femto/lab_manual/edit/main/docs/being-a-lab-member/how-we-do-things/using-slack.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+    </a>
+  
+  
+
+
+<div id="mkdocs-encrypted-content" style="display:none">c9kztDUmc8uqd27+4TMrwA==;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</div>
+<div id="mkdocs-decrypted-content">
+    <form id="mkdocs-decrypt-form" class="md-content__inner md-typeset">
+        <h1>This content is protected with AES encryption. </h1>
+        <p>Access is restricted to members of the Neuro group.</p>
+        <input class="md-input" type="password" id="mkdocs-content-password" placeholder="Password">
+        
+        <p id="mkdocs-decrypt-msg"></p>
+    </form>
+</div>
+
+<script type="text/javascript">
+var encryptcontent_id = "encryptcontent_1";
+var encryptcontent_path = "being-a-lab-member/how-we-do-things/using-slack/";
+var decryption_failure_message = "Wrong password.";
+var encryptcontent_keystore = ["V2FWYTPbWNQdKWTPWkjcww==;2AlXVqiXBBwsU0UihzAvaAljVTVi9qJNEKjENsY+VcfdvzQWZkcqLc1xXRqtysozCjryp6mOdxejAjik9h3sGozmLafsDerPPxuRsDyrGNnIvfirSRXFMdDrR2Ga/laa;xnC3uFV1S3dxFHrVQAPhFQ=="];
+var encryptcontent_obfuscate = 0;
+
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/core.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/enc-base64.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/cipher-core.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/sha256.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/hmac.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/pbkdf2.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/aes.js"></script>
+<script type="text/javascript" src="../../../assets/javascripts/decrypt-contents.js" defer></script>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 25, 2024</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 25, 2024</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../time-management/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Time management">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Time management
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cafe-neuro/" class="md-footer__link md-footer__link--next" aria-label="Next: Café neuro">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Café neuro
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 -- FEMTO Neuro Group
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.action.edit", "navigation.tabs", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      
+    
+  </body>
+</html>
