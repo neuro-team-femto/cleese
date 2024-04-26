@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="about-this-manual/manual-metadata/">
+        <link rel="next" href="installation/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -18,7 +18,7 @@
     
     
       
-        <title>IGOR, lab manual for the FEMTO Neuro Group</title>
+        <title>CLEESE, a Python toolbox for randomizing stimuli</title>
       
     
     
@@ -59,18 +59,13 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="brown" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#welcome" class="md-skip">
-          Skip to content
-        </a>
       
     </div>
     <div data-md-component="announce">
@@ -82,7 +77,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="IGOR, lab manual for the FEMTO Neuro Group" class="md-header__button md-logo" aria-label="IGOR, lab manual for the FEMTO Neuro Group" data-md-component="logo">
+    <a href="." title="CLEESE, a Python toolbox for randomizing stimuli" class="md-header__button md-logo" aria-label="CLEESE, a Python toolbox for randomizing stimuli" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
@@ -96,13 +91,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            IGOR, lab manual for the FEMTO Neuro Group
+            CLEESE, a Python toolbox for randomizing stimuli
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome
+              Home
             
           </span>
         </div>
@@ -153,13 +148,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/neuro-team-femto/lab_manual" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/neuro-team-femto/cleese" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
-    neuro-team-femto/lab_manual
+    neuro-team-femto/cleese
   </div>
 </a>
       </div>
@@ -190,7 +185,24 @@
   
     
   
-  Welcome
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="installation/" class="md-tabs__link">
+        
+  
+    
+  
+  Getting started
 
       </a>
     </li>
@@ -204,10 +216,10 @@
     
     
       <li class="md-tabs__item">
-        <a href="about-this-manual/manual-metadata/" class="md-tabs__link">
+        <a href="api/general/" class="md-tabs__link">
           
   
-  About this manual
+  Functions
 
         </a>
       </li>
@@ -222,10 +234,10 @@
     
     
       <li class="md-tabs__item">
-        <a href="about-the-lab/lab-mission-and-focus/" class="md-tabs__link">
+        <a href="tutorials/speech/" class="md-tabs__link">
           
   
-  About the lab
+  Tutorials
 
         </a>
       </li>
@@ -237,89 +249,16 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="becoming-a-lab-member/zrr-application/" class="md-tabs__link">
-          
-  
-  Becoming a lab member
-
-        </a>
-      </li>
-    
-  
-
-      
+    <li class="md-tabs__item">
+      <a href="about/" class="md-tabs__link">
         
   
-  
-  
     
-    
-      
   
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="being-a-lab-member/roles-and-expectations/big-picture/" class="md-tabs__link">
-          
-  
-  Being a lab member
+  About CLEESE
 
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="running-a-study/preparation/consent-form/" class="md-tabs__link">
-          
-  
-  Running a study
-
-        </a>
-      </li>
-    
-  
-
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="leaving-the-lab/who-to-contact-and-when/" class="md-tabs__link">
-          
-  
-  Leaving the Lab
-
-        </a>
-      </li>
-    
+      </a>
+    </li>
   
 
       
@@ -345,23 +284,23 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="IGOR, lab manual for the FEMTO Neuro Group" class="md-nav__button md-logo" aria-label="IGOR, lab manual for the FEMTO Neuro Group" data-md-component="logo">
+    <a href="." title="CLEESE, a Python toolbox for randomizing stimuli" class="md-nav__button md-logo" aria-label="CLEESE, a Python toolbox for randomizing stimuli" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
 
     </a>
-    IGOR, lab manual for the FEMTO Neuro Group
+    CLEESE, a Python toolbox for randomizing stimuli
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/neuro-team-femto/lab_manual" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/neuro-team-femto/cleese" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
-    neuro-team-femto/lab_manual
+    neuro-team-femto/cleese
   </div>
 </a>
     </div>
@@ -381,14 +320,12 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
       <a href="." class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Welcome
+    Home
   </span>
   
 
@@ -400,129 +337,20 @@
     
       
       
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    About this manual
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            About this manual
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
   
   
   
   
     <li class="md-nav__item">
-      <a href="about-this-manual/manual-metadata/" class="md-nav__link">
+      <a href="installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Manual metadata
+    Getting started
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-this-manual/why-we-use-a-lab-manual/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Why we use a lab manual
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-this-manual/how-to-update-the-manual/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    How to update the manual
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-this-manual/why-igor/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Why Igor ?
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -551,7 +379,7 @@
             
   
   <span class="md-ellipsis">
-    About the lab
+    Functions
   </span>
   
 
@@ -561,7 +389,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            About the lab
+            Functions
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -572,11 +400,11 @@
   
   
     <li class="md-nav__item">
-      <a href="about-the-lab/lab-mission-and-focus/" class="md-nav__link">
+      <a href="api/general/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Lab mission & focus
+    General API
   </span>
   
 
@@ -593,11 +421,11 @@
   
   
     <li class="md-nav__item">
-      <a href="about-the-lab/lab-philosophy-values/" class="md-nav__link">
+      <a href="api/phase-vocoder/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Lab philosophy/values
+    Phase Vocoder
   </span>
   
 
@@ -614,74 +442,11 @@
   
   
     <li class="md-nav__item">
-      <a href="about-the-lab/lab-history/" class="md-nav__link">
+      <a href="api/face-warp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Lab history
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-the-lab/lab-space/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Lab space
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-the-lab/about-the-team-dept-and-institute/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    About the team, dept and institute
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="about-the-lab/about-our-operating-institutions/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    About our operating institutions
+    Face Warp
   </span>
   
 
@@ -722,7 +487,7 @@
             
   
   <span class="md-ellipsis">
-    Becoming a lab member
+    Tutorials
   </span>
   
 
@@ -732,7 +497,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Becoming a lab member
+            Tutorials
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -743,11 +508,11 @@
   
   
     <li class="md-nav__item">
-      <a href="becoming-a-lab-member/zrr-application/" class="md-nav__link">
+      <a href="tutorials/speech/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    ZRR application
+    Random speech
   </span>
   
 
@@ -764,76 +529,11 @@
   
   
     <li class="md-nav__item">
-      <a href="becoming-a-lab-member/lab-registration-procedure/" class="md-nav__link">
+      <a href="tutorials/face/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    FEMTO registration procedure
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="becoming-a-lab-member/important-lab-accounts/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Important lab accounts
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="becoming-a-lab-member/femto-st-web-services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    List of useful web services
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="becoming-a-lab-member/skills-updating/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Skills updating
+    Random faces
   </span>
   
 
@@ -856,816 +556,16 @@
   
   
   
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Being a lab member
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            Being a lab member
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Roles and expectations
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_1">
-            <span class="md-nav__icon md-icon"></span>
-            Roles and expectations
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="being-a-lab-member/roles-and-expectations/big-picture/" class="md-nav__link">
+      <a href="about/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Doing science here
+    About CLEESE
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/roles-and-expectations/small-picture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Life in the lab
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/roles-and-expectations/roles-and-expectations/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    PhDs, Postdocs and PIs
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    How We Do Things
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_2">
-            <span class="md-nav__icon md-icon"></span>
-            How We Do Things
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/time-management/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Time management
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/using-slack/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Using Slack
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/cafe-neuro/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Café neuro
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/setting-a-zoom-talk/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setting up for zoom or café neuro
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/printing/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Printing
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/travel/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Travel
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="being-a-lab-member/how-we-do-things/health-and-safety/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Health & Safety
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Running a study
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            Running a study
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Preparation
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_1">
-            <span class="md-nav__icon md-icon"></span>
-            Preparation
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/preparation/consent-form/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ethics & Consent forms
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Data collection
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_2">
-            <span class="md-nav__icon md-icon"></span>
-            Data collection
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/data-collection/advertise-your-experiment/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Finding participants
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/data-collection/run-a-group-behavioural-study/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Group behavioural study
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/data-collection/run-an-online-study/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Online study
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/data-collection/run-an-EEG-study/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    EEG study
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Publication
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_3">
-            <span class="md-nav__icon md-icon"></span>
-            Publication
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-a-study/publication/you-ve-published/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Steps when you've published
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Leaving the Lab
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            Leaving the Lab
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="leaving-the-lab/who-to-contact-and-when/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Who to contact and when
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="leaving-the-lab/update-revoke-access/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Update/Revoke Access
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="leaving-the-lab/requesting-letters-of-recommendation/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Requesting Letters of Recommendation
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="leaving-the-lab/future-steps/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Future steps
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="leaving-the-lab/keeping-contact-with-ex-members/" class="md-nav__link">
-        
-  
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32v11c0 42.4 16.9 83.1 46.9 113.1l67.8 67.9-67.8 67.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32h320c17.7 0 32-14.3 32-32s-14.3-32-32-32v-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zm64 75V64h192v11c0 19-5.6 37.4-16 53H112c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9l67.9-67.8 67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9H112z"/></svg>
-  
-  <span class="md-ellipsis">
-    Keeping contact with ex-members
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -1687,8 +587,6 @@
   
   
   
-    
-  
   
 </nav>
                   </div>
@@ -1703,7 +601,7 @@
                   
 
   
-    <a href="https://github.com/neuro-team-femto/lab_manual/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/neuro-team-femto/cleese/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
     </a>
@@ -1711,33 +609,22 @@
   
 
 
-<div id="mkdocs-encrypted-content" style="display:none">gLPdMr2oap26XEjEAxBEGA==;N7MR9LJtGpEXCIz8IXuTPzvrQFb1s0eiWD0JmtuCmzrGZPbrGFZpYyyIyfvVIIj+IBw/qr2L/geU+CfuEp3fFSROLHxVbF4r9PZsKHIZMO7n4cVOsSqnbpIk+WwFN50aoUcJY13Jc8xSbleaYzqBgVpU2PuynunMcQr0k8nUSWzvYT/BC9N5wa4V/Ii1BRMaxjCwYcvVl8JvwJ5nhxJQp1p/kPy7sv04Fd0yN33tKLtikaIcvuTKwSJpqVmTVbWBWIQ8GwMe7nTg6O4gYl57l6nIKfLcwFPKzir9V6CGpHSjHhvsqQrH4WJQiOfpZh4waDP3c2dM3UZm1dgmw+MmzxXxXW/Qg6ovqylV1ujr+T3z5mAP2l2J8lqq40/Z9nlkMiKTIjqTOIF05HsZbHiZiiJmwTA1Hq6M3RS00F7fAp4epGILWf3cCNypQQfhUzTewRXbguvH3IVRSaLBqvXN7ZvS4ZtkjHJ7RvLdfpd87Ytw4e3op6TKsjWlPUddxqnH536ddQnsO45aj48+lOW2iGSyZFBTujGbU9CkDipMfi0WJh6MQH74surOSrNZFrmuzTuf3YcXh4eEZPBVChJKlZWeukNZXekJTHcOY2rb1wopUlXhfO568VZHBUIIBU8QMjuUeehbwEAcUMiFBdQXGEc2iGMzwAg8W0m+S0sVbwLC+kp6740xzcfe/A7NToGI3g5nII1nbZtLi+bdjxPkMaWO7QNweZNrwwco/7TIfALMluTbgdpuR0nXelFySaF2jGSwG4zf8L9zrBHaP6OCYpFbMDthgrg1VV+EGd3qVhTcuGhgaFA5qgD5RFFj6NVoB+eKqHMEq5VJKjWUYYy5+Swzs8gILtjL4PlGUvEUPE4uo1agxpJgh1NmvUF5fYWa+J3fWJxcWROAEvbnyV3HasoAmJbH2yyBY4F/lVt3p2un84ZfZUzLrhLeidtQVEhJHjOnO6bzb0b5v2QbPpzG0ZLV0pTi+MevedgtPKJ74/fBAIVjnWkvElHhka7zTBkal9lDC/9v08QZNBPJkXMTQ8LaeFqxdmvFT+1zD6HxjTMaBKd22GOf3A6/xYDHN0m/l55K+bvv0NC4j9bjsO6Wg+XUkiFP8zkU/4UoprpelZf7FLOEY7euh3aVGhjCFMXWJ9982uiozgQ1bIFKym3KWynC+QBUDFx6eLhqB2CRDF1Lx2ob6JYMTZ8xjauGSv4OQ+t6Uuh8eWn9FDF3pDPA4jkwJlPJ6Gxiba6TCrXQUAKNOfnTC8dcaq7x74phuRvbWm6TzWViwPbJnycCIFGWO4n/hrDWDgWm1LRqIMn+SIG3ZqDkmy9JwMyUlnM0x8ft8jV+t1ePAkSVJ2wfM3DGTQ==</div>
-<div id="mkdocs-decrypted-content">
-    <form id="mkdocs-decrypt-form" class="md-content__inner md-typeset">
-        <h1>This content is protected with AES encryption. </h1>
-        <p>Access is restricted to members of the Neuro group.</p>
-        <input class="md-input" type="password" id="mkdocs-content-password" placeholder="Password">
-        
-        <p id="mkdocs-decrypt-msg"></p>
-    </form>
-</div>
+  <h1>Home</h1>
 
-<script type="text/javascript">
-var encryptcontent_id = "encryptcontent_1";
-var encryptcontent_path = "";
-var decryption_failure_message = "Wrong password.";
-var encryptcontent_keystore = ["V2FWYTPbWNQdKWTPWkjcww==;2AlXVqiXBBwsU0UihzAvaAljVTVi9qJNEKjENsY+VcfdvzQWZkcqLc1xXRqtysozCjryp6mOdxejAjik9h3sGozmLafsDerPPxuRsDyrGNnIvfirSRXFMdDrR2Ga/laa;xnC3uFV1S3dxFHrVQAPhFQ=="];
-var encryptcontent_obfuscate = 0;
-
-</script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/core.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/enc-base64.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/cipher-core.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/sha256.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/hmac.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/pbkdf2.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/aes.js"></script>
-<script type="text/javascript" src="./assets/javascripts/decrypt-contents.js" defer></script>
+<p><img alt="cleese" src="images/silly-walk.jpg" /></p>
+<p>CLEESE ("Ministry of Silly Talks") is a Python toolbox to help the generation of randomized sound and image stimuli for neuroscience research. </p>
+<p>It provides a number of sound and image transformation algorithms (so-called <code>Engines</code>) able e.g. to create natural-sounding expressive variations around an original speech recording, or expressive variations on a human face. It also provides a config file interface to automatize the call to these algorithms, in order e.g. to create thousands of random variants from a single base file. </p>
+<p>As of version v2.0.0, CLEESE is composed of two engines: <code>PhaseVocoder</code> and <code>Mediapipe</code>: </p>
+<ul>
+<li>
+<p><code>PhaseVocoder</code> allows one to create random fluctuations around an audio file’s original contour of pitch, loudness, timbre and speed (i.e. roughly
+  defined, its prosody). One of its foreseen applications is the generation of random voice stimuli for reverse correlation experiments in the vein of Ponsot, Burred, Belin &amp; Aucouturier (2018) Cracking the social code of speech prosody using reverse correlation. PNAS, 115(15), 3972-3977.</p>
+</li>
+<li>
+<p><code>FaceWarp</code> uses <a href="https://google.github.io/mediapipe/">mediapipe</a>'s Face Mesh API to introduce random or precomputed deformation in the expression of a
+  visage on an image. This engine was designed to produce batches of deformed faces for reverse correlation experiments in the vein of Jack, Garrod, Yu, Caldara, &amp; Schyns (2012). Facial expressions of emotion are not culturally universal. PNAS, 109(19), 7241-7244.</p>
+</li>
+</ul>
 
 
 
@@ -1760,7 +647,7 @@ var encryptcontent_obfuscate = 0;
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 25, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 26, 2024</span>
   </span>
 
     
@@ -1800,13 +687,13 @@ var encryptcontent_obfuscate = 0;
         
         
           
-          <a href="about-this-manual/manual-metadata/" class="md-footer__link md-footer__link--next" aria-label="Next: Manual metadata">
+          <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting started">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Manual metadata
+                Getting started
               </div>
             </div>
             <div class="md-footer__button md-icon">
