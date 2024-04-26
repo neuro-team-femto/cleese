@@ -1,16 +1,16 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 
-site_name: IGOR, lab manual for the FEMTO Neuro Group
+site_name: CLEESE, a Python toolbox for randomizing stimuli 
 
-repo_url: https://github.com/neuro-team-femto/lab_manual
-repo_name: neuro-team-femto/lab_manual
+repo_url: https://github.com/neuro-team-femto/cleese
+repo_name: neuro-team-femto/cleese
 copyright: Copyright &copy; 2023 -- FEMTO Neuro Group
 edit_uri: edit/main/docs/
 
 theme:
   palette:
     scheme: slate
-    primary: brown
+    primary: black
   name: material
   features:
     - content.code.copy
@@ -21,7 +21,6 @@ theme:
     repo: fontawesome/brands/github
     edit: material/pencil
     logo:   fontawesome/solid/brain
-
 
     
 markdown_extensions:
@@ -52,70 +51,17 @@ plugins:
   - search: {}
   - git-revision-date-localized:
       enable_creation_date: true
-  - encryptcontent:
-      global_password: 'neuro'
-      title_prefix: ''
-      decryption_failure_message: 'Wrong password.'
-      encryption_info_message: 'Access is restricted to members of the Neuro group.'
-      search_index: 'clear'
-
+  
 nav:
 
-  - 'Welcome': 'index.md'
-
-  - 'About this manual': 
-    - 'Manual metadata' : 'about-this-manual/manual-metadata.md'
-    - 'Why we use a lab manual' : 'about-this-manual/why-we-use-a-lab-manual.md'
-    - 'How to update the manual' : 'about-this-manual/how-to-update-the-manual.md' 
-    - 'Why Igor ?': 'about-this-manual/why-igor.md'
-    
-  - 'About the lab':
-    - 'Lab mission & focus': 'about-the-lab/lab-mission-and-focus.md'
-    - 'Lab philosophy/values' : 'about-the-lab/lab-philosophy-values.md'
-    - 'Lab history' : 'about-the-lab/lab-history.md'
-    - 'Lab space' : 'about-the-lab/lab-space.md'
-    - 'About the team, dept and institute': 'about-the-lab/about-the-team-dept-and-institute.md'
-    - 'About our operating institutions' : 'about-the-lab/about-our-operating-institutions.md'
-    
-  - 'Becoming a lab member': 
-    - 'ZRR application' : 'becoming-a-lab-member/zrr-application.md'
-    - 'FEMTO registration procedure' : 'becoming-a-lab-member/lab-registration-procedure.md'
-    - 'Important lab accounts' : 'becoming-a-lab-member/important-lab-accounts.md'
-    - 'List of useful web services': 'becoming-a-lab-member/femto-st-web-services.md'
-    - 'Skills updating': 'becoming-a-lab-member/skills-updating.md'
-    
-  - 'Being a lab member' : 
-    - 'Roles and expectations':
-      - 'Doing science here' : 'being-a-lab-member/roles-and-expectations/big-picture.md'
-      - 'Life in the lab' : 'being-a-lab-member/roles-and-expectations/small-picture.md'
-      - 'PhDs, Postdocs and PIs' : 'being-a-lab-member/roles-and-expectations/roles-and-expectations.md'
-      
-    - 'How We Do Things': 
-      - 'Time management' : 'being-a-lab-member/how-we-do-things/time-management.md'
-      - 'Using Slack' : 'being-a-lab-member/how-we-do-things/using-slack.md'
-      - 'Café neuro' : 'being-a-lab-member/how-we-do-things/cafe-neuro.md'
-      - 'Setting up for zoom or café neuro' : 'being-a-lab-member/how-we-do-things/setting-a-zoom-talk.md'
-      - 'Printing' : 'being-a-lab-member/how-we-do-things/printing.md'
-      - 'Travel' : 'being-a-lab-member/how-we-do-things/travel.md'
-      - 'Health & Safety' : 'being-a-lab-member/how-we-do-things/health-and-safety.md'
-    
-  - 'Running a study': 
-      - 'Preparation': 
-        - 'Ethics & Consent forms': 'running-a-study/preparation/consent-form.md'
-      - 'Data collection' : 
-        - 'Finding participants' : 'running-a-study/data-collection/advertise-your-experiment.md'
-        - 'Group behavioural study' : 'running-a-study/data-collection/run-a-group-behavioural-study.md'
-        - 'Online study': 'running-a-study/data-collection/run-an-online-study.md'
-        - 'EEG study': 'running-a-study/data-collection/run-an-EEG-study.md'
-      - 'Publication' : 
-        - "Steps when you've published" : 'running-a-study/publication/you-ve-published.md'
-
-  
-  - 'Leaving the Lab' :
-      - 'Who to contact and when' : 'leaving-the-lab/who-to-contact-and-when.md'
-      - 'Update/Revoke Access' : 'leaving-the-lab/update-revoke-access.md'
-      - 'Requesting Letters of Recommendation' : 'leaving-the-lab/requesting-letters-of-recommendation.md'
-      - 'Future steps' : 'leaving-the-lab/future-steps.md'
-      - 'Keeping contact with ex-members' : 'leaving-the-lab/keeping-contact-with-ex-members.md'
-  
+  - 'Home': 'index.md'
+  - 'Getting started': 'installation.md'
+  - 'Functions': 
+    - 'General API': 'api/general.md'
+    - 'Phase Vocoder': 'api/phase-vocoder.md'
+    - 'Face Warp': 'api/face-warp.md'
+  - 'Tutorials': 
+    - 'Random speech': 'tutorials/speech.md'
+    - 'Random faces': 'tutorials/face.md'
+  - 'About CLEESE': 'about.md'
 

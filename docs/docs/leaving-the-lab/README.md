@@ -1,2 +1,0 @@
-# Leaving the Lab
-
