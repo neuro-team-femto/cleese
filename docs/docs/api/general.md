@@ -6,7 +6,6 @@ In order to configure the different tools it provides, CLEESE uses `toml` config
 certain engines, but here are a few variables shared among all engines:
 
 ```toml
-\begin{minted}[bgcolor=bg]{toml}
 [main]
 
 # output root folder
