@@ -431,8 +431,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -461,8 +459,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -471,6 +467,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#modes-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes of operation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modes of operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#batch-generation" class="md-nav__link">
     <span class="md-ellipsis">
       Batch generation
@@ -478,8 +484,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#passing-a-given-bpf" class="md-nav__link">
     <span class="md-ellipsis">
       Passing a given BPF
@@ -487,8 +493,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#passing-a-given-time-vector" class="md-nav__link">
     <span class="md-ellipsis">
       Passing a given time vector
@@ -496,13 +502,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#array-input-and-output" class="md-nav__link">
     <span class="md-ellipsis">
       Array input and output
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -784,8 +795,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -794,6 +803,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#modes-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes of operation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modes of operation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#batch-generation" class="md-nav__link">
     <span class="md-ellipsis">
       Batch generation
@@ -801,8 +820,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#passing-a-given-bpf" class="md-nav__link">
     <span class="md-ellipsis">
       Passing a given BPF
@@ -810,8 +829,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#passing-a-given-time-vector" class="md-nav__link">
     <span class="md-ellipsis">
       Passing a given time vector
@@ -819,13 +838,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#array-input-and-output" class="md-nav__link">
     <span class="md-ellipsis">
       Array input and output
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -969,12 +993,14 @@
   
 
 
+  <h1>Phase Vocoder</h1>
+
 <p>CLEESE's <code>PhaseVocoder</code> engine operates by generating a set of random breakpoint functions (BPFs) in the appropriate format for each treatment, which
 are then passed to the included spectral processing engine (based on an implementation of the Phase Vocoder algorithm) with the corresponding parameters. Alternatively, the BPFs can be externally created by the user, and so it can also be used as a Phase Vocoder-based effects unit.</p>
-<h1 id="modes-of-operation">Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permanent link">&para;</a></h1>
+<h2 id="modes-of-operation">Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permanent link">&para;</a></h2>
 <p>CLEESE can be used in several different modes, depending on how the main processing function is called. Examples of several typical usage scenarios are
 included in the example script \texttt{run_cleese.py}.</p>
-<h2 id="batch-generation">Batch generation<a class="headerlink" href="#batch-generation" title="Permanent link">&para;</a></h2>
+<h3 id="batch-generation">Batch generation<a class="headerlink" href="#batch-generation" title="Permanent link">&para;</a></h3>
 <p>In batch mode, CLEESE's <code>PhaseVocoder</code> engine generates many random modifications from a single input sound file, called the base sound. It can be
 launched as follows:</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
@@ -1010,7 +1036,7 @@ detailed below.</p>
 </ul>
 </li>
 </ul>
-<h2 id="passing-a-given-bpf">Passing a given BPF<a class="headerlink" href="#passing-a-given-bpf" title="Permanent link">&para;</a></h2>
+<h3 id="passing-a-given-bpf">Passing a given BPF<a class="headerlink" href="#passing-a-given-bpf" title="Permanent link">&para;</a></h3>
 <p>When passing the <code>BPF</code> argument to <code>cleese.generate_stimuli</code>, it is possible to impose a given BPF with a certain treatment to an input file. In
 this way, the toolbox can be used as a traditional effects unit.</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1028,7 +1054,7 @@ this way, the toolbox can be used as a traditional effects unit.</p>
  - a numpy array containing the BPF
  - a scalar, in which case the treatment performed is static</p>
 <p>In this usage scenario, only one file is output, stored at the <code>&lt;outPath&gt;</code> folder, as specified in the configuration file.</p>
-<h2 id="passing-a-given-time-vector">Passing a given time vector<a class="headerlink" href="#passing-a-given-time-vector" title="Permanent link">&para;</a></h2>
+<h3 id="passing-a-given-time-vector">Passing a given time vector<a class="headerlink" href="#passing-a-given-time-vector" title="Permanent link">&para;</a></h3>
 <p>Instead of passing a full BPF (time+values), it is also possible to just pass a given time vector, containing the time instants (in seconds), at which the
 treatments change. The amount of modification will be randomly generated, but they will always happen at the given time tags. This might be useful to perform
 random modifications at specific onset locations, previously obtained manually or automatically.</p>
@@ -1044,7 +1070,7 @@ random modifications at specific onset locations, previously obtained manually o
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">givenTimeVec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.3</span><span class="p">])</span>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">PhaseVocoder</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">,</span> <span class="n">timeVec</span><span class="o">=</span><span class="n">givenTimeVec</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="array-input-and-output">Array input and output<a class="headerlink" href="#array-input-and-output" title="Permanent link">&para;</a></h2>
+<h3 id="array-input-and-output">Array input and output<a class="headerlink" href="#array-input-and-output" title="Permanent link">&para;</a></h3>
 <p>Instead of providing a file name for the input sound, it is possible to pass a Numpy array containing the input waveform. In this case, the main function will provide as output both the modified sound and the generated BPF as Numpy arrays. No files or folder structures are created as output:</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">PhaseVocoder</span>
