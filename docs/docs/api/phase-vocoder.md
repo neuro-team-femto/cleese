@@ -1,12 +1,12 @@
 CLEESE's `PhaseVocoder` engine operates by generating a set of random breakpoint functions (BPFs) in the appropriate format for each treatment, which
 are then passed to the included spectral processing engine (based on an implementation of the Phase Vocoder algorithm) with the corresponding parameters. Alternatively, the BPFs can be externally created by the user, and so it can also be used as a Phase Vocoder-based effects unit.
 
-# Modes of operation
+## Modes of operation
 
 CLEESE can be used in several different modes, depending on how the main processing function is called. Examples of several typical usage scenarios are
 included in the example script \texttt{run\_cleese.py}.
 
-## Batch generation
+### Batch generation
 
 In batch mode, CLEESE's `PhaseVocoder` engine generates many random modifications from a single input sound file, called the base sound. It can be
 launched as follows:
@@ -40,7 +40,7 @@ For each run in batch mode, the toolbox generates the following folder structure
 		- `<baseSound>.xxxxxxxx.<treatment>.wav`: the generated stimulus, where `xxxxxxxx` is a running number (e.g.: `cage.00000001.stretch.wav`)
 		- `<baseSound>.xxxxxxxx.<treatment>BPF.txt`: the generated BPF, in ASCII format, for the generated stimulus (e.g.: `cage.00000001.stretchBPF.txt`)
 
-## Passing a given BPF
+### Passing a given BPF
 
 When passing the `BPF` argument to `cleese.generate_stimuli`, it is possible to impose a given BPF with a certain treatment to an input file. In
 this way, the toolbox can be used as a traditional effects unit.
@@ -64,7 +64,7 @@ The `BPF` argument can be either:
 
 In this usage scenario, only one file is output, stored at the `<outPath>` folder, as specified in the configuration file.
 
-## Passing a given time vector
+### Passing a given time vector
 
 Instead of passing a full BPF (time+values), it is also possible to just pass a given time vector, containing the time instants (in seconds), at which the
 treatments change. The amount of modification will be randomly generated, but they will always happen at the given time tags. This might be useful to perform
@@ -85,7 +85,7 @@ givenTimeVec = np.array([0.1,0.15,0.3])
 cleese.generate_stimuli(PhaseVocoder, inputFile, configFile, timeVec=givenTimeVec)
 ```
 
-## Array input and output
+### Array input and output
 
 Instead of providing a file name for the input sound, it is possible to pass a Numpy array containing the input waveform. In this case, the main function will provide as output both the modified sound and the generated BPF as Numpy arrays. No files or folder structures are created as output:
 
