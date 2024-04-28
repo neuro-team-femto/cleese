@@ -1,3 +1,5 @@
+# PhaseVocoder Engine 
+
 CLEESE's `PhaseVocoder` engine operates by generating a set of random breakpoint functions (BPFs) in the appropriate format for each treatment, which
 are then passed to the included spectral processing engine (based on an implementation of the Phase Vocoder algorithm) with the corresponding parameters. Alternatively, the BPFs can be externally created by the user, and so it can also be used as a Phase Vocoder-based effects unit.
 
