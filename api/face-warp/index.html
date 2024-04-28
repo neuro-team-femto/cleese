@@ -69,6 +69,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#face-warp" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -447,6 +452,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Face Warp
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -457,6 +475,85 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modes-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes of operation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Batch generation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#array-input-and-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Array input and output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applying-a-deformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Applying a deformation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-deformation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting deformation files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -594,6 +691,76 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modes-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes of operation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Batch generation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#array-input-and-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Array input and output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#applying-a-deformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Applying a deformation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-deformation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting deformation files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -616,11 +783,151 @@
   
 
 
-  <h1>Face Warp</h1>
-
+<h1 id="face-warp">Face Warp<a class="headerlink" href="#face-warp" title="Permanent link">&para;</a></h1>
 <p>CLEESE's <code>FaceWarp</code> engine works by first identifying a set of landmarks on the visage present in the image. Then a gaussian distribution of
 deformation vectors is applied to a subset of landmarks, and the Moving Least Squares (MLS) algorithm is used to apply the deformation to the image itself.
 Alternatively, a precomputed set of deformations can also be provided.</p>
+<h2 id="modes-of-operation">Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permanent link">&para;</a></h2>
+<p>CLEESE can be used in different modes, depending on which function you call and how. </p>
+<h2 id="batch-generation">Batch generation<a class="headerlink" href="#batch-generation" title="Permanent link">&para;</a></h2>
+<p>CLEESE has a dedicated function for batch treatments: <code>cleese.generate_stimuli</code>, which is used, in <code>Mediapipe</code>'s case, to generate a number of randomly deformed visages.</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Two parameters have to be set by the user:</p>
+<ul>
+<li><code>inputFile</code>: the path to the base image, which can be any image format readable and writeable by <code>PIL</code>.</li>
+<li><code>configFile</code>: the path to the configuration script</li>
+</ul>
+<p>All the generation parameters for all treatments are set up in the configuration script that has to be edited or created by the user. An example
+of configuration script with parameters for all treatments is included with the toolbox: <code>cleese-mediapipe.toml</code>. Configuration parameters will be
+detailed below.</p>
+<p>For each run in batch mode, the toolbox generates the following folder structure, where <code>&lt;outPath&gt;</code> is specified in the parameter file:</p>
+<ul>
+<li><code>&lt;outPath&gt;/&lt;currentExperimentFolder&gt;</code>: main folder for the current generation experiment. The name <code>&lt;currentExperimentFolder&gt;</code> is automatically created from the current date and time. This folder contains:<ul>
+<li><code>&lt;baseImage.ext&gt;</code>: a copy of the base image used for the current experiment</li>
+<li><code>*.toml</code>: a copy of the configuration script used for the current experiment</li>
+<li><code>&lt;baseimage&gt;.xxxxxxxx.&lt;ext&gt;</code>: the generated deformed image, where <code>xxxxxxxx</code> is a running number (e.g.: <code>monalisa.00000001.jpg</code>)</li>
+<li><code>&lt;baseimage&gt;.xxxxxxxx.dfmxy</code>: the generated deformation vectors, in CSV format, for the generated stimulus (e.g.: <code>monalisa.00000001.dfmxy</code>)</li>
+<li><code>&lt;baseimage&gt;.landmarks.txt</code>: the list of all landmarks positions as detected on the original image, in ASCII format, readable with <code>numpy.loadtxt</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="array-input-and-output">Array input and output<a class="headerlink" href="#array-input-and-output" title="Permanent link">&para;</a></h3>
+<p>CLEESE can also provide a single result, based on data loaded previously in a script or directly loading a file.</p>
+<p><em>From array:</em> </p>
+<p>Here, you can also use <code>PIL.Image</code>'s <code>np.array(Image.open("path/image.jpg").convert("RGB"))</code> to load the image.
+The <code>Face Mesh</code> API requires that the image be in RGB format.</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">img</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_data</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span></code></pre></div>
+<p><em>From file:</em>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>In both of those cases, no files or folder structures are generated.</p>
+<h3 id="applying-a-deformation">Applying a deformation<a class="headerlink" href="#applying-a-deformation" title="Permanent link">&para;</a></h3>
+<p>Both <code>cleese.process_data</code> and <code>cleese.process_file</code> function allow for applying a precomputed set of deformations instead of generating them
+randomly. CLEESE can accept both <code>.dfmxy</code> deformations (absolute cartesian deformation vectors), and <code>.dfm</code> deformations (deformation
+vectors mapped onto a triangulation of face landmarks (dlib landmarks indices)).</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">dfmxyFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfmxy.dfmxy&#39;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">dfmFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfm.dfm&#39;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">imageFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># .dfmxy processing</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">dfmxy</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_dfmxy</span><span class="p">(</span><span class="n">dfmxyFile</span><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>                          <span class="n">imageFile</span><span class="p">,</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>                          <span class="n">configFile</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>                          <span class="n">dfmxy</span><span class="o">=</span><span class="n">dfmxy</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># .dfm processing</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">dfm</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_dfm</span><span class="p">(</span><span class="n">dfmFile</span><span class="p">)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>                          <span class="n">imageFile</span><span class="p">,</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>                          <span class="n">configFile</span><span class="p">,</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>                          <span class="n">dfm</span><span class="o">=</span><span class="n">dfm</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="converting-deformation-files">Converting deformation files<a class="headerlink" href="#converting-deformation-files" title="Permanent link">&para;</a></h3>
+<p>Other face deformation tools developed by our team use the <code>.dfm</code> deformation file format, more suited to applying the same deformation to an
+arbitrary face. However, by its use of barycentric coordinates in a landmarks triangulation, it isn't suited to any post or pre-processing, which is an area
+where <code>.dfmxy</code> shines. As a result, CLEESE's Mediapipe provides a way to convert a given, <code>.dfmxy</code> to <code>.dfm</code>, provided you also have the original landmarks on hand:</p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dfmxyFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfmxy.dfmxy&#39;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">dfmFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfm.dfm&#39;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">landmarksFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_landmarks.txt&#39;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">dfmxy_to_dfm</span><span class="p">(</span><span class="n">dfmxyFile</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>                          <span class="n">landmarksFile</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>                          <span class="n">output_dfm_file</span><span class="o">=</span><span class="n">dfmFile</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p>The following parameters are used to configure the <code>Mediapipe</code> engine:</p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[mediapipe.random_gen]</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Indices of the landmarks to be modified, using Dlib&#39;s 68 landmarks indexing</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">landmarks</span><span class="p">.</span><span class="n">dlib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Indices of the landmarks to be modified, using Mediapipe&#39;s 468 landmarks indexing</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">landmarks</span><span class="p">.</span><span class="n">mediapipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">61</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="mi">270</span><span class="p">,</span><span class="w"> </span><span class="mi">308</span><span class="p">,</span><span class="w"> </span><span class="mi">321</span><span class="p">,</span><span class="w"> </span><span class="mi">291</span><span class="p">]</span><span class="w">  </span><span class="c1"># lips corners</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Sets of landmarks to be modified, using precomputed sets</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># &quot;dlib-eyebrow-right&quot;, &quot;dlib-eyebrow-left&quot;, &quot;dlib-nose&quot;,</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># &quot;dlib-eye-right&quot;, &quot;dlib-eye-left&quot;, &quot;dlib-outer-lips&quot;,</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># &quot;dlib-inner-lips&quot;, &quot;dlib-lips&quot;, etc...</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># See cleese/engines/mediapipe.py for a full list</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">landmarks</span><span class="p">.</span><span class="n">presets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;dlib-lips&quot;</span><span class="p">]</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># Covariance matrix used to generate the gaussian distribution of landmarks</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># offsets. It is scaled according to the height of the detected face. As a</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># result, the amount of deformation should be resolution-invariant.</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="n">covMat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mf">0.0002</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0002</span><span class="p">]]</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">[mediapipe.mls]</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># Alpha parameter of the MLS deformation.</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Affects how much the deformation &quot;spreads&quot; from the landmarks</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.2</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="k">[mediapipe.face_detect]</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># Minimum face detection confidence</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span>
+</span></code></pre></div>
+<ul>
+<li><code>mediapipe.random_gen.landmarks</code>: Selection of landmarks on which to apply a deformation. Then can be defined in a few different ways:<ul>
+<li><code>landmarks.dlib</code>: Array of landmark indices, using dlib's Multi-PIE 68 landmarks indexing (see figure below).</li>
+<li><code>landmarks.mediapipe</code>: Array of landmark indices, using mediapipe's 468 vertices face mesh (see Google's documentation <a href="https://github.com/google/mediapipe/blob/master/mediapipe/modules/face_geometry/data/canonical_face_model_uv_visualization.png">here</a>)</li>
+</ul>
+</li>
+<li><code>landmarks.presets</code>: Array of name of landmarks presets. For now, only subset of dlib's indices are implemented.</li>
+<li><code>covMat</code>: The covariance matrix used when drawing the distribution of deformation vectors. the unit vector is scaled according to height of the detected face, to enable for scale-invariant deformations.</li>
+<li><code>mediapipe.mls.alpha</code>: Moving Least Squares (MLS) algorithm alpha parameter, affecting the "spread" of the deformation.</li>
+<li><code>mediapipe.face_detect.threshold</code>: Threshold for the confidence metric of mediapipe's face detector. Ajust if faces aren't detected, or if things that aren't faces are detected.</li>
+</ul>
+<figure>
+  <img alt="Image title" src="../../images/dlib_68_landmarks.png" width="30%" />
+  <figcaption>Dlib's 68 Multi-PIE landmarks, 1-indexed.</figcaption>
+</figure>
 
 
 
