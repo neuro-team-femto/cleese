@@ -16,17 +16,11 @@ Check the [installation instructions](../../installation) if needed.
 
 ### Useful imports
 
-The following code imports all the python packages that are needed in the rest of this tutorial. 
+The following code imports all the python packages that are needed in the rest of this tutorial (which you can `pip install` if you don't have them already). 
 
 ```py
 import numpy as np
-from IPython.display import Markdown, display, Audio
-from IPython.core.interactiveshell import InteractiveShell
-InteractiveShell.ast_node_interactivity = "all"
 import matplotlib.pyplot as plt
-%matplotlib inline
-from pylab import rcParams
-rcParams['figure.figsize'] = 5, 2
 ```
 
 ### Useful files
