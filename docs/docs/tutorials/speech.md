@@ -46,8 +46,8 @@ In the following, we'll be a number of files which you'll first need to download
 
 The most basic usage scenario of CLEESE is to input a single recording (ex. the French word "vraiment" - "really", recorded by a single male speaker)
 
-!!! warning
-    Find a way to embed audio file here ("./sounds/male_vraiment_flattened.wav")
+<audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a>
 
 and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function `cleese.process_data` a configuration file ([random_pitch_profile.toml](./configs/random_pitch_profile.toml)) which specifies the manipulation we want. Here: cut the file in `pitch.window.count = 6` time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation `pitch.std = 300`cents, and interpolate between segment boundaries using linear `pitch.BPFType = "ramp"`. (See [PhaseVocoder](../../api/phase-vocoder/) documentation for more information)
 
@@ -94,6 +94,9 @@ output_file = "./sounds/male_vraiment_flattened_transformed.wav"
 PhaseVocoder.wav_write(wave_out, output_file, sr)
 ```
 
+<audio controls src="../sounds/male_vraiment_flattened_transformed.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened_transformed.wav"> Download audio </a>
+
 CLEESE's `PhaseVocoder` includes a utility for extracting pitch in speech/audio files (`PhaseVocoder.extract_pitch`), which uses the YIN pitch extraction algorithm, and can be used to visualize the pitch profile of sounds before and after manipulation. This is just for visualization purposes, and isn't necessary for the working of the main `cleese.process` function above. 
 
 ``` py
@@ -113,16 +116,13 @@ plt.ylim([70,120])
 
 ![Image title](../images/speech_tutorial_1.png)
 
-!!! warning
-    Find a way to embed resulting audio file here, and get the right picture that corresponds to it
-    
 
 ### Random speed profile in a song 
 
 CLEESE can process longer files than a single word and, instead of manipulating pitch, can manipulate the duration of each portion of the file. To demonstrate this, we use CLEESE to randomly stretch each note in a recording of a song (the French song "Joyeux Anniversaire" / "Happy Birthday", sung by a female singer)
 
-!!! warning
-    Embed "./sounds/female_anniversaire_isochrone.wav"
+<audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a>
 
 This, as above, is done by passing to `cleese.process_data` a configuration file which specifies the manipulation we want. Here: cut the file in `stretch.window.len = 0.5` second time segments, draw a random stretch shift factor at each segment boundary from a Gaussian distribution centered on 1.0 and standard deviation `stretch.std = 1.5` (where factors >1 correspond to a time stretch, and factors <1 correspond to a time compression), and interpolate between segment boundaries using linear `stretch.BPFType = "ramp"`. 
 
@@ -157,8 +157,8 @@ output_file = "./sounds/female_anniversaire_isochrone_transformed.wav"
 PhaseVocoder.wav_write(wave_out, output_file, sr)
 ```
 
-!!! warning
-    Embed "./sounds/female_anniversaire_isochrone_transformed.wav"
+<audio controls src="../sounds/female_anniversaire_isochrone_transformed.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone_transformed.wav"> Download audio </a>
 
 Display pre and post pitch profile: notice pitch values weren't changed, but only how they appear in time)
 
@@ -227,6 +227,16 @@ cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
 
 ```
 
+<audio controls src="../sounds/male_vraiment_flattened_transformed_1.wav"></audio> 
+<a href="../sounds/male_vraiment_flattened_transformed_1.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_2.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_2.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_3.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_3.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_4.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_4.wav"> Download audio </a> <br>
+
+
 ### Chained transforms 
 
 CLEESE can process files with a series of transformations that follow each other, e.g. first time-stretch the file, then pitch-shift it. This is done by specifying keyword `chain = true` under the configuration section `[main]`, as well as the list of transformations to be applied, e.g. here `transf = ['pitch','stretch']`.  
@@ -260,9 +270,15 @@ config_file = "./configs/chained_pitch_stretch.toml"
 cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
 ```
 
-!!! warning
-    Embed a few examples of transformed sounds
 
+<audio controls src="../sounds/male_vraiment_flattened_transformed_5.wav"></audio> 
+<a href="../sounds/male_vraiment_flattened_transformed_5.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_6.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_6.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_7.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_7.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_8.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_8.wav"> Download audio </a> <br>
 
 ## Advanced use
 
@@ -272,8 +288,8 @@ When applying CLEESE to generate stimuli for reverse correlation, it is often ad
 
 Start with a normal, non-flat recording of the same word ``vraiment'' as above: 
 
-!!! warning
-    embed "./sounds/male_vraiment_original.wav"
+<audio controls src="../sounds/male_vraiment_original.wav"></audio><br>
+<a href="../sounds/male_vraiment_original.wav"> Download audio </a>
 
 The file has a soft, down-ward pitch contour, as show here
 
@@ -319,8 +335,8 @@ bpf = np.column_stack((bpf_times,bpf_val))
 wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)
 ```
 
-!!! warning
-    Embed flattened
+<audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a>
 
 Compare pitch profile before and after transformation: 
 
@@ -340,8 +356,8 @@ plt.ylabel('pitch')
 
 Instead of generating linearly spaced time windows (or, as called here, breakpoints), CLEESE supports a list of externally provided time positions. To demonstrate this, we use CLEESE to stretch the duration of each note in the song "Joyeux Anniversaire" (which we already used above). 
 
-!!! warning
-    Embed "./sounds/female_anniversaire_isochrone.wav"
+<audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a>
 
 To find note boundaries, we can e.g. use an external audio editor such as [Audacity](https://www.audacityteam.org), and measure time positions between notes as `[0.027, 0.634, 1.137, 1.647, 2.185, 2.649, 3.181]`.
 
@@ -365,6 +381,9 @@ wave_out,bpf_out = cleese.process_data(
     PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)
 ```
 
+<audio controls src="../sounds/female_anniversaire_isochrone_transformed_2.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a>
+
 ```py 
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
 plt.plot(times_in, pitch_in, 'k')
@@ -373,11 +392,10 @@ plt.ylabel('pitch')
 
 # display transformed file
 pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
-plt.plot(times_out, pitch_out, 'k')
+plt.plot(times_out, pitch_out, 'b')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch')
 ```
 
-!!! warning
-    Embed result file + image
+![Image title](../images/speech_tutorial_8.png)
 
