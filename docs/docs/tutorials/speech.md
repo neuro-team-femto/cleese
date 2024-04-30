@@ -12,7 +12,7 @@ Before starting, please verify that you have a working CLEESE installation, by r
 import cleese_stim as cleese
 from cleese_stim.engines import PhaseVocoder
 ```
-Check the [installation instructions](../installation) if needed. 
+Check the [installation instructions](../../installation) if needed. 
 
 ### Useful imports
 
@@ -33,15 +33,12 @@ rcParams['figure.figsize'] = 5, 2
 
 In the following, we'll be a number of files which you'll first need to download and store in your path at the indicated place
 
-- [male_vraiment_flattened.wav]("./sounds/male_vraiment_flattened.wav") :material-arrow-right: `./sounds/male_vraiment_flattened.wav` 
-- [random_pitch_profile.toml]("./configs/random_pitch_profile.toml") :material-arrow-right: `./configs/random_pitch_profile.toml`
-- [female_anniversaire_isochrone.wav]("./sounds/female_anniversaire_isochrone.wav") :material-arrow-right: `./sounds/female_anniversaire_isochrone.wav`
-- [random_speed_profile.toml]("./configs/random_speed_profile.toml") :material-arrow-right: `./configs/random_speed_profile.toml`
-- [chained_pitch_stretch.toml"]("./configs/chained_pitch_stretch.toml") :material-arrow-right `./configs/chained_pitch_stretch.toml`
-- [male_vraiment_original.wav]("./sounds/male_vraiment_original.wav") :material-arrow-right: `./sounds/male_vraiment_original.wav` 
-
-Alternatively, you can also download a [zipped folder]('.speech_tutorial_material.zip') containing all of these files, unzip it and put it in your path. 
-
+- [male_vraiment_flattened.wav](./sounds/male_vraiment_flattened.wav) :material-arrow-right: `./sounds/male_vraiment_flattened.wav` 
+- [random_pitch_profile.toml](./configs/random_pitch_profile.toml) :material-arrow-right: `./configs/random_pitch_profile.toml`
+- [female_anniversaire_isochrone.wav](./sounds/female_anniversaire_isochrone.wav) :material-arrow-right: `./sounds/female_anniversaire_isochrone.wav`
+- [random_speed_profile.toml](./configs/random_speed_profile.toml) :material-arrow-right: `./configs/random_speed_profile.toml`
+- [chained_pitch_stretch.toml](./configs/chained_pitch_stretch.toml) :material-arrow-right `./configs/chained_pitch_stretch.toml`
+- [male_vraiment_original.wav](./sounds/male_vraiment_original.wav) :material-arrow-right: `./sounds/male_vraiment_original.wav` 
 
 ## Basic sound manipulation with CLEESE
 
@@ -52,7 +49,7 @@ The most basic usage scenario of CLEESE is to input a single recording (ex. the 
 !!! warning
     Find a way to embed audio file here ("./sounds/male_vraiment_flattened.wav")
 
-and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function `cleese.process_data` a configuration file ([random_pitch_profile.toml]("./configs/random_pitch_profile.toml")) which specifies the manipulation we want. Here: cut the file in `pitch.window.count = 6` time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation `pitch.std = 300`cents, and interpolate between segment boundaries using linear `pitch.BPFType = "ramp"`. (See [PhaseVocoder](../api/phase-vocoder/) documentation for more information)
+and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function `cleese.process_data` a configuration file ([random_pitch_profile.toml](./configs/random_pitch_profile.toml)) which specifies the manipulation we want. Here: cut the file in `pitch.window.count = 6` time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation `pitch.std = 300`cents, and interpolate between segment boundaries using linear `pitch.BPFType = "ramp"`. (See [PhaseVocoder](../../api/phase-vocoder/) documentation for more information)
 
 ```toml
 [pitch]
@@ -80,7 +77,7 @@ BPFtype = 'ramp'
 trTime = 0.02
 ```
 
-The following code is pretty much all there is to call: `cleese.process_data` takes in the `Engine` that is called on to do the transformation (here, `PhaseVocoder` - see the [Image tutorial]('./face/') for a similar call to image-transformation engine `FaceWarp`), the array `wave_in` of audio data obtained from `PhaseVocoder.wav_read` and its sampling rate `sr`, and the path to the configuration file `config_file` that tells the `PhaseVocoder` engine what to do with it all. 
+The following code is pretty much all there is to call: `cleese.process_data` takes in the `Engine` that is called on to do the transformation (here, `PhaseVocoder` - see the [Image tutorial](../face) for a similar call to image-transformation engine `FaceWarp`), the array `wave_in` of audio data obtained from `PhaseVocoder.wav_read` and its sampling rate `sr`, and the path to the configuration file `config_file` that tells the `PhaseVocoder` engine what to do with it all. 
 
 ```python
 input_file = "./sounds/male_vraiment_flattened.wav"
