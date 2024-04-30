@@ -3,6 +3,7 @@ name: publish version of 🎶 cleese 🧠 update to PyPI 🐍
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   build:
