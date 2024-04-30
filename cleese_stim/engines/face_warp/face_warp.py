@@ -14,9 +14,9 @@ import mediapipe as mp
 from os import path
 from scipy.spatial import Delaunay
 
-from .engine import Engine
-from ..cleese import log
-from ..third_party.mls.img_utils import mls_rigid_deformation
+from ..engine import Engine
+from ...cleese import log
+from ...third_party.mls.img_utils import mls_rigid_deformation
 
 
 DLIB_TO_MEDIAPIPE = [
@@ -194,7 +194,7 @@ def mediapipe_to_dlib(mediapipe_landmarks):
     return dlib
 
 
-class Mediapipe(Engine):
+class FaceWarp(Engine):
 
     @staticmethod
     def load_file(filename):
@@ -562,4 +562,4 @@ class Mediapipe(Engine):
 
     @staticmethod
     def name():
-        return "mediapipe"
+        return "facewarp"
