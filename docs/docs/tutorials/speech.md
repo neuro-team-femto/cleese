@@ -8,7 +8,7 @@ This tutorial shows how to use CLEESE's `PhaseVocoder` engine to generate a arbi
 
 Before starting, please verify that you have a working CLEESE installation, by running the following cell which you return without error. 
 
-``` py
+``` py title="import cleese"
 import cleese_stim as cleese
 from cleese_stim.engines import PhaseVocoder
 ```
@@ -18,7 +18,7 @@ Check the [installation instructions](../../installation) if needed.
 
 The following code imports all the python packages that are needed in the rest of this tutorial (which you can `pip install` if you don't have them already). 
 
-```py
+```py title="extra imports"
 import numpy as np
 import matplotlib.pyplot as plt
 ```
@@ -45,7 +45,7 @@ The most basic usage scenario of CLEESE is to input a single recording (ex. the 
 
 and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function `cleese.process_data` a configuration file ([random_pitch_profile.toml](./configs/random_pitch_profile.toml)) which specifies the manipulation we want. Here: cut the file in `pitch.window.count = 6` time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation `pitch.std = 300`cents, and interpolate between segment boundaries using linear `pitch.BPFType = "ramp"`. (See [PhaseVocoder](../../api/phase-vocoder/) documentation for more information)
 
-```toml
+```toml title="random_pitch_profile.toml"
 [pitch]
 # pitch transposition window in seconds. If 0 : static transformation
 window.len = 0.11
@@ -73,7 +73,7 @@ trTime = 0.02
 
 The following code is pretty much all there is to call: `cleese.process_data` takes in the `Engine` that is called on to do the transformation (here, `PhaseVocoder` - see the [Image tutorial](../face) for a similar call to image-transformation engine `FaceWarp`), the array `wave_in` of audio data obtained from `PhaseVocoder.wav_read` and its sampling rate `sr`, and the path to the configuration file `config_file` that tells the `PhaseVocoder` engine what to do with it all. 
 
-```python
+```python title="randomize pitch"
 input_file = "./sounds/male_vraiment_flattened.wav"
 config_file = "./configs/random_pitch_profile.toml"
 
@@ -93,7 +93,7 @@ PhaseVocoder.wav_write(wave_out, output_file, sr)
 
 CLEESE's `PhaseVocoder` includes a utility for extracting pitch in speech/audio files (`PhaseVocoder.extract_pitch`), which uses the YIN pitch extraction algorithm, and can be used to visualize the pitch profile of sounds before and after manipulation. This is just for visualization purposes, and isn't necessary for the working of the main `cleese.process` function above. 
 
-``` py
+``` py title="visualize pitch before/after"
 # extract pitch before transformation
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
 
@@ -120,7 +120,7 @@ CLEESE can process longer files than a single word and, instead of manipulating 
 
 This, as above, is done by passing to `cleese.process_data` a configuration file which specifies the manipulation we want. Here: cut the file in `stretch.window.len = 0.5` second time segments, draw a random stretch shift factor at each segment boundary from a Gaussian distribution centered on 1.0 and standard deviation `stretch.std = 1.5` (where factors >1 correspond to a time stretch, and factors <1 correspond to a time compression), and interpolate between segment boundaries using linear `stretch.BPFType = "ramp"`. 
 
-```toml
+```toml title="random_speed_profile.toml"
 [stretch]
 
 window.len = 0.1
@@ -136,7 +136,7 @@ trTime = 0.05
 
 The following code runs the transformation
 
-```python
+```python title="randomize duration"
 input_file = "./sounds/female_anniversaire_isochrone.wav"
 config_file = "./configs/random_speed_profile.toml"
 
@@ -156,7 +156,7 @@ PhaseVocoder.wav_write(wave_out, output_file, sr)
 
 Display pre and post pitch profile: notice pitch values weren't changed, but only how they appear in time)
 
-```py
+```py title="visualize before transform"
 # extract pitch before transformation
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
 
@@ -170,7 +170,7 @@ plt.ylim([70,120])
 
 ![Image title](../images/speech_tutorial_2.png)
 
-```py
+```py title="visualize after transform"
 # extract pitch after transformation
 pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
 
@@ -188,7 +188,7 @@ plt.ylim([70,120])
 
 Instead of generating output files one at a time, CLEESE can be used to generate large numbers of manipulated files, each randomly generated using parameters specified in config files as above. This is achieve by pusing cleese.generate_stimuli `cleese.generate_stimuli(PhaseVocoder, input_file, config_file)`. Output files are not returned by the function, but directly written in `main.outPath`, and the number of output files generated is given by `main.numFiles`, all of which are found in the configuration file:
 
-```toml
+```toml title="random_pitch_profile.toml"
 [main]
 
 # output root folder
@@ -212,7 +212,7 @@ The following code will create 10 random transformations of the `input_file`, ea
 !!! warning
     Depending on how you run this code, you may want to ensure the `outPath` folder exists in your path before running this code 
 
-```python
+```python title="batch transform"
 input_file = "./sounds/male_vraiment_flattened.wav"
 config_file = "./configs/random_pitch_profile.toml"
 
@@ -235,7 +235,7 @@ cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
 
 CLEESE can process files with a series of transformations that follow each other, e.g. first time-stretch the file, then pitch-shift it. This is done by specifying keyword `chain = true` under the configuration section `[main]`, as well as the list of transformations to be applied, e.g. here `transf = ['pitch','stretch']`.  
 
-```toml
+```toml title="chained_pitch_stretch.toml"
 [main]
 
 # output root folder
@@ -256,7 +256,7 @@ generateExpFolder = true
 
 The following code runs a chained transformation (notice the change of `config_file`) on 10 files, and stores them all in the `outPath` folder designated in `config_file`
 
-```python
+```py title="chained transform"
 input_file = "./sounds/male_vraiment_flattened.wav"
 config_file = "./configs/chained_pitch_stretch.toml"
 
@@ -287,7 +287,7 @@ Start with a normal, non-flat recording of the same word ``vraiment'' as above:
 
 The file has a soft, down-ward pitch contour, as show here
 
-``` py
+``` py title="display original pitch"
 input_file = "./sounds/male_vraiment_original.wav"
 wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr, win=0.02, bounds=[50, 200])
@@ -301,7 +301,7 @@ plt.ylabel('pitch')
 To flatten this existing contour, we construct a custom break-point function (bpf) that passes through the pitch shift values needed to shift the contour down to a constant pitch value, arbitrarily set here at 110Hz. 
 
 
-```py
+```py title="custom bpf"
 mean_pitch = 110.
 def difference_to_cents(pitch, ref_pitch):
     if pitch >0:
@@ -321,7 +321,7 @@ plt.ylabel('BPF')
 
 We then apply this custom BPF to the original file, using `cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)` (passing audio data as input, because we don't need batch mode here). 
 
-```python
+```python title="apply bpf"
 config_file = "./configs/random_pitch_profile.toml"
 
 # CLEESE
@@ -334,7 +334,7 @@ wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sampl
 
 Compare pitch profile before and after transformation: 
 
-```py 
+```py title="display resulting pitch"
 # display transformed file
 pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.005, bounds=[50, 200])
 plt.plot(times_in, pitch_in, 'k')
@@ -360,7 +360,7 @@ To find note boundaries, we can e.g. use an external audio editor such as [Audac
 We can then generate a breakpoint function with `cleese.create_BPF` which uses these time points and parameters loaded from the stretch config file `config_file`. This BPF can then be passed to `cleese.process_data` as argument. 
 
 
-```python
+```python title="process with custom breakpoints"
 input_file = "./sounds/female_anniversaire_isochrone.wav"
 config_file = "./configs/random_speed_profile.toml"
 
@@ -378,7 +378,7 @@ wave_out,bpf_out = cleese.process_data(
 <audio controls src="../sounds/female_anniversaire_isochrone_transformed_2.wav"></audio><br>
 <a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a>
 
-```py 
+```py title="display pitch before/after"
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
 plt.plot(times_in, pitch_in, 'k')
 plt.xlabel('time in file (ms)')
