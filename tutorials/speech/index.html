@@ -923,7 +923,7 @@
 <p><div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">PhaseVocoder</span>
 </span></code></pre></div>
-Check the <a href="../installation">installation instructions</a> if needed. </p>
+Check the <a href="../../installation">installation instructions</a> if needed. </p>
 <h3 id="useful-imports">Useful imports<a class="headerlink" href="#useful-imports" title="Permanent link">&para;</a></h3>
 <p>The following code imports all the python packages that are needed in the rest of this tutorial. </p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -938,22 +938,19 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 <h3 id="useful-files">Useful files<a class="headerlink" href="#useful-files" title="Permanent link">&para;</a></h3>
 <p>In the following, we'll be a number of files which you'll first need to download and store in your path at the indicated place</p>
 <ul>
-<li><a href="" title="./sounds/male_vraiment_flattened.wav">male_vraiment_flattened.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/male_vraiment_flattened.wav</code> </li>
-<li><a href="" title="./configs/random_pitch_profile.toml">random_pitch_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_pitch_profile.toml</code></li>
-<li><a href="" title="./sounds/female_anniversaire_isochrone.wav">female_anniversaire_isochrone.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/female_anniversaire_isochrone.wav</code></li>
-<li><a href="" title="./configs/random_speed_profile.toml">random_speed_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_speed_profile.toml</code></li>
-<li><a href="" title="./configs/chained_pitch_stretch.toml">chained_pitch_stretch.toml"</a> :material-arrow-right <code>./configs/chained_pitch_stretch.toml</code></li>
-<li><a href="" title="./sounds/male_vraiment_original.wav">male_vraiment_original.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/male_vraiment_original.wav</code> </li>
+<li><a href="../sounds/male_vraiment_flattened.wav">male_vraiment_flattened.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/male_vraiment_flattened.wav</code> </li>
+<li><a href="../configs/random_pitch_profile.toml">random_pitch_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_pitch_profile.toml</code></li>
+<li><a href="../sounds/female_anniversaire_isochrone.wav">female_anniversaire_isochrone.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/female_anniversaire_isochrone.wav</code></li>
+<li><a href="../configs/random_speed_profile.toml">random_speed_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_speed_profile.toml</code></li>
+<li><a href="../configs/chained_pitch_stretch.toml">chained_pitch_stretch.toml</a> :material-arrow-right <code>./configs/chained_pitch_stretch.toml</code></li>
+<li><a href="../sounds/male_vraiment_original.wav">male_vraiment_original.wav</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/male_vraiment_original.wav</code> </li>
 </ul>
-<p>Alternatively, you can also download a <a href="" title=".speech_tutorial_material.zip">zipped folder</a> containing all of these files, unzip it and put it in your path. </p>
 <h2 id="basic-sound-manipulation-with-cleese">Basic sound manipulation with CLEESE<a class="headerlink" href="#basic-sound-manipulation-with-cleese" title="Permanent link">&para;</a></h2>
 <h3 id="random-pitch-profile-in-a-single-utterance">Random pitch profile in a single utterance<a class="headerlink" href="#random-pitch-profile-in-a-single-utterance" title="Permanent link">&para;</a></h3>
 <p>The most basic usage scenario of CLEESE is to input a single recording (ex. the French word "vraiment" - "really", recorded by a single male speaker)</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Find a way to embed audio file here ("./sounds/male_vraiment_flattened.wav")</p>
-</div>
-<p>and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function <code>cleese.process_data</code> a configuration file (<a href="" title="./configs/random_pitch_profile.toml">random_pitch_profile.toml</a>) which specifies the manipulation we want. Here: cut the file in <code>pitch.window.count = 6</code> time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation <code>pitch.std = 300</code>cents, and interpolate between segment boundaries using linear <code>pitch.BPFType = "ramp"</code>. (See <a href="../api/phase-vocoder/">PhaseVocoder</a> documentation for more information)</p>
+<p><audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a></p>
+<p>and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function <code>cleese.process_data</code> a configuration file (<a href="../configs/random_pitch_profile.toml">random_pitch_profile.toml</a>) which specifies the manipulation we want. Here: cut the file in <code>pitch.window.count = 6</code> time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation <code>pitch.std = 300</code>cents, and interpolate between segment boundaries using linear <code>pitch.BPFType = "ramp"</code>. (See <a href="../../api/phase-vocoder/">PhaseVocoder</a> documentation for more information)</p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[pitch]</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># pitch transposition window in seconds. If 0 : static transformation</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">window</span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.11</span>
@@ -978,7 +975,7 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1"># in s: transition time for square BPF</span>
 </span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">trTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02</span>
 </span></code></pre></div>
-<p>The following code is pretty much all there is to call: <code>cleese.process_data</code> takes in the <code>Engine</code> that is called on to do the transformation (here, <code>PhaseVocoder</code> - see the <a href="" title="./face/">Image tutorial</a> for a similar call to image-transformation engine <code>FaceWarp</code>), the array <code>wave_in</code> of audio data obtained from <code>PhaseVocoder.wav_read</code> and its sampling rate <code>sr</code>, and the path to the configuration file <code>config_file</code> that tells the <code>PhaseVocoder</code> engine what to do with it all. </p>
+<p>The following code is pretty much all there is to call: <code>cleese.process_data</code> takes in the <code>Engine</code> that is called on to do the transformation (here, <code>PhaseVocoder</code> - see the <a href="../face">Image tutorial</a> for a similar call to image-transformation engine <code>FaceWarp</code>), the array <code>wave_in</code> of audio data obtained from <code>PhaseVocoder.wav_read</code> and its sampling rate <code>sr</code>, and the path to the configuration file <code>config_file</code> that tells the <code>PhaseVocoder</code> engine what to do with it all. </p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;./sounds/male_vraiment_flattened.wav&quot;</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">config_file</span> <span class="o">=</span> <span class="s2">&quot;./configs/random_pitch_profile.toml&quot;</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
@@ -992,6 +989,8 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">output_file</span> <span class="o">=</span> <span class="s2">&quot;./sounds/male_vraiment_flattened_transformed.wav&quot;</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">wav_write</span><span class="p">(</span><span class="n">wave_out</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
 </span></code></pre></div>
+<p><audio controls src="../sounds/male_vraiment_flattened_transformed.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened_transformed.wav"> Download audio </a></p>
 <p>CLEESE's <code>PhaseVocoder</code> includes a utility for extracting pitch in speech/audio files (<code>PhaseVocoder.extract_pitch</code>), which uses the YIN pitch extraction algorithm, and can be used to visualize the pitch profile of sounds before and after manipulation. This is just for visualization purposes, and isn't necessary for the working of the main <code>cleese.process</code> function above. </p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># extract pitch before transformation</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">pitch_in</span><span class="p">,</span><span class="n">times_in</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">extract_pitch</span><span class="p">(</span><span class="n">wave_in</span><span class="p">,</span><span class="n">sr</span><span class="p">)</span>
@@ -1007,16 +1006,10 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">70</span><span class="p">,</span><span class="mi">120</span><span class="p">])</span>
 </span></code></pre></div>
 <p><img alt="Image title" src="../../images/speech_tutorial_1.png" /></p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Find a way to embed resulting audio file here, and get the right picture that corresponds to it</p>
-</div>
 <h3 id="random-speed-profile-in-a-song">Random speed profile in a song<a class="headerlink" href="#random-speed-profile-in-a-song" title="Permanent link">&para;</a></h3>
 <p>CLEESE can process longer files than a single word and, instead of manipulating pitch, can manipulate the duration of each portion of the file. To demonstrate this, we use CLEESE to randomly stretch each note in a recording of a song (the French song "Joyeux Anniversaire" / "Happy Birthday", sung by a female singer)</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed "./sounds/female_anniversaire_isochrone.wav"</p>
-</div>
+<p><audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a></p>
 <p>This, as above, is done by passing to <code>cleese.process_data</code> a configuration file which specifies the manipulation we want. Here: cut the file in <code>stretch.window.len = 0.5</code> second time segments, draw a random stretch shift factor at each segment boundary from a Gaussian distribution centered on 1.0 and standard deviation <code>stretch.std = 1.5</code> (where factors &gt;1 correspond to a time stretch, and factors &lt;1 correspond to a time compression), and interpolate between segment boundaries using linear <code>stretch.BPFType = "ramp"</code>. </p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[stretch]</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
@@ -1044,10 +1037,8 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">output_file</span> <span class="o">=</span> <span class="s2">&quot;./sounds/female_anniversaire_isochrone_transformed.wav&quot;</span>
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">wav_write</span><span class="p">(</span><span class="n">wave_out</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed "./sounds/female_anniversaire_isochrone_transformed.wav"</p>
-</div>
+<p><audio controls src="../sounds/female_anniversaire_isochrone_transformed.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone_transformed.wav"> Download audio </a></p>
 <p>Display pre and post pitch profile: notice pitch values weren't changed, but only how they appear in time)</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># extract pitch before transformation</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">pitch_in</span><span class="p">,</span><span class="n">times_in</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">extract_pitch</span><span class="p">(</span><span class="n">wave_in</span><span class="p">,</span><span class="n">sr</span><span class="p">)</span>
@@ -1099,6 +1090,14 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># CLEESE</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">PhaseVocoder</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
 </span></code></pre></div>
+<p><audio controls src="../sounds/male_vraiment_flattened_transformed_1.wav"></audio> 
+<a href="../sounds/male_vraiment_flattened_transformed_1.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_2.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_2.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_3.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_3.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_4.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_4.wav"> Download audio </a> <br></p>
 <h3 id="chained-transforms">Chained transforms<a class="headerlink" href="#chained-transforms" title="Permanent link">&para;</a></h3>
 <p>CLEESE can process files with a series of transformations that follow each other, e.g. first time-stretch the file, then pitch-shift it. This is done by specifying keyword <code>chain = true</code> under the configuration section <code>[main]</code>, as well as the list of transformations to be applied, e.g. here <code>transf = ['pitch','stretch']</code>.  </p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">[main]</span>
@@ -1125,18 +1124,20 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># CLEESE</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">PhaseVocoder</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed a few examples of transformed sounds</p>
-</div>
+<p><audio controls src="../sounds/male_vraiment_flattened_transformed_5.wav"></audio> 
+<a href="../sounds/male_vraiment_flattened_transformed_5.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_6.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_6.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_7.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_7.wav"> Download audio </a> <br>
+<audio controls src="../sounds/male_vraiment_flattened_transformed_8.wav"></audio>
+<a href="../sounds/male_vraiment_flattened_transformed_8.wav"> Download audio </a> <br></p>
 <h2 id="advanced-use">Advanced use<a class="headerlink" href="#advanced-use" title="Permanent link">&para;</a></h2>
 <h3 id="flattening-files">Flattening files<a class="headerlink" href="#flattening-files" title="Permanent link">&para;</a></h3>
 <p>When applying CLEESE to generate stimuli for reverse correlation, it is often advisable to use base stimuli that are as flat as possible (e.g., if randomizing pitch, start with a sound that has constant pitch). CLEESE can be used to flatten an existing recording, using the trick of not letting the tool generate its own random breakpoint function, but rather providing it with a custom function that inverts the natural pitch variations found in the original file. We demonstrate this with an original, non flattened recording of the word "vraiment". </p>
 <p>Start with a normal, non-flat recording of the same word ``vraiment'' as above: </p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>embed "./sounds/male_vraiment_original.wav"</p>
-</div>
+<p><audio controls src="../sounds/male_vraiment_original.wav"></audio><br>
+<a href="../sounds/male_vraiment_original.wav"> Download audio </a></p>
 <p>The file has a soft, down-ward pitch contour, as show here</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;./sounds/male_vraiment_original.wav&quot;</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">wave_in</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">wav_read</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
@@ -1168,10 +1169,8 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">bpf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">bpf_times</span><span class="p">,</span><span class="n">bpf_val</span><span class="p">))</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">wave_out</span><span class="p">,</span><span class="n">bpf_out</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_data</span><span class="p">(</span><span class="n">PhaseVocoder</span><span class="p">,</span> <span class="n">wave_in</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">BPF</span><span class="o">=</span><span class="n">bpf</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed flattened</p>
-</div>
+<p><audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
+<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a></p>
 <p>Compare pitch profile before and after transformation: </p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># display transformed file</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">pitch_out</span><span class="p">,</span><span class="n">times_out</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">extract_pitch</span><span class="p">(</span><span class="n">wave_out</span><span class="p">,</span><span class="n">sr</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>
@@ -1183,10 +1182,8 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 <p><img alt="Image title" src="../../images/speech_tutorial_6.png" /></p>
 <h3 id="using-custom-breakpoints">Using custom breakpoints<a class="headerlink" href="#using-custom-breakpoints" title="Permanent link">&para;</a></h3>
 <p>Instead of generating linearly spaced time windows (or, as called here, breakpoints), CLEESE supports a list of externally provided time positions. To demonstrate this, we use CLEESE to stretch the duration of each note in the song "Joyeux Anniversaire" (which we already used above). </p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed "./sounds/female_anniversaire_isochrone.wav"</p>
-</div>
+<p><audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a></p>
 <p>To find note boundaries, we can e.g. use an external audio editor such as <a href="https://www.audacityteam.org">Audacity</a>, and measure time positions between notes as <code>[0.027, 0.634, 1.137, 1.647, 2.185, 2.649, 3.181]</code>.</p>
 <p><img alt="Image title" src="../../images/speech_tutorial_7.png" /></p>
 <p>We can then generate a breakpoint function with <code>cleese.create_BPF</code> which uses these time points and parameters loaded from the stretch config file <code>config_file</code>. This BPF can then be passed to <code>cleese.process_data</code> as argument. </p>
@@ -1203,6 +1200,8 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="n">wave_out</span><span class="p">,</span><span class="n">bpf_out</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_data</span><span class="p">(</span>
 </span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    <span class="n">PhaseVocoder</span><span class="p">,</span> <span class="n">wave_in</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">BPF</span><span class="o">=</span><span class="n">bpf</span><span class="p">)</span>
 </span></code></pre></div>
+<p><audio controls src="../sounds/female_anniversaire_isochrone_transformed_2.wav"></audio><br>
+<a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a></p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">pitch_in</span><span class="p">,</span><span class="n">times_in</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">extract_pitch</span><span class="p">(</span><span class="n">wave_in</span><span class="p">,</span><span class="n">sr</span><span class="p">)</span>
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times_in</span><span class="p">,</span> <span class="n">pitch_in</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
 </span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time in file (ms)&#39;</span><span class="p">)</span>
@@ -1210,14 +1209,11 @@ Check the <a href="../installation">installation instructions</a> if needed. </p
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="c1"># display transformed file</span>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="n">pitch_out</span><span class="p">,</span><span class="n">times_out</span> <span class="o">=</span> <span class="n">PhaseVocoder</span><span class="o">.</span><span class="n">extract_pitch</span><span class="p">(</span><span class="n">wave_out</span><span class="p">,</span><span class="n">sr</span><span class="p">)</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times_out</span><span class="p">,</span> <span class="n">pitch_out</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times_out</span><span class="p">,</span> <span class="n">pitch_out</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
 </span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time in file (ms)&#39;</span><span class="p">)</span>
 </span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;pitch&#39;</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Embed result file + image</p>
-</div>
+<p><img alt="Image title" src="../images/speech_tutorial_8.png" /></p>
 
 
 
