@@ -27,7 +27,7 @@ from .audio_engine import (
 from ..engine import Engine
 from ...cleese import log, load_config
 
-from .utils import wav_read, wav_write, extract_pitch 
+from .utils import load_file, wav_read, wav_write, extract_pitch 
 
 
 class PhaseVocoder(Engine):
@@ -204,8 +204,8 @@ class PhaseVocoder(Engine):
                     waveOut = waveOut/np.max(np.abs(waveOut))*0.999
                 
                 if file_output:            
-                    PhaseVocoder.wav_write(waveOut, fileName=currOutFile[i],
-                                          sr=sr, sampleFormat=sampleFormat)
+                    PhaseVocoder.wav_write(waveOut, file_name=currOutFile[i],
+                                          sr=sr, sample_format=sampleFormat)
 
         if not file_output:
             return waveOut, BPF
@@ -215,12 +215,16 @@ class PhaseVocoder(Engine):
         return "phase_vocoder"
 
     @staticmethod
-    def wav_read(filename):
-        return wav_read(filename)
+    def load_file(file_name): 
+        return load_file(file_name)
+
+    @staticmethod
+    def wav_read(file_name):
+        return wav_read(file_name)
 
     @staticmethod
     def wav_write(wave_out, file_name, sr, sample_format='int16'):
-        return wav_write(wave_out, file_name, sr, sample_format='int16')
+        return wav_write(wave_out, file_name, sr, sample_format)
 
     @staticmethod
     def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):

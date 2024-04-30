@@ -15,9 +15,9 @@ import math
 from ...third_party.yin import compute_yin
 
 
-def load_file(fileName):
+def load_file(file_name):
 
-    sampleRate, wave = wav.read(fileName)
+    sampleRate, wave = wav.read(file_name)
     sampleFormat = wave.dtype
     if sampleFormat in ('int16', 'int32'):
         # convert to float
@@ -34,21 +34,20 @@ def load_file(fileName):
     }
     return wave, attributes
 
-def wav_read(filename):
-    wave, attr = load_file(filename)
+def wav_read(file_name):
+    wave, attr = load_file(file_name)
     return wave, attr["sample_rate"], attr["sample_format"]
 
-def wav_write(waveOut, fileName, sr, sampleFormat='int16'):
+def wav_write(wave_out, file_name, sr, sample_format='int16'):
 
-    if sampleFormat == 'int16':
-        waveOutFormat = waveOut * 2**15
-    elif sampleFormat == 'int32':
-        waveOutFormat = waveOut * 2**31
+    if sample_format == 'int16':
+        wave_out_format = wave_out * 2**15
+    elif sample_format == 'int32':
+        wave_out_format = wave_out * 2**31
     else:
-        waveOutFormat = waveOut
-    waveOutFormat = waveOutFormat.astype(sampleFormat)
-    wav.write(fileName, sr, waveOutFormat)
-
+        wave_out_format = wave_out
+    wave_out_format = wave_out_format.astype(sample_format)
+    wav.write(file_name, sr, wave_out_format)
 
 def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
     
@@ -60,7 +59,10 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
         hop_size = int(sr / min_f0) + 1
     pitch, harmonic_rates, argmins, times = compute_yin(x, sr, 
         dataFileName=None, w_len=hop_size, w_step=hop_size, f0_min=min_f0, f0_max=max_f0, harmo_thresh=0.1)
+    
+    # third-party yin returns lists; convert to nparray
     pitch = np.array(pitch)
+    times = np.array(times)
 
     # clean up unvoiced areas
     # flag unvoiced as nan

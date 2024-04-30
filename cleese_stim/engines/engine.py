@@ -14,7 +14,7 @@ class Engine(ABC):
 
     @staticmethod
     @abstractmethod
-    def load_file(filename):
+    def load_file(file_name):
         raise NotImplementedError()
 
     @staticmethod
