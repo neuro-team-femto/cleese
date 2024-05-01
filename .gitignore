@@ -1,7 +1,2 @@
-/tutorial/output/
-/tutorial/.ipynb_checkpoints
-
-/cleese_stim/__pycache__/
-/cleese_stim/engines/__pycache__/
-/cleese_stim/engines/phase_vocoder/__pycache__/
-/cleese_stim/third_party/__pycache__/
+.ipynb_checkpoints/
+__pycache__/
