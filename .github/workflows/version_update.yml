@@ -54,7 +54,5 @@ jobs:
         fetch-depth: 0
         name: cleese_stim-${{ github.event.release.tag_name }}
         path: dist/
-    - name: Fetch all history for all tags and branches
-      run: git fetch --prune --unshallow
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
