@@ -9,9 +9,6 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
-    environment: release
-    permissions:
-      id-token: write
 
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +30,7 @@ jobs:
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
       with:
-        name: python-package-distributions
+        name: cleese_stim-${{ github.event.release.tag_name }}
         path: dist/
 
   publish-to-pypi:
