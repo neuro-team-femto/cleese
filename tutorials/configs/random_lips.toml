@@ -25,7 +25,7 @@ landmarks.mediapipe = []
 # "dlib-eye-right", "dlib-eye-left", "dlib-outer-lips",
 # "dlib-inner-lips", "dlib-lips", etc...
 # See cleese/engines/mediapipe.py for a full list
-landmarks.presets = ["dlib-lips"]
+landmarks.presets = ["dlib-lips", "dlib-eyebrow-right", "dlib-eyebrow-left"]
 
 # Covariance matrix used to generate the gaussian distribution of landmarks
 # offsets. It is scaled according to the height of the detected face. As a
@@ -35,7 +35,7 @@ covMat = [[0.0001, 0.0], [0.0, 0.0001]]
 [mediapipe.mls]
 
 # Alpha parameter of the MLS deformation. Affect how much the deformation "spreads" from the landmarks
-alpha = 1.1
+alpha = 1.2
 
 [mediapipe.face_detect]
 
