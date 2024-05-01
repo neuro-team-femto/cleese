@@ -517,11 +517,11 @@ class FaceWarp(Engine):
 
     @staticmethod
     def dfmxy_to_dfm(dfmxy_file, landmarks_file, output_dfm_file=None):
-        dfmxy = Mediapipe.load_dfmxy(dfmxy_file)
+        dfmxy = FaceWarp.load_dfmxy(dfmxy_file)
         if dfmxy is None:
             return
 
-        landmarks = Mediapipe.load_landmarks(landmarks_file)
+        landmarks = FaceWarp.load_landmarks(landmarks_file)
         if landmarks is None:
             return
 
@@ -566,7 +566,7 @@ class FaceWarp(Engine):
 
     @staticmethod
     def img_read(file_name): 
-        return load_file(file_name)
+        return FaceWarp.load_file(file_name)[0]
 
     @staticmethod
     def img_write(img_array, file_name): 
