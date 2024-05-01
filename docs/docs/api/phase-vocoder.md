@@ -110,7 +110,7 @@ Note that the sampling rate `sample_rate` has to be passed as well! Like when pa
 
 ## Configuration file
 
-All the generation parameters are set in the configuration file. Please refer to the included configuration script `cleese-phase-vocoder.toml` for an
+All the generation parameters are set in the configuration file. Please refer to the included configuration script [cleese-phase-vocoder.toml](../configs/cleese-phase-vocoder.toml) for an
 example.
 
 ### Main parameters

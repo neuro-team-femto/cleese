@@ -2,6 +2,10 @@
 
 This tutorial shows how to use CLEESE's `PhaseVocoder` engine to generate a arbitrary number of expressive variations around an original speech recording.
 
+###### 6 random variants of French phase _"je suis en route pour la réunion"_ (I'm on my way to the meeting)
+<audio controls src="../sounds/variation_pitch.wav"></audio><br>
+<a href="../sounds/variation_pitch.wav"> Download audio </a>
+
 ## Preambule
 
 ### Verify your installation
@@ -91,6 +95,26 @@ PhaseVocoder.wav_write(wave_out, output_file, sr)
 <audio controls src="../sounds/male_vraiment_flattened_transformed.wav"></audio><br>
 <a href="../sounds/male_vraiment_flattened_transformed.wav"> Download audio </a>
 
+The `bpf_out` output describes the break-point function that was generated randomly by CLEESE and used to transform `wave_in` to `wave_out`. It is a simple array of times and values pairs, each corresponding to the timepoint in the file of a breakpoint and the corresponding pitch transformation values applied at this point (for more on BPFs, see the [PhaseVocoder documentation](../../api/phase-vocoder/#bpfs)).  
+
+```py 
+print(bpf_out)
+```
+```txt
+[[ 0.00000000e+00 -1.01767821e+02]
+ [ 7.10430839e-02 -9.91175403e+01]
+ [ 1.42086168e-01  1.07735422e+02]
+ [ 2.13129252e-01 -3.87725633e+01]
+ [ 2.84172336e-01  5.15893896e+01]
+ [ 3.55215420e-01  1.46774252e+02]
+ [ 4.26258503e-01 -5.06624397e+00]]
+```
+Here, one sees that the file duration is about 426ms and that, consistently with the `window.count = 6` parameter in the config file, the transformation uses 7 breakpoints, i.e. 6 segments. Each breakpoint is associated a pitch transformation value in cents which, here, was assigned random samples ranging between -101.7 and +146.7, which is consistent with the `std = 300` parameter in the config_file. The general shape of the transformation, in that specific random instance, is to reduce the beginning of the sound by ca. 100 cents (i.e. - 1 semitone), then increase it by +100 cents (compared to baseline) around 142ms, down again at 213ms, back up to +146cents at 355ms, i.e. a shape that is roughly that of letter W. Of course, every call to the same code will generate a new, random bpf and transformation. 
+
+!!! Note "About cents"
+    Cents are a relative unit of frequency which corresponds to 1% of a musical semitone. Increasing a frequency $f_1$ by $+n$ cents results in $f_2 = f_1 * 2^{n/1200}$. Increasing sound's pitch by +100cents is equivalent to raising it by 1 semitone ($f_1*2^{1/12})$, i.e. the same as going from musical notes C to C#. A change of 12 semitone (1200 cents) corresponds to going up one octave (e.g. C3 :material-arrow-right: C4), corresponding to doubling frequency ($f_1 * 2^{1200/1200}$). In speech, pitch changes of the order of 100-200 cents are considered large; a static change of +50cents is often sufficient to evoke e.g. the impression of happier speech ([Rachman et al. 2018](https://link.springer.com/article/10.3758/s13428-017-0873-y)). Technically, CLEESE's `PhaseVocoder` engine implements a relatively straightforward version of the phase vocoder algorithm (phase locking with frame-wise peak picking and no spectral envelope conservation, see e.g. [Laroche and Dolson, 1999](https://ieeexplore.ieee.org/abstract/document/759041)), and will likely generate artifacts such as phasiness for transformations larger than 150-200 cents (which may or may not be a problem depending on your usage scenario) 
+
+
 CLEESE's `PhaseVocoder` includes a utility for extracting pitch in speech/audio files (`PhaseVocoder.extract_pitch`), which uses the YIN pitch extraction algorithm, and can be used to visualize the pitch profile of sounds before and after manipulation. This is just for visualization purposes, and isn't necessary for the working of the main `cleese.process` function above. 
 
 ``` py title="visualize pitch before/after"
@@ -141,7 +165,7 @@ input_file = "./sounds/female_anniversaire_isochrone.wav"
 config_file = "./configs/random_speed_profile.toml"
 
 # read input wavefile
-wave_in, sr, _ = PhaseVocoder.wavRead(input_file)
+wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
 
 # CLEESE
 wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr)
@@ -154,34 +178,42 @@ PhaseVocoder.wav_write(wave_out, output_file, sr)
 <audio controls src="../sounds/female_anniversaire_isochrone_transformed.wav"></audio><br>
 <a href="../sounds/female_anniversaire_isochrone_transformed.wav"> Download audio </a>
 
-Display pre and post pitch profile: notice pitch values weren't changed, but only how they appear in time)
+```py 
+print(bpf_out)
+```
+```txt
+[[0.         0.72650135]
+ [0.64062585 1.        ]
+ [1.2812517  1.42662854]
+ [1.92187755 1.16536151]
+ [2.5625034  2.382554  ]
+ [3.20312925 1.28544142]]
+```
 
-```py title="visualize before transform"
+Again, inspection of the (randomly generated) BPF shows 5 segments/6 breakpoints, regularly spaced from t=0 to t=3.2 sec. The stretch values are generated with a gaussian distribution centered on 1 (1:1 ratio, corresponding to no change of duration) and, in that specific instance, are mostly > 1, which explains that the sound above is longer than the original. The largest stretch (x2.38 in duration) occurs at the end of the sound, ca. 2.56sec, which can be heard in the longer final last 2 syllables (_/veeeer/saaaaaire/_) in the extract above.  
+
+As above, one can use the `extract_pitch` utility to visualize the difference between the two files. Notice that, contrary to the `pitch` transform above, the actual pitch values in the two sounds are not changed, but only how they unfold in time. 
+
+
+```py title="visualize before and after transform"
 # extract pitch before transformation
 pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
+# extract pitch after transformation
+pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
 
 # display 
-plt.plot(times_in, pitch_in, 'k')
+plt.plot(times_in, pitch_in, 'k:')
+plt.plot(times_out, pitch_out, 'k', label='post')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch (Hz)')
-plt.ylim([70,120])
+
+plt.ylim([180,310])
 
 ```
 
 ![Image title](../images/speech_tutorial_2.png)
 
-```py title="visualize after transform"
-# extract pitch after transformation
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
 
-# display 
-plt.plot(times_out, pitch_out, 'k', label='post')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch (Hz)')
-plt.ylim([70,120])
-```
-
-![Image title](../images/speech_tutorial_3.png)
 
 
 ### Batched transforms 
@@ -209,8 +241,8 @@ generateExpFolder = true
 
 The following code will create 10 random transformations of the `input_file`, each with random parameters generated from `config_file`, and store both files and parameters in the `outPath` folder designated in `config_file` 
 
-!!! warning
-    Depending on how you run this code, you may want to ensure the `outPath` folder exists in your path before running this code 
+!!! note
+    If the `outPath` directory doesn't exist in your working directory, it will be created automatically. 
 
 ```python title="batch transform"
 input_file = "./sounds/male_vraiment_flattened.wav"
@@ -229,7 +261,7 @@ cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
 <a href="../sounds/male_vraiment_flattened_transformed_3.wav"> Download audio </a> <br>
 <audio controls src="../sounds/male_vraiment_flattened_transformed_4.wav"></audio>
 <a href="../sounds/male_vraiment_flattened_transformed_4.wav"> Download audio </a> <br>
-
+...
 
 ### Chained transforms 
 
@@ -294,6 +326,7 @@ pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr, win=0.02, bounds=[50,
 plt.plot(times_in, pitch_in, 'k')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch')
+plt.ylim([80,120])
 ```
 
 ![Image title](../images/speech_tutorial_4.png)
@@ -308,12 +341,13 @@ def difference_to_cents(pitch, ref_pitch):
         return -1200*np.log2(pitch/ref_pitch)
     else:
         return 1
-bpf_times = times
-bpf_val = np.array([difference_to_cents(hz, mean_pitch) for hz in pitch])
+bpf_times = times_in
+bpf_val = np.array([difference_to_cents(hz, mean_pitch) for hz in pitch_in])
 # display original file
 plt.plot(1000*bpf_times, bpf_val, 'k')
 plt.xlabel('time in file (ms)')
 plt.ylabel('BPF')
+plt.plot([40,350],[0,0],'k:')
 ```
 
 ![Image title](../images/speech_tutorial_5.png)
@@ -336,11 +370,12 @@ Compare pitch profile before and after transformation:
 
 ```py title="display resulting pitch"
 # display transformed file
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.005, bounds=[50, 200])
-plt.plot(times_in, pitch_in, 'k')
-plt.plot(times_out, pitch_out, 'b')
+pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.02, bounds=[100, 200])
+plt.plot(times_in, pitch_in, 'k:')
+plt.plot(times_out, pitch_out, 'k')
 plt.xlabel('time in file (ms)')
-plt.ylabel('pitch')
+plt.ylabel('pitch (Hz)')
+plt.ylim([80,120])
 ```
 
 ![Image title](../images/speech_tutorial_6.png)
@@ -364,7 +399,7 @@ We can then generate a breakpoint function with `cleese.create_BPF` which uses t
 input_file = "./sounds/female_anniversaire_isochrone.wav"
 config_file = "./configs/random_speed_profile.toml"
 
-wave_in, sr, _ = PhaseVocoder.wavRead(input_file)
+wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
 
 time_points = np.array([0.027, 0.634, 1.137, 1.647, 2.185, 2.649, 3.181]) # values found in audacity
 num_points = len(time_points)
@@ -374,6 +409,8 @@ bpf = PhaseVocoder.create_BPF(
 wave_out,bpf_out = cleese.process_data(
     PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)
 ```
+
+The resulting file has random duration, but these changes of pace are aligned with note boundaries. 
 
 <audio controls src="../sounds/female_anniversaire_isochrone_transformed_2.wav"></audio><br>
 <a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a>

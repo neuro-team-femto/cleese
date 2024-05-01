@@ -8,8 +8,11 @@ CLEESE's development was originally funded by the [European Research Council](ht
 
 If you use CLEESE in academic work, please cite it as : 
 
-Burred, J. J., Ponsot, E., Goupil, L., Liuni, M., & Aucouturier, J. J. (2019). CLEESE: An open-source audio-transformation toolbox for data-driven 	experiments in speech and music cognition. PloS one, 14(4), e0205943.
-
+```
+Burred, JJ., Ponsot, E., Goupil, L., Liuni, M. & Aucouturier, JJ. (2019).
+CLEESE: An open-source audio-transformation toolbox for data-driven experiments in speech and music cognition. 
+PLoS one, 14(4), e0205943.
+```
 
 
 ## CLEESE contributors: 
