@@ -12,8 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Fetch all history for all tags and branches
-      run: git fetch --prune --unshallow
+      with:
+        fetch-depth: 0
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -51,6 +51,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
+        fetch-depth: 0
         name: cleese_stim-${{ github.event.release.tag_name }}
         path: dist/
     - name: Fetch all history for all tags and branches
