@@ -10,7 +10,7 @@ numFiles = 10
 chain = true
 
 # transformations to apply `transf = ["pitch"]`
-transf = ["pitch", "gain"]
+transf = ["pitch", "stretch"]
 
 # generate experiment folder with name based on current time
 generateExpFolder = true
