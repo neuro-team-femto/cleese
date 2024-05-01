@@ -21,19 +21,19 @@ jobs:
         cache: pip
         cache-dependency-path: setup.py
 
-    - name: Install pypa/build
+    - name: Install scm version
       run: >-
-        python3 -m
+        python -m
         pip install
-        build
-        --user
+        setuptools-scm==4.1.2        
+    - name: Install wheel
+      run: >-
+        python -m
+        pip install
+        wheel==0.34.2
     - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: cleese_stim-${{ github.event.release.tag_name }}
-        path: dist/
+      run: >-
+        python3 setup.py sdist bdist_wheel
 
   publish-to-pypi:
     name: >-
