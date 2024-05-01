@@ -1,0 +1,88 @@
+[main]
+
+# output root folder
+outPath = "output"
+
+# number of output files to generate (for random modifications)
+numFiles = 10
+
+# apply transformation in series (True) or parallel (False)
+chain = true
+
+# transformations to apply `transf = ["pitch"]`
+transf = ["pitch", "stretch"]
+
+# generate experiment folder with name based on current time
+generateExpFolder = true
+
+
+
+[analysis]
+
+# analysis window length in seconds
+# (not to be confused with the BPF processing window lengths)
+window.len = 0.04
+# number of hops per analysis window
+oversampling = 8
+
+[pitch]
+# pitch transposition window in seconds. If 0 : static transformation
+window.len = 0.11
+
+# number of pitch transposition windows. If 0 : static transformation
+window.count = 6
+
+# 's': force winlength in seconds,'n': force number of windows (equal length)
+window.unit = 'n'
+
+# standard deviation (cents) for random transposisiton (Gaussian distrib for now)
+std = 150
+
+# truncate distribution values (factor of std)
+trunc = 1
+
+# type of breakpoint function:
+#      'ramp': linear interpolation between breakpoints
+#      'square': square BPF, with specified transition times at edges
+BPFtype = 'ramp'
+
+# in s: transition time for square BPF
+trTime = 0.02
+
+
+[stretch]
+
+window.len = 0.1
+window.count = 5
+window.unit = 'n'
+
+# stretching factor. >1: expansion, <1: compression
+std = 1.5
+trunc = 1
+BPFtype = 'ramp'
+trTime = 0.05
+
+
+[eq]
+window.len = 0.1
+window.count = 5
+window.unit = 'n'
+std = 5
+trunc = 1
+BPFtype = 'ramp'
+trTime = 0.05
+# mel, linear
+scale = 'mel'
+band.count = 10
+min_freq = 0
+max_freq = nan
+
+
+[gain]
+window.len = 0.1
+window.count = 5
+window.unit = 'n'
+std = 8
+trunc = 1
+BPFtype = 'ramp'
+trTime = 0.05

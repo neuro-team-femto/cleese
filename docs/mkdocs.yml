@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: CLEESE, a Python toolbox for randomizing stimuli 
+
+repo_url: https://github.com/neuro-team-femto/cleese
+repo_name: neuro-team-femto/cleese
+copyright: Copyright &copy; 2023 -- FEMTO Neuro Group
+edit_uri: edit/main/docs/
+
+theme:
+  palette:
+    scheme: slate
+    primary: black
+  name: material
+  features:
+    - content.code.copy
+    - content.action.edit
+    - navigation.tabs
+    - navigation.footer
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    logo:   fontawesome/solid/brain
+
+    
+markdown_extensions:
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+plugins:
+  - search: {}
+  - git-revision-date-localized:
+      enable_creation_date: true
+  
+nav:
+
+  - 'Home': 'index.md'
+  - 'Getting started': 'installation.md'
+  - 'Functions': 
+    - 'General API': 'api/general.md'
+    - 'Phase Vocoder': 'api/phase-vocoder.md'
+    - 'Face Warp': 'api/face-warp.md'
+  - 'Tutorials': 
+    - 'Random speech': 'tutorials/speech.md'
+    - 'Random faces': 'tutorials/face.md'
+  - 'About CLEESE': 'about.md'
+

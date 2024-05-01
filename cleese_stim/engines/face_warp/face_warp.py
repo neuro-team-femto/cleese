@@ -478,7 +478,7 @@ class FaceWarp(Engine):
         vy, vx = np.meshgrid(gridX, gridY)
 
         for i in range(NUM_FILES):
-            log("Random face deformation [mediapipe]: {}/{}"
+            log("Random face deformation [facewarp]: {}/{}"
                 .format(i + 1, NUM_FILES))
 
             # Compute gaussian-distributed offsets
@@ -517,11 +517,11 @@ class FaceWarp(Engine):
 
     @staticmethod
     def dfmxy_to_dfm(dfmxy_file, landmarks_file, output_dfm_file=None):
-        dfmxy = Mediapipe.load_dfmxy(dfmxy_file)
+        dfmxy = FaceWarp.load_dfmxy(dfmxy_file)
         if dfmxy is None:
             return
 
-        landmarks = Mediapipe.load_landmarks(landmarks_file)
+        landmarks = FaceWarp.load_landmarks(landmarks_file)
         if landmarks is None:
             return
 
@@ -563,3 +563,14 @@ class FaceWarp(Engine):
     @staticmethod
     def name():
         return "facewarp"
+
+    @staticmethod
+    def img_read(file_name): 
+        return FaceWarp.load_file(file_name)[0]
+
+    @staticmethod
+    def img_write(img_array, file_name): 
+        img = Image.fromarray(img_array)
+        img.save(file_name)
+
+
