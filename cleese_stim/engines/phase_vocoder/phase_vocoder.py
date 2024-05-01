@@ -27,6 +27,8 @@ from .audio_engine import (
 from ..engine import Engine
 from ...cleese import log, load_config
 
+from .utils import load_file, wav_read, wav_write, extract_pitch 
+
 
 class PhaseVocoder(Engine):
 
@@ -125,7 +127,7 @@ class PhaseVocoder(Engine):
 
                 if config["main"]['chain'] and t > 0:
                     if file_output:
-                        waveIn, sr, sampleFormat = PhaseVocoder.wavRead(
+                        waveIn, sr, sampleFormat = PhaseVocoder.wav_read(
                                 currOutFile[i])
                     else:
                         waveIn = waveOut
@@ -202,54 +204,32 @@ class PhaseVocoder(Engine):
                     waveOut = waveOut/np.max(np.abs(waveOut))*0.999
                 
                 if file_output:            
-                    PhaseVocoder.wavWrite(waveOut, fileName=currOutFile[i],
-                                          sr=sr, sampleFormat=sampleFormat)
+                    PhaseVocoder.wav_write(waveOut, file_name=currOutFile[i],
+                                          sr=sr, sample_format=sampleFormat)
 
         if not file_output:
             return waveOut, BPF
-
-    @staticmethod
-    def load_file(fileName):
-
-        sampleRate, wave = wav.read(fileName)
-
-        sampleFormat = wave.dtype
-
-        if sampleFormat in ('int16', 'int32'):
-            # convert to float
-            if sampleFormat == 'int16':
-                n_bits = 16
-            elif sampleFormat == 'int32':
-                n_bits = 32
-            wave = wave/(float(2**(n_bits - 1)))
-            wave = wave.astype('float32')
-
-        attributes = {
-            "sample_rate": sampleRate,
-            "sample_format": sampleFormat,
-        }
-        return wave, attributes
 
     @staticmethod
     def name():
         return "phase_vocoder"
 
     @staticmethod
-    def wavRead(filename):
-        wave, attr = PhaseVocoder.load_file(filename)
-        return wave, attr["sample_rate"], attr["sample_format"]
+    def load_file(file_name): 
+        return load_file(file_name)
 
     @staticmethod
-    def wavWrite(waveOut, fileName, sr, sampleFormat='int16'):
+    def wav_read(file_name):
+        return wav_read(file_name)
 
-        if sampleFormat == 'int16':
-            waveOutFormat = waveOut * 2**15
-        elif sampleFormat == 'int32':
-            waveOutFormat = waveOut * 2**31
-        else:
-            waveOutFormat = waveOut
-        waveOutFormat = waveOutFormat.astype(sampleFormat)
-        wav.write(fileName, sr, waveOutFormat)
+    @staticmethod
+    def wav_write(wave_out, file_name, sr, sample_format='int16'):
+        return wav_write(wave_out, file_name, sr, sample_format)
+
+    @staticmethod
+    def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
+        return extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True)
+
 
     @staticmethod
     def create_BPF(trans, config_file, time_points, num_points, end_on_transition, eq_freqs=None):
