@@ -1,4 +1,4 @@
-![cleese](tutorial/pics/silly-walk.jpg)
+![cleese](docs/docs/images/silly-walk.jpg)
 
 CLEESE ("Ministry of Silly Speech") is a sound and image manipulation tool
 designed to generate an infinite number of possible stimuli; be it
