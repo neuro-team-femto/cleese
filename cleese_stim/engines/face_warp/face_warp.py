@@ -478,7 +478,7 @@ class FaceWarp(Engine):
         vy, vx = np.meshgrid(gridX, gridY)
 
         for i in range(NUM_FILES):
-            log("Random face deformation [mediapipe]: {}/{}"
+            log("Random face deformation [facewarp]: {}/{}"
                 .format(i + 1, NUM_FILES))
 
             # Compute gaussian-distributed offsets
