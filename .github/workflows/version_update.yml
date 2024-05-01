@@ -21,6 +21,12 @@ jobs:
         cache: pip
         cache-dependency-path: setup.py
 
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
     - name: Install scm version
       run: >-
         python -m
