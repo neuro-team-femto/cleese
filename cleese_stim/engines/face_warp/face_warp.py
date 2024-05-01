@@ -563,3 +563,14 @@ class FaceWarp(Engine):
     @staticmethod
     def name():
         return "facewarp"
+
+    @staticmethod
+    def img_read(file_name): 
+        return load_file(file_name)
+
+    @staticmethod
+    def img_write(img_array, file_name): 
+        img = Image.fromarray(img_array)
+        img.save(file_name)
+
+
