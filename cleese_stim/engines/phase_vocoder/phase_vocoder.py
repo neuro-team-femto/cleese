@@ -50,6 +50,12 @@ class PhaseVocoder(Engine):
         if BPF is None:
             doCreateBPF = True
 
+        try:
+            BPF_EXT = config["main"]["param_ext"]
+        except KeyError as e:
+            BPF_EXT = '.txt' # default bpf extension
+  
+
         if not sample_rate:
             log("ERROR: missing sample rate")
             return
@@ -146,7 +152,7 @@ class PhaseVocoder(Engine):
                 if file_output:
                     currBPFfile = os.path.join(
                             config["main"]['currOutPath'],
-                            inFileNoExt+'.'+currFileNo+'.'+currTrString+'_BPF.txt')
+                            inFileNoExt+'.'+currFileNo+'.'+currTrString+BPF_EXT)
                     np.savetxt(currBPFfile, BPF, '%.8f')
 
                     if t == 0:
