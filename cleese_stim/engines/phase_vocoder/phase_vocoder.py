@@ -18,7 +18,8 @@ import shutil
 from .bpf import (
         createBPFtimeVec,
         createBPFfreqs,
-        createBPF,)
+        createBPF,
+        create_BPF_header)
 from .audio_engine import (
         stft,
         istft,
@@ -153,7 +154,9 @@ class PhaseVocoder(Engine):
                     currBPFfile = os.path.join(
                             config["main"]['currOutPath'],
                             inFileNoExt+'.'+currFileNo+'.'+currTrString+BPF_EXT)
-                    np.savetxt(currBPFfile, BPF, '%.8f')
+                    BPF_header = create_BPF_header(tr, config)
+
+                    np.savetxt(currBPFfile, BPF, '%.8f', delimiter = ',', header = BPF_header, comments='')
 
                     if t == 0:
                         currOutFile.append(os.path.join(
