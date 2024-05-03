@@ -15,6 +15,9 @@ transf = ["stretch"]
 # generate experiment folder with name based on current time
 generateExpFolder = true
 
+# bpf file extension (default: '.txt')
+param_ext = '.txt'
+
 
 [analysis]
 

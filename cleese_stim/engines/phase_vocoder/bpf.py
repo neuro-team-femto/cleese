@@ -43,6 +43,22 @@ def createBPF(tr, config, BPFtime, numPoints, endOnTrans, eqFreqVec=None):
 
     return BPF
 
+def create_BPF_header(tr, config): 
+    ''' 
+        returns a str that's the header for the file destined to store BPF values
+    '''
+
+    # for pitch, stretch and gain, BPF file is two-columned in the form time,value
+    if tr in ["pitch", "stretch", "gain"]:
+        header = "time,%s"%tr
+    # for eq, BPF file is in the form: time numBands freq1 ampl1 freq2 ampl2 ...
+    elif tr == "eq":
+        num_bands = config["eq"]["band"]["count"] + 1 # one more cutoff frequency than bands
+        header = "time,n_channels"
+        for band in range(0, num_bands):
+            header += ",freq_%d,ampl_%d"%(band,band)
+    return header
+
 
 def createBPFtimeVec(duration, local_pars, timeVec=None):
 

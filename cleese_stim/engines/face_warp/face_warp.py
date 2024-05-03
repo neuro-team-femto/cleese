@@ -383,9 +383,9 @@ class FaceWarp(Engine):
 
         # default configuration values
         try:
-            DFMXY_EXT = config["mediapipe"]["io"]["dfmxy_ext"]
+            DFMXY_EXT = config["main"]["param_ext"]
         except KeyError as e:
-            DFMXY_EXT = '.dfmxy'
+            DFMXY_EXT = '.txt' # default dfm extension is .txt
 
         # Check all the needed user-provided config values are here
         try:
@@ -513,7 +513,8 @@ class FaceWarp(Engine):
             np.savetxt(output_dfm_file,
                        dfmxy,
                        fmt="%d,%d,%d,%.8f,%.8f",
-                       header="mediapipe idx, posX, posY, defX, defY")
+                       header="idx, posX, posY, defX, defY", 
+                       comments="")
 
     @staticmethod
     def dfmxy_to_dfm(dfmxy_file, landmarks_file, output_dfm_file=None):

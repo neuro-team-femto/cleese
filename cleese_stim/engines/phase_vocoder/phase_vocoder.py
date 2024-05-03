@@ -18,7 +18,8 @@ import shutil
 from .bpf import (
         createBPFtimeVec,
         createBPFfreqs,
-        createBPF,)
+        createBPF,
+        create_BPF_header)
 from .audio_engine import (
         stft,
         istft,
@@ -49,6 +50,12 @@ class PhaseVocoder(Engine):
         doCreateBPF = False
         if BPF is None:
             doCreateBPF = True
+
+        try:
+            BPF_EXT = config["main"]["param_ext"]
+        except KeyError as e:
+            BPF_EXT = '.txt' # default bpf extension
+  
 
         if not sample_rate:
             log("ERROR: missing sample rate")
@@ -146,8 +153,10 @@ class PhaseVocoder(Engine):
                 if file_output:
                     currBPFfile = os.path.join(
                             config["main"]['currOutPath'],
-                            inFileNoExt+'.'+currFileNo+'.'+currTrString+'_BPF.txt')
-                    np.savetxt(currBPFfile, BPF, '%.8f')
+                            inFileNoExt+'.'+currFileNo+'.'+currTrString+BPF_EXT)
+                    BPF_header = create_BPF_header(tr, config)
+
+                    np.savetxt(currBPFfile, BPF, '%.8f', delimiter = ',', header = BPF_header, comments='')
 
                     if t == 0:
                         currOutFile.append(os.path.join(
