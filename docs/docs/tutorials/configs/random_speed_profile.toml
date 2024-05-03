@@ -16,7 +16,7 @@ transf = ["stretch"]
 generateExpFolder = true
 
 # bpf file extension (default: '.txt')
-bpf_ext = '.txt'
+param_ext = '.txt'
 
 
 [analysis]
