@@ -4,7 +4,7 @@ CLEESE is a Python toolbox to help the generation of randomized sound and image 
 
 It provides a number of sound and image transformation algorithms (so-called `Engines`) able e.g. to create natural-sounding expressive variations around an original speech recording, or expressive variations on a human face. It also provides a config file interface to automatize the call to these algorithms, in order e.g. to easily create thousands of random variants from a single base file, which can serve as stimuli for neuroscience experiments. 
 
-As of version v2.0.0, CLEESE is composed of two engines: `PhaseVocoder` and `Mediapipe`: 
+As of version v2.0.0, CLEESE is composed of two engines: `PhaseVocoder` and `FaceWrap`: 
 
 -  `PhaseVocoder` allows one to create random fluctuations around an audio file’s original contour of pitch, loudness, timbre and speed (i.e. roughly
   defined, its prosody). One of its foreseen applications is the generation of random voice stimuli for reverse correlation experiments in the vein of [Ponsot, Burred, Belin & Aucouturier (2018) Cracking the social code of speech prosody using reverse correlation. PNAS, 115(15), 3972-3977](https://www.pnas.org/content/115/15/3972).
