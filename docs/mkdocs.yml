@@ -5,7 +5,7 @@ site_name: CLEESE, a Python toolbox for randomizing stimuli
 repo_url: https://github.com/neuro-team-femto/cleese
 repo_name: neuro-team-femto/cleese
 copyright: Copyright &copy; 2023 -- FEMTO Neuro Group
-edit_uri: edit/main/docs/
+edit_uri: edit/main/docs/docs/
 
 theme:
   palette:
