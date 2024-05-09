@@ -1,13 +1,10 @@
 ![cleese](docs/docs/images/silly-walk.jpg)
 
 [[Paper]](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0205943)
+[[Documentation]](https://neuro-team-femto.github.io/cleese)
 [[Tutorials]](https://neuro-team-femto.github.io/cleese/tutorials/speech/)
 
-CLEESE ("Ministry of Silly Speech") is a sound and image manipulation tool
-designed to generate an infinite number of possible stimuli; be it
-natural-sounding expressive variations around an original speech recording, or
-variations on the expression of a human face.
-
+CLEESE ("Ministry of Silly Talks") is a Python toolbox to help the generation of randomized sound and image stimuli for neuroscience research. It was originally created to generate arbitrary many random variations around an original speech recording (hence, "silly talks"). It has now been extended to provide a variety of sound and image transformation algorithms (so-called Engines) also able e.g. to create random expressive variations on a human face. 
 
 # Setup
 
@@ -20,7 +17,7 @@ pip install cleese-stim
 
 # Available Engines
 
-More precisely, CLEESE is currently composed of two engines: `PhaseVocoder` and
+CLEESE is currently composed of two transformation engines: `PhaseVocoder` and
 `FaceWarp`.
 * `PhaseVocoder` allows one to create random fluctuations around an audio
   file’s original contour of pitch, loudness, timbre and speed (i.e. roughly
@@ -40,21 +37,17 @@ CLEESE runs in completely in Python. Python 3.8.10 was used for the most recent 
 import cleese_stim as cleese
 from cleese_stim.engines import PhaseVocoder
 
-# read input wavefile
-wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
+inputFile  = 'path_to_input_sound.wav'
+configFile = 'path_to_config_file.toml'
 
-# transform sound
-wave_out, bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr)
-
-# save file if necessary
-PhaseVocoder.wav_write(wave_out, output_file, sr)
+cleese.generate_stimuli(PhaseVocoder, inputFile, configFile)
 ```
 
-The `config_file` controls the parameters of the manipulation. For more information and further functionality see the [tutorial](https://neuro-team-femto.github.io/cleese/tutorials/speech/).
+The `config_file` controls the parameters of the manipulation. For more information and further functionality see the [documentation](https://neuro-team-femto.github.io/cleese).
 
 # Acknowledgements
 
-It was originally designed in 2018 by [Juan José Burred](https://www.jjburred.com), [Emmanuel Ponsot](https://www.stms-lab.fr/person/emmanuel-ponsot) and [Jean-Julien Aucouturier](https://www.femto-st.fr/fr/personnel-femto/jeanaucouturier) at [STMS Lab](https://www.stms-lab.fr) (IRCAM/CNRS/Sorbonne Université, Paris - France), and released on the [IRCAM Forum](https://forum.ircam.fr/) platform. As of 2021, CLEESE is now developed and maintained by the [FEMTO Neuro Team](https://neuro-team-femto.github.io/) at the [FEMTO-ST Institute](https://www.femto-st.fr/) (CNRS/Université Bourgogne Franche-Comté) in Besançon - France.
+CLEESE was originally designed in 2018 by [Juan José Burred](https://www.jjburred.com), [Emmanuel Ponsot](https://www.stms-lab.fr/person/emmanuel-ponsot) and [Jean-Julien Aucouturier](https://www.femto-st.fr/fr/personnel-femto/jeanaucouturier) at [STMS Lab](https://www.stms-lab.fr) (IRCAM/CNRS/Sorbonne Université, Paris - France), and released on the [IRCAM Forum](https://forum.ircam.fr/) platform. As of 2021, CLEESE is now developed and maintained by the [Neuro Team](https://neuro-team-femto.github.io/) [FEMTO-ST Institute](https://www.femto-st.fr/) (CNRS/Université Bourgogne Franche-Comté) in Besançon - France.
 
 CLEESE's development was originally funded by the [European Research Council](https://erc.europa.eu) ([CREAM](https://neuro-team-femto.github.io/cream/) 335536, 2014-2019, PI: JJ Aucouturier), and has since then received support from [Agence Nationale de la Recherche](https://anr.fr/) (ANR SEPIA, AND Sounds4Coma), [Fondation pour l'Audition](https://www.fondationpourlaudition.org) (DASHES) and [Région Bourgogne-Franche Comté](https://www.bourgognefranchecomte.fr/) (ASPECT).
 
