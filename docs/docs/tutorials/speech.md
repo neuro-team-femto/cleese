@@ -81,7 +81,7 @@ The following code is pretty much all there is to call: `cleese.process_data` ta
 input_file = "./sounds/male_vraiment_flattened.wav"
 config_file = "./configs/random_pitch_profile.toml"
 
-# read input wavefile, and extract pitch for display (unnecessary for cleese.process below)
+# read input wavefile
 wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
 
 # transform sound
@@ -119,10 +119,10 @@ CLEESE's `PhaseVocoder` includes a utility for extracting pitch in speech/audio 
 
 ``` py title="visualize pitch before/after"
 # extract pitch before transformation
-pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
+times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
 
 # extract pitch after transformation
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
+times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
 
 # display 
 plt.plot(times_in, pitch_in, 'k:', label='pre')
@@ -197,9 +197,9 @@ As above, one can use the `extract_pitch` utility to visualize the difference be
 
 ```py title="visualize before and after transform"
 # extract pitch before transformation
-pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
+times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
 # extract pitch after transformation
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
+times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
 
 # display 
 plt.plot(times_in, pitch_in, 'k:')
@@ -322,7 +322,7 @@ The file has a soft, down-ward pitch contour, as show here
 ``` py title="display original pitch"
 input_file = "./sounds/male_vraiment_original.wav"
 wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
-pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr, win=0.02, bounds=[50, 200])
+times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr, win=0.02, bounds=[50, 200])
 plt.plot(times_in, pitch_in, 'k')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch')
@@ -370,7 +370,7 @@ Compare pitch profile before and after transformation:
 
 ```py title="display resulting pitch"
 # display transformed file
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.02, bounds=[100, 200])
+times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.02, bounds=[100, 200])
 plt.plot(times_in, pitch_in, 'k:')
 plt.plot(times_out, pitch_out, 'k')
 plt.xlabel('time in file (ms)')
@@ -416,13 +416,13 @@ The resulting file has random duration, but these changes of pace are aligned wi
 <a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a>
 
 ```py title="display pitch before/after"
-pitch_in,times_in = PhaseVocoder.extract_pitch(wave_in,sr)
+times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
 plt.plot(times_in, pitch_in, 'k')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch')
 
 # display transformed file
-pitch_out,times_out = PhaseVocoder.extract_pitch(wave_out,sr)
+times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
 plt.plot(times_out, pitch_out, 'b')
 plt.xlabel('time in file (ms)')
 plt.ylabel('pitch')
