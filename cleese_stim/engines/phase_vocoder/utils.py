@@ -8,7 +8,7 @@ v2.0: jan 2022, Lara Kermarec <lara.git@kermarec.bzh> for CNRS
 Audio utils functions for CLEESE's phase vocoder engine
 '''
 
-import scipy.io.wavfile as wav
+import scipy
 import numpy as np
 import math
 
@@ -17,7 +17,7 @@ from ...third_party.yin import compute_yin
 
 def load_file(file_name):
 
-    sampleRate, wave = wav.read(file_name)
+    sampleRate, wave = scipy.io.wavfile.read(file_name)
     sampleFormat = wave.dtype
     if sampleFormat in ('int16', 'int32'):
         # convert to float
@@ -47,9 +47,12 @@ def wav_write(wave_out, file_name, sr, sample_format='int16'):
     else:
         wave_out_format = wave_out
     wave_out_format = wave_out_format.astype(sample_format)
-    wav.write(file_name, sr, wave_out_format)
+    scipy.io.wavfile.write(file_name, sr, wave_out_format)
 
 def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
+    """
+    Extract pitch from x waveform with the YIN algorithm
+    """
     
     # extract raw pitch with yin
     hop_size = int(np.floor(sr * win))
@@ -82,12 +85,60 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
     return pitch, times
 
 def interpolate_pitch(x, start_value, end_value): 
-    """Interpolate zeros in pitch series. Method = spline (order-3 polynomial), linear or none. 
+    """
+    Interpolate zeros in pitch series. Method = spline (order-3 polynomial), linear or none. 
     Provide start_value, end_value to fix bounds. 
     """
     xp=np.where(np.invert(list(map(math.isnan, x))))[0]
     fp=np.array(x)[np.where(np.invert(list(map(math.isnan, x))))]
     return np.interp(x=range(len(x)), xp=xp,fp=fp)
 
+def lpc_env(x, sr, order=6):
+    """
+    Compute spectral enveloppe with linear prediction coefficient (LPC) algorithm. 
+    order is the number of poles (rule of thumb: 6 poles to extract 3 formants)
+    """
+    
+    n_samples=len(x)
 
+    #compute Mth-order autocorrelation function
+    rx=[]
+    for i in range(order+1):
+        rx.append(x[:n_samples-i].dot(x[i:n_samples]))
 
+    #construct Toeplitz matrix
+    rx = np.array(rx)
+    
+    #solve toeplitz matrix
+    a_coeffs = scipy.linalg.solve_toeplitz((-rx[0:order],-rx[0:order]),rx[1:order+1])
+
+    #get complete polynomial A(z)
+    a_lp = np.insert(a_coeffs,0,1)
+    
+    #get curve
+    freqs, env = scipy.signal.freqz(1, a_lp, fs=sr)
+    env_db = 20*np.log10(abs(env))
+    
+    return env_db, freqs
+
+def extract_spectral_env(x, sr, lpc_order=50, pe_thresh=1000, freq_limit = 20000):
+    """
+    Extract spectral envelope from waveform x using LPC algorithm
+    Plot as plot(freqs,env_db)
+    """
+    # pre-emphasis filter s[n] = s[n] - a*s[n-1]
+    a = np.exp(-2*np.pi*pe_thresh/sr)
+    x_pe = scipy.signal.lfilter([1, -a], [1], x)
+    
+    # resample at 2*freq_limit
+    new_sr = 2*freq_limit 
+    new_n = round(len(x_pe) * new_sr / sr)
+    x_rs = scipy.signal.resample(x_pe, new_n)
+    
+    # normalize
+    x_rs = x_rs/max(abs(x_rs))
+        
+    # extract LPC envelope
+    env_db, freqs = lpc_env(x_rs,new_sr,lpc_order)
+    
+    return env_db, freqs
