@@ -82,7 +82,7 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
         start_value = end_value = np.mean(pitch[np.nonzero(~np.isnan(pitch))])
         pitch = interpolate_pitch(pitch, start_value = start_value, end_value = end_value)
     
-    return pitch, times
+    return times, pitch
 
 def interpolate_pitch(x, start_value, end_value): 
     """
@@ -119,7 +119,7 @@ def lpc_env(x, sr, order=6):
     freqs, env = scipy.signal.freqz(1, a_lp, fs=sr)
     env_db = 20*np.log10(abs(env))
     
-    return env_db, freqs
+    return freqs, env_db
 
 def extract_spectral_env(x, sr, lpc_order=50, pe_thresh=1000, freq_limit = 20000):
     """
@@ -139,6 +139,6 @@ def extract_spectral_env(x, sr, lpc_order=50, pe_thresh=1000, freq_limit = 20000
     x_rs = x_rs/max(abs(x_rs))
         
     # extract LPC envelope
-    env_db, freqs = lpc_env(x_rs,new_sr,lpc_order)
+    freqs, env_db = lpc_env(x_rs,new_sr,lpc_order)
     
-    return env_db, freqs
+    return freqs, env_db
