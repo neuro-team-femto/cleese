@@ -28,7 +28,7 @@ from .audio_engine import (
 from ..engine import Engine
 from ...cleese import log, load_config
 
-from .utils import load_file, wav_read, wav_write, extract_pitch, extract_spectral_env
+from .utils import load_file, wav_read, wav_write, extract_pitch, extract_spectral_env, extract_rms
 
 
 class PhaseVocoder(Engine):
@@ -114,6 +114,8 @@ class PhaseVocoder(Engine):
 
             else:
                 config["main"]['currOutPath'] = config["main"]['outPath']
+                duration = config["main"]['inSamples']/float(sr)
+                numPoints = BPF.shape[0]
 
             # create output folder
             if file_output:
@@ -243,6 +245,9 @@ class PhaseVocoder(Engine):
     def extract_spectral_env(x, sr, lpc_order=50, pe_thresh=1000, freq_limit = 20000):
         return extract_spectral_env(x, sr, lpc_order, pe_thresh, freq_limit)
 
+    @staticmethod
+    def extract_rms(x,sr,win, thresh=0.02, interpolate=True):
+        return extract_rms(x,sr,win, thresh, interpolate)
 
     @staticmethod
     def create_BPF(trans, config_file, time_points, num_points, end_on_transition, eq_freqs=None):
