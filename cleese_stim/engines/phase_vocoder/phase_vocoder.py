@@ -236,8 +236,8 @@ class PhaseVocoder(Engine):
         return wav_write(wave_out, file_name, sr, sample_format)
 
     @staticmethod
-    def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
-        return extract_pitch(x, sr, win, bounds, interpolate)
+    def extract_pitch(x, sr, win=.02, bounds=[70,400], harmo_thresh=0.1, interpolate=True):
+       return extract_pitch(x, sr, win, bounds=bounds, harmo_thresh = harmo_thresh, interpolate = interpolate)
 
     @staticmethod
     def extract_spectral_env(x, sr, lpc_order=50, pe_thresh=1000, freq_limit = 20000):

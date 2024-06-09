@@ -13,6 +13,7 @@ import numpy as np
 import math
 
 from ...third_party.yin import compute_yin
+from ...cleese import log
 
 
 def load_file(file_name):
@@ -49,11 +50,15 @@ def wav_write(wave_out, file_name, sr, sample_format='int16'):
     wave_out_format = wave_out_format.astype(sample_format)
     scipy.io.wavfile.write(file_name, sr, wave_out_format)
 
-def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
+def extract_pitch(x, sr, win=.02, bounds=[70,400], harmo_thresh=0.1, interpolate=True):
     """
     Extract pitch from x waveform with the YIN algorithm
     """
     
+    # if stereo, convert to mono
+    if len(x.shape) == 2:
+        x = np.ravel(x[:, 0])
+
     # extract raw pitch with yin
     hop_size = int(np.floor(sr * win))
     min_f0, max_f0 = bounds
@@ -61,7 +66,7 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
     if hop_size < int(sr / min_f0): 
         hop_size = int(sr / min_f0) + 1
     pitch, harmonic_rates, argmins, times = compute_yin(x, sr, 
-        dataFileName=None, w_len=hop_size, w_step=hop_size, f0_min=min_f0, f0_max=max_f0, harmo_thresh=0.1)
+        dataFileName=None, w_len=hop_size, w_step=hop_size, f0_min=min_f0, f0_max=max_f0, harmo_thresh=harmo_thresh)
     
     # third-party yin returns lists; convert to nparray
     pitch = np.array(pitch)
@@ -79,8 +84,11 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
         pitch = times = []
     
     if(interpolate):  # interpolate nans
-        start_value = end_value = np.mean(pitch[np.nonzero(~np.isnan(pitch))])
-        pitch = interpolate_pitch(pitch, start_value = start_value, end_value = end_value)
+        if len(pitch)==0: # no pitch values found
+           log('WARN: no pitch value detected. Cannot interpolate.') 
+        else:   
+            start_value = end_value = np.mean(pitch[np.nonzero(~np.isnan(pitch))])
+            pitch = interpolate_pitch(pitch, start_value = start_value, end_value = end_value)
     
     return times, pitch
 
