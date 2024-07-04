@@ -61,7 +61,7 @@ window.unit = 'n'
 # stretching factor. >1: expansion, <1: compression
 std = 1.5
 trunc = 1
-BPFtype = 'ramp'
+BPFtype = 'square'
 trTime = 0.05
 
 

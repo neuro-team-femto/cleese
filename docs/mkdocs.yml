@@ -73,5 +73,6 @@ nav:
   - 'Tutorials': 
     - 'Random speech': 'tutorials/speech.md'
     - 'Random faces': 'tutorials/face.md'
+    - 'Morphing between words': 'tutorials/morphing.md'
   - 'About CLEESE': 'about.md'
 

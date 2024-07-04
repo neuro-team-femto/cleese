@@ -1,0 +1,37 @@
+[main]
+
+# output root folder
+outPath = "output"
+
+# number of output files to generate (for random modifications)
+numFiles = 10
+
+# apply transformation in series (True) or parallel (False)
+chain = true
+
+# transformations to apply `transf = ["pitch"]`
+transf = ["gain"]
+
+# generate experiment folder with name based on current time
+generateExpFolder = true
+
+# bpf file extension (default: '.txt')
+param_ext = '.txt'
+
+[analysis]
+
+# analysis window length in seconds
+# (not to be confused with the BPF processing window lengths)
+window.len = 0.04
+# number of hops per analysis window
+oversampling = 8
+
+[gain]
+
+window.len = 0.1
+window.count = 5
+window.unit = 'n'
+std = 8
+trunc = 1
+BPFtype = 'ramp'
+trTime = 0.05
