@@ -51,6 +51,8 @@ In the following, we'll be a number of files which you'll first need to download
 
 As a first step, we'll use the `PhaseVocoder` engine's ability to stretch sounds along arbitrary temporal contours in order to morph the duration of the two words. 
 
+### Compute the duration transformation needed to convert source to target
+
 First, let's load the two sounds using the `PhaseVocoder.wav_read` utility function. Arbitrarily, let's choose our source file (the one to be transformed) to be the question intonation, and our target file the statement/answer intonation. 
 
 ```
@@ -58,17 +60,16 @@ src_wav, sr, frmt =  PhaseVocoder.wav_read('./sounds/apri_Q.wav')
 target_wav, sr, frmt =  PhaseVocoder.wav_read('./sounds/apri_I.wav')
 ```
 
-We then estimate the intensity profile of each sound, in order to visualize how they differ. The `PhaseVocoder.extract_rms` utility simply extracts root-mean-square intensity on every successive time window (duration `win` sec., here 20ms), and offers the possibility to threshold the resulting time series to only export values larger than a given intensity (put here to 0.01, but you may want to increase this value if you have e.g. background noise). 
+We then estimate the intensity profile of each sound, in order to visualize how they differ. The `PhaseVocoder.extract_rms` utility simply extracts root-mean-square intensity on every successive time window (duration `win` sec., here 20ms), and offers the possibility to threshold the resulting time series to only export values larger than a given intensity (put here to 0.02, but you may want to adapt this value manually to e.g. background noise). 
 
 ```
-src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.01, interpolate=False)
-target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.01, interpolate=False)
+src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
 
 plt.figure(figsize=(20,5))
 plt.plot(src_times, src_rms, 'o-', label='src')
 plt.plot(target_times, target_rms, 'o-',label='target')
 plt.legend()
-
 
 ```
 ![Image title](../images/morph_tutorial_1.png)
@@ -76,13 +77,17 @@ plt.legend()
 Our source/question word (blue) <br>
 <audio controls src="../sounds/apri_Q.wav"></audio><br> has two distinct syllables (A/PRI), the first being a bit shorter, and the second a bit trailing. In comparison, the target/statement version of the same word (orange) <br>
 <audio controls src="../sounds/apri_I.wav"></audio> <br>
-has a longer first syllable, and a shorter second. Notice the gap between the two question-syllables is also a little shorter than between the two statement-syllables. Transforming the source into the target would therefore entail progressively stretching the first question-syllable, stretching the pause, and shortening the second, until the blue curve matches the morphology of the orange curve.
+has a longer first syllable, and a shorter second. Similarly, the gap between the two question-syllables is a little shorter than between the two statement-syllables. Transforming the source into the target would therefore entail progressively stretching the first question-syllable, stretching the pause, and shortening the second segment, until the blue curve matches the morphology of the orange curve.
 
 !!! note
-    Note the two words also differ by a lot more than syllable duration: from the graph above, we see that their intensity profiles differ notably on the first syllable (a louder syllable with a sharper onset for the target). Auditorily, it's obvious that their pitch also differs (with the expected final pitch rise in the question/source file). In this section, we only transform duration, but we will show how to also (or independently) transform intensity and pitch below.  
+    Note the two words also differ by a lot more than syllable duration: from the graph above, we see that their intensity profiles differ notably on the first syllable (a louder syllable with a sharper onset for the target). Auditorily, it's also obvious that their pitch differs greatly, with an expected final pitch rise in the question/source file. In this section, we only transform duration, but below we will show how to also (or independently) transform intensity and pitch.  
 
-To do that we will create a BPF (breakpoint function) that lists what stretch factor to be applied at which time point in the file. To do that, we first identify the temporal boundaries of the segments that we want to modify in each file: each syllable, as well as the gap between them. 
+!!! note
+    Note also the two sounds don't start exactly at the same time in the file (the source sound as its onset around 600ms into the file; the target sound around 680ms), as often happens with naturalistic recordings. While this is not necessarily an issue, we'll also be using stretch to normalize that difference, while we're at it (see below)
 
+### Format this as a CLEESE bpf
+
+To do all that we will create a BPF (breakpoint function) that lists what stretch factor to be applied at which time point in the file. First, we identify the temporal boundaries of the segments that we want to modify in each file: each syllable, as well as the gap between them. 
 
 ```
 # extract temporal bounds for the different segments
@@ -92,7 +97,7 @@ def extract_bounds(times, values):
     '''
     indices= [True]+ list(np.diff(np.isnan(values)))
     indices[-1] = True
-    return times[indices]   
+    return list(times[indices])
     
 src_bounds = extract_bounds(src_times, src_rms)
 target_bounds = extract_bounds(target_times,target_rms)
@@ -105,15 +110,19 @@ plt.plot(target_times, target_rms, 'o-',label='target')
 for bound in target_bounds: 
     plt.plot([bound,bound],[0,np.nanmax(target_rms)],':r')
 plt.legend()
+
 ```
 
 ![Image title](../images/morph_tutorial_2.png)
 
-Next, we define a bpf where the time points correspond to the boundaries of the segments, and the strtech at each of these segments correspond to the ratio of duration between the corresponding segments in the source and target sound. 
+Next, we define a bpf where the time points correspond to the boundaries of the segments, and the stretch at each of these segments corresponds to the ratio of duration between the corresponding segments in the source and target sound. 
 
 ```
-src_bounds =  np.array([0] + list(src_bounds))
-target_bounds =  np.array([0] + list(target_bounds))
+# add t=0 in the bounds, so we also compute the stretch necessary to align the onset of the two sounds
+if src_bounds[0] > 0: 
+    src_bounds = np.insert(src_bounds,0,0)
+if target_bounds[0] > 0: 
+    target_bounds = np.insert(target_bounds,0,0)
 
 # the stretch transformation is acting at each time where RMS was detected in question_wav
 stretch_bpf_times = src_bounds
@@ -121,440 +130,138 @@ stretch_bpf_times = src_bounds
 # the target stretch at each of these ratio of duration between the corresponding segments in questions and statement bounds
 stretch_bpf_val = [target/src for src, target in zip(np.diff(src_bounds),
                                                               np.diff(target_bounds))]
-stretch_bpf_val = np.array(list(stretch_bpf_val) + [stretch_bpf_val[-1]])
 
-
-# display original file
-plt.step(stretch_bpf_times, stretch_bpf_val, 'k-o', where='post')
+# display tentative bpf
+stretch_bpf_val_temp = np.insert(stretch_bpf_val,0,stretch_bpf_val[0])
+plt.step(stretch_bpf_times, stretch_bpf_val_temp, 'k-o', where='pre')
 plt.xlabel('time in file')
 plt.ylabel('BPF')
-plt.plot([np.min(stretch_bpf_times),np.max(stretch_bpf_times)],[1,1],'k:')
-```
 
+```
 ![Image title](../images/morph_tutorial_3.png)
 
-The resulting bpf is centered, as should be, on the 1:1 ratio (i.e. no change). It starts at 1.13, which corresponds to the stretching (>1) of the initial silence segment (in effect delaying the onset of the question to match the statement onset); then stretches both the first question syllable and the pause between syllables by what happens to be the same ratio (x1.33); and finally shortens the last question syllable by x.875 (i.e. 87% of its original duration). 
+The resulting bpf, as should be, spreads around the 1:1 ratio (i.e. no change). It starts at 1.13, which corresponds to the stretching (>1) of the initial silence segment (in effect delaying the onset of the question to match the statement onset); then stretches both the first question syllable and the pause between syllables by what happens to be the same ratio (x1.33); and finally shortens the last question syllable by x.875 (i.e. 87% of its original duration). 
+
+!!! warning
+    The code above is brittle, as it assumes that there are the same number of segments in both source and target sounds. It is the case in this example (both start > 0, both have 3 segments: one syllable, one pause and one syllable), but this may well not be the case if you use other pairs of sounds. Adjust manually until you have the same number of segments, for instance by changing the `extract_rms` threshold (which, if set low enought will only output one segment per sound). It is also possible to manually set segment boundaries, e.g. by identifying them in audacity, and not use semi-automatic rms segmentation as we show here (see example [here](https://neuro-team-femto.github.io/cleese/tutorials/speech#using-custom-breakpoints)). 
 
 To apply this bpf, we simply call `cleese.process_data` on the source sound, passing it as the `bpf=BPF` argument, and using a configuration file that tells it it should apply the stretch transformation. 
 
+However, before we can do that, we need a little hack. Up until at least [v2.3.2](https://github.com/neuro-team-femto/cleese/releases/tag/v.2.3.2), CLEESE assumes a slightly different format for bpfs when they are passed directly with the `bpf=BPF` keyword, compared to when they are generated autonomously by the system. When generated by the system, bpfs can be made as `square` or `ramp`, depending on the `BPFtype` parameter in the config file. When custom bpfs are passed directly however, that parameter is ignored ([issue 33](https://github.com/neuro-team-femto/cleese/issues/33)), and whatever bpf values are passed are automatically interpolated linearly between time points, as if it was a ramp. So, even though `stretch_config_file` attempts to set `BPFtype='square'`, that parameter is ignore, and we have to prepare our custom bpf before passing it to `cleese.process_data` so that its linear interpolation generates the `square` bpf that we eventually want the function to use. 
+
 ```
+# format bpf so it can be interpolated
+
+transition_time = 0.01 #10ms
+
+# need duration of source file in seconds
+duration = (src_wav.shape[0])/sr
+
+# insert t=0 at the beginning
+stretch_bpf_times = np.insert(stretch_bpf_times, 0,0)
+
+# every time point is replaced by one slightly earlier, and one slightly later, separated by transition_time
+stretch_bpf_times = np.sort(np.concatenate((
+            np.array(stretch_bpf_times[1:-1])-transition_time/2,
+            np.array(stretch_bpf_times[1:-1])+transition_time/2)))
+
+# check boundary conditions
+if stretch_bpf_times[-1] > duration:
+    stretch_bpf_times = np.delete(stretch_bpf_times, -1)
+if stretch_bpf_times[0] < 0:
+    stretch_bpf_times = np.delete(stretch_bpf_times, 0)
+
+# add t=0 and t=duration
+stretch_bpf_times = np.append(stretch_bpf_times, duration)
+stretch_bpf_times = np.insert(stretch_bpf_times, 0, 0.)
+
+# duplicate all bpf values too 
+stretch_bpf_val = np.repeat(stretch_bpf_val,2)
+
+# display new bpf
+plt.plot(stretch_bpf_times, stretch_bpf_val, 'k-o')
+plt.xlabel('time in file')
+plt.ylabel('BPF')
+
+```
+
+![Image title](../images/morph_tutorial_4.png)
+
+The resulting bpf has the same values as before, but is formatted in such a way that its linear interpolation looks like a `square` bpf (notice we use `plt.plot` and not `plt.step` here, compared to previous visualization). 
+
+### Apply the bpf to the source file
+
+Now we can finally apply the bpf to the file
+
+```
+# config file
 stretch_config_file = "./configs/random_speed_profile.toml"
 
-# the bpf associates values in stretch_bpf_val to times in stretch_bpf_times
 bpf = np.column_stack((stretch_bpf_times,stretch_bpf_val))
 
-# process src file 
-wave_out,bpf_out = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
-
-# and save result
-PhaseVocoder.wav_write(wave_out, 'src_stretch.wav', sr, sample_format=frmt)
-```
-
-
-
-
-```
-stretch_config_file = "docs/docs/tutorials/configs/random_speed_profile.toml"
-
-for factor in np.arange(0,1.1,0.1): 
-    
-    # factor the difference to one
-    factor_val = 1 + factor*(stretch_bpf_val - 1)    
-    bpf = np.column_stack((stretch_bpf_times,factor_val))
-    wave_out,bpf_out = cleese.process_data(PhaseVocoder, question_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
-    PhaseVocoder.wav_write(wave_out, 'out_stretch_%.1f.wav'%factor, sr, sample_format=frmt)
-```
-
-
-
-
-### Random pitch profile in a single utterance
-
-The most basic usage scenario of CLEESE is to input a single recording (ex. the French word "vraiment" - "really", recorded by a single male speaker)
-
-<audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
-<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a>
-
-and use CLEESE to transform the sound with a random pitch profile. This, like all cleese operations, is done by passing to the main cleese function `cleese.process_data` a configuration file ([random_pitch_profile.toml](./configs/random_pitch_profile.toml)) which specifies the manipulation we want. Here: cut the file in `pitch.window.count = 6` time segments, draw a random pitch shift factor at each segment boundary from a Gaussian distribution centered on 0 and standard deviation `pitch.std = 300`cents, and interpolate between segment boundaries using linear `pitch.BPFType = "ramp"`. (See [PhaseVocoder](../../api/phase-vocoder/) documentation for more information)
-
-```toml title="random_pitch_profile.toml"
-[pitch]
-# pitch transposition window in seconds. If 0 : static transformation
-window.len = 0.11
-
-# number of pitch transposition windows. If 0 : static transformation
-window.count = 6
-
-# 's': force winlength in seconds,'n': force number of windows (equal length)
-window.unit = 'n'
-
-# standard deviation (cents) for random transposisiton (Gaussian distrib for now)
-std = 300
-
-# truncate distribution values (factor of std)
-trunc = 1
-
-# type of breakpoint function:
-#      'ramp': linear interpolation between breakpoints
-#      'square': square BPF, with specified transition times at edges
-BPFtype = 'ramp'
-
-# in s: transition time for square BPF
-trTime = 0.02
-```
-
-The following code is pretty much all there is to call: `cleese.process_data` takes in the `Engine` that is called on to do the transformation (here, `PhaseVocoder` - see the [Image tutorial](../face) for a similar call to image-transformation engine `FaceWarp`), the array `wave_in` of audio data obtained from `PhaseVocoder.wav_read` and its sampling rate `sr`, and the path to the configuration file `config_file` that tells the `PhaseVocoder` engine what to do with it all. 
-
-```python title="randomize pitch"
-input_file = "./sounds/male_vraiment_flattened.wav"
-config_file = "./configs/random_pitch_profile.toml"
-
-# read input wavefile
-wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
-
 # transform sound
-wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr)
+transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
 
-# save file if necessary
-output_file = "./sounds/male_vraiment_flattened_transformed.wav"
-PhaseVocoder.wav_write(wave_out, output_file, sr)
-```
-
-<audio controls src="../sounds/male_vraiment_flattened_transformed.wav"></audio><br>
-<a href="../sounds/male_vraiment_flattened_transformed.wav"> Download audio </a>
-
-The `bpf_out` output describes the break-point function that was generated randomly by CLEESE and used to transform `wave_in` to `wave_out`. It is a simple array of times and values pairs, each corresponding to the timepoint in the file of a breakpoint and the corresponding pitch transformation values applied at this point (for more on BPFs, see the [PhaseVocoder documentation](../../api/phase-vocoder/#bpfs)).  
-
-```py 
-print(bpf_out)
-```
-```txt
-[[ 0.00000000e+00 -1.01767821e+02]
- [ 7.10430839e-02 -9.91175403e+01]
- [ 1.42086168e-01  1.07735422e+02]
- [ 2.13129252e-01 -3.87725633e+01]
- [ 2.84172336e-01  5.15893896e+01]
- [ 3.55215420e-01  1.46774252e+02]
- [ 4.26258503e-01 -5.06624397e+00]]
-```
-Here, one sees that the file duration is about 426ms and that, consistently with the `window.count = 6` parameter in the config file, the transformation uses 7 breakpoints, i.e. 6 segments. Each breakpoint is associated a pitch transformation value in cents which, here, was assigned random samples ranging between -101.7 and +146.7, which is consistent with the `std = 300` parameter in the config_file. The general shape of the transformation, in that specific random instance, is to reduce the beginning of the sound by ca. 100 cents (i.e. - 1 semitone), then increase it by +100 cents (compared to baseline) around 142ms, down again at 213ms, back up to +146cents at 355ms, i.e. a shape that is roughly that of letter W. Of course, every call to the same code will generate a new, random bpf and transformation. 
-
-!!! Note "About cents"
-    Cents are a relative unit of frequency which corresponds to 1% of a musical semitone. Increasing a frequency $f_1$ by $+n$ cents results in $f_2 = f_1 * 2^{n/1200}$. Increasing sound's pitch by +100cents is equivalent to raising it by 1 semitone ($f_1*2^{1/12})$, i.e. the same as going from musical notes C to C#. A change of 12 semitone (1200 cents) corresponds to going up one octave (e.g. C3 :material-arrow-right: C4), corresponding to doubling frequency ($f_1 * 2^{1200/1200}$). In speech, pitch changes of the order of 100-200 cents are considered large; a static change of +50cents is often sufficient to evoke e.g. the impression of happier speech ([Rachman et al. 2018](https://link.springer.com/article/10.3758/s13428-017-0873-y)). Technically, CLEESE's `PhaseVocoder` engine implements a relatively straightforward version of the phase vocoder algorithm (phase locking with frame-wise peak picking and no spectral envelope conservation, see e.g. [Laroche and Dolson, 1999](https://ieeexplore.ieee.org/abstract/document/759041)), and will likely generate artifacts such as phasiness for transformations larger than 150-200 cents (which may or may not be a problem depending on your usage scenario) 
-
-
-CLEESE's `PhaseVocoder` includes a utility for extracting pitch in speech/audio files (`PhaseVocoder.extract_pitch`), which uses the YIN pitch extraction algorithm, and can be used to visualize the pitch profile of sounds before and after manipulation. This is just for visualization purposes, and isn't necessary for the working of the main `cleese.process` function above. 
-
-``` py title="visualize pitch before/after"
-# extract pitch before transformation
-times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
-
-# extract pitch after transformation
-times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
-
-# display 
-plt.plot(times_in, pitch_in, 'k:', label='pre')
-plt.plot(times_out, pitch_out, 'k', label='post')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch (Hz)')
-plt.ylim([70,120])
-```
-
-![Image title](../images/speech_tutorial_1.png)
-
-
-### Random speed profile in a song 
-
-CLEESE can process longer files than a single word and, instead of manipulating pitch, can manipulate the duration of each portion of the file. To demonstrate this, we use CLEESE to randomly stretch each note in a recording of a song (the French song "Joyeux Anniversaire" / "Happy Birthday", sung by a female singer)
-
-<audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
-<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a>
-
-This, as above, is done by passing to `cleese.process_data` a configuration file which specifies the manipulation we want. Here: cut the file in `stretch.window.len = 0.5` second time segments, draw a random stretch shift factor at each segment boundary from a Gaussian distribution centered on 1.0 and standard deviation `stretch.std = 1.5` (where factors >1 correspond to a time stretch, and factors <1 correspond to a time compression), and interpolate between segment boundaries using linear `stretch.BPFType = "ramp"`. 
-
-```toml title="random_speed_profile.toml"
-[stretch]
-
-window.len = 0.1
-window.count = 5
-window.unit = 'n'
-
-# stretching factor. >1: expansion, <1: compression
-std = 1.5
-trunc = 1
-BPFtype = 'ramp'
-trTime = 0.05
-```
-
-The following code runs the transformation
-
-```python title="randomize duration"
-input_file = "./sounds/female_anniversaire_isochrone.wav"
-config_file = "./configs/random_speed_profile.toml"
-
-# read input wavefile
-wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
-
-# CLEESE
-wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr)
-
-# save file if necessary
-output_file = "./sounds/female_anniversaire_isochrone_transformed.wav"
-PhaseVocoder.wav_write(wave_out, output_file, sr)
-```
-
-<audio controls src="../sounds/female_anniversaire_isochrone_transformed.wav"></audio><br>
-<a href="../sounds/female_anniversaire_isochrone_transformed.wav"> Download audio </a>
-
-```py 
-print(bpf_out)
-```
-```txt
-[[0.         0.72650135]
- [0.64062585 1.        ]
- [1.2812517  1.42662854]
- [1.92187755 1.16536151]
- [2.5625034  2.382554  ]
- [3.20312925 1.28544142]]
-```
-
-Again, inspection of the (randomly generated) BPF shows 5 segments/6 breakpoints, regularly spaced from t=0 to t=3.2 sec. The stretch values are generated with a gaussian distribution centered on 1 (1:1 ratio, corresponding to no change of duration) and, in that specific instance, are mostly > 1, which explains that the sound above is longer than the original. The largest stretch (x2.38 in duration) occurs at the end of the sound, ca. 2.56sec, which can be heard in the longer final last 2 syllables (_/veeeer/saaaaaire/_) in the extract above.  
-
-As above, one can use the `extract_pitch` utility to visualize the difference between the two files. Notice that, contrary to the `pitch` transform above, the actual pitch values in the two sounds are not changed, but only how they unfold in time. 
-
-
-```py title="visualize before and after transform"
-# extract pitch before transformation
-times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
-# extract pitch after transformation
-times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
-
-# display 
-plt.plot(times_in, pitch_in, 'k:')
-plt.plot(times_out, pitch_out, 'k', label='post')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch (Hz)')
-
-plt.ylim([180,310])
+# and save in sound file
+PhaseVocoder.wav_write(transf_wav, './sounds/src_stretch.wav', sr, sample_format=frmt)
 
 ```
-
-![Image title](../images/speech_tutorial_2.png)
-
-
-
-
-### Batched transforms 
-
-Instead of generating output files one at a time, CLEESE can be used to generate large numbers of manipulated files, each randomly generated using parameters specified in config files as above. This is achieve by pusing cleese.generate_stimuli `cleese.generate_stimuli(PhaseVocoder, input_file, config_file)`. Output files are not returned by the function, but directly written in `main.outPath`, and the number of output files generated is given by `main.numFiles`, all of which are found in the configuration file:
-
-```toml title="random_pitch_profile.toml"
-[main]
-
-# output root folder
-outPath = "./output/"
-
-# number of output files to generate (for random modifications)
-numFiles = 10
-
-# apply transformation in series (True) or parallel (False)
-chain = true
-
-# transformations to apply
-transf = ["pitch"]
-
-# generate experiment folder with name based on current time
-generateExpFolder = true
-```
-
-The following code will create 10 random transformations of the `input_file`, each with random parameters generated from `config_file`, and store both files and parameters in the `outPath` folder designated in `config_file` 
-
-!!! note
-    If the `outPath` directory doesn't exist in your working directory, it will be created automatically. 
-
-```python title="batch transform"
-input_file = "./sounds/male_vraiment_flattened.wav"
-config_file = "./configs/random_pitch_profile.toml"
-
-# CLEESE
-cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
+Visualize the result: 
 
 ```
+transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02, thresh=0.02, interpolate=False)
 
-<audio controls src="../sounds/male_vraiment_flattened_transformed_1.wav"></audio> 
-<a href="../sounds/male_vraiment_flattened_transformed_1.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_2.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_2.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_3.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_3.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_4.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_4.wav"> Download audio </a> <br>
-...
-
-### Chained transforms 
-
-CLEESE can process files with a series of transformations that follow each other, e.g. first time-stretch the file, then pitch-shift it. This is done by specifying keyword `chain = true` under the configuration section `[main]`, as well as the list of transformations to be applied, e.g. here `transf = ['pitch','stretch']`.  
-
-```toml title="chained_pitch_stretch.toml"
-[main]
-
-# output root folder
-outPath = "./output/"
-
-# number of output files to generate (for random modifications)
-numFiles = 10
-
-# apply transformation in series (True) or parallel (False)
-chain = true
-
-# transformations to apply
-transf = ["pitch", "stretch"]
-
-# generate experiment folder with name based on current time
-generateExpFolder = true
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_rms, 'o-', label='src')
+plt.plot(target_times, target_rms, 'o-', label='target')
+plt.plot(transf_times, transf_rms, 'o:',label='transf')
+plt.legend()
 ```
+![Image title](../images/morph_tutorial_5.png)
 
-The following code runs a chained transformation (notice the change of `config_file`) on 10 files, and stores them all in the `outPath` folder designated in `config_file`
+The transformed sound (dotted, green) has the expected temporal morphology: it has been shifted in time and is now aligned with the target sound (orange); its first syllable and the pause between syllables have been stretched, and its second syllable has been shortened, all to match the duration of the target sound's. As already noted above, the stretch transformation has only shifted parts of sounds in time, but hasn't modified their intensity: the transformed first syllable is less intense that the target's, while the transformed second syllable is more intense than the target. Such adjustements of intensity will be done below. 
 
-```py title="chained transform"
-input_file = "./sounds/male_vraiment_flattened.wav"
-config_file = "./configs/chained_pitch_stretch.toml"
+The resulting sound <br>
+<audio controls src="../sounds/src_stretch.wav"></audio><br> has the same rising-pitch intonation as the source sound, but a subtly different prosody from the original question <br>
+<audio controls src="../sounds/apri_Q.wav"></audio> <br>
+with a longer first syllable and a longer pause (/ap'pri/), making it sound perhaps a little more hesitating than the original. 
+One can compare its duration contour with the target sound, which has a markedly different pitch intonation: 
+<br>
+<audio controls src="../sounds/apri_I.wav"></audio> <br>
 
-# CLEESE
-cleese.generate_stimuli(PhaseVocoder, input_file, config_file)
+### Create successive morphings
+
+If one want to make intermediate examples, one only has to modulate the stretch factor by multiplying it by a factor between 0 (0% transformation, identical to source) and 1 (100% transformation, similar to target). More precisely, because stretch factors are centered on 1:1, one should multiply its difference to 1, as `1 + factor*(stretch_bpf_val - 1)`
+
+
 ```
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_rms, 'o-', label='src')
+plt.plot(target_times, target_rms, 'o-', label='target')
 
-
-<audio controls src="../sounds/male_vraiment_flattened_transformed_5.wav"></audio> 
-<a href="../sounds/male_vraiment_flattened_transformed_5.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_6.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_6.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_7.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_7.wav"> Download audio </a> <br>
-<audio controls src="../sounds/male_vraiment_flattened_transformed_8.wav"></audio>
-<a href="../sounds/male_vraiment_flattened_transformed_8.wav"> Download audio </a> <br>
-
-## Advanced use
-
-### Flattening files
-
-When applying CLEESE to generate stimuli for reverse correlation, it is often advisable to use base stimuli that are as flat as possible (e.g., if randomizing pitch, start with a sound that has constant pitch). CLEESE can be used to flatten an existing recording, using the trick of not letting the tool generate its own random breakpoint function, but rather providing it with a custom function that inverts the natural pitch variations found in the original file. We demonstrate this with an original, non flattened recording of the word "vraiment". 
-
-Start with a normal, non-flat recording of the same word ``vraiment'' as above: 
-
-<audio controls src="../sounds/male_vraiment_original.wav"></audio><br>
-<a href="../sounds/male_vraiment_original.wav"> Download audio </a>
-
-The file has a soft, down-ward pitch contour, as show here
-
-``` py title="display original pitch"
-input_file = "./sounds/male_vraiment_original.wav"
-wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
-times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr, win=0.02, bounds=[50, 200])
-plt.plot(times_in, pitch_in, 'k')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch')
-plt.ylim([80,120])
-```
-
-![Image title](../images/speech_tutorial_4.png)
-
-To flatten this existing contour, we construct a custom break-point function (bpf) that passes through the pitch shift values needed to shift the contour down to a constant pitch value, arbitrarily set here at 110Hz. 
-
-
-```py title="custom bpf"
-mean_pitch = 110.
-def difference_to_cents(pitch, ref_pitch):
-    if pitch >0:
-        return -1200*np.log2(pitch/ref_pitch)
-    else:
-        return 1
-bpf_times = times_in
-bpf_val = np.array([difference_to_cents(hz, mean_pitch) for hz in pitch_in])
-# display original file
-plt.plot(1000*bpf_times, bpf_val, 'k')
-plt.xlabel('time in file (ms)')
-plt.ylabel('BPF')
-plt.plot([40,350],[0,0],'k:')
-```
-
-![Image title](../images/speech_tutorial_5.png)
+for factor in np.arange(0,1.1,0.1): # % of morphing, between 0% and 100%
     
+    # modulate the stretch factor by multiplying its difference to 1 by a factor between 0 and 1
+    factor_val = 1 + factor*(stretch_bpf_val - 1) 
+    bpf = np.column_stack((stretch_bpf_times,factor_val))
 
-We then apply this custom BPF to the original file, using `cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)` (passing audio data as input, because we don't need batch mode here). 
-
-```python title="apply bpf"
-config_file = "./configs/random_pitch_profile.toml"
-
-# CLEESE
-bpf = np.column_stack((bpf_times,bpf_val))
-wave_out,bpf_out = cleese.process_data(PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)
+    # apply transformation
+    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
+    
+    # save file
+    PhaseVocoder.wav_write(transf_wav, 'src_stretch_%.1f.wav'%factor, sr, sample_format=frmt)
+    
+    # visualize the rms contour of that transformation
+    transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02, thresh=0.02, interpolate=False)
+    plt.plot(transf_times, transf_rms, '-',label='transf', alpha=0.3)
+    
+plt.legend()
 ```
+![Image title](../images/morph_tutorial_6.png)
 
-<audio controls src="../sounds/male_vraiment_flattened.wav"></audio><br>
-<a href="../sounds/male_vraiment_flattened.wav"> Download audio </a>
-
-Compare pitch profile before and after transformation: 
-
-```py title="display resulting pitch"
-# display transformed file
-times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr, win=0.02, bounds=[100, 200])
-plt.plot(times_in, pitch_in, 'k:')
-plt.plot(times_out, pitch_out, 'k')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch (Hz)')
-plt.ylim([80,120])
-```
-
-![Image title](../images/speech_tutorial_6.png)
-
-
-### Using custom breakpoints
-
-Instead of generating linearly spaced time windows (or, as called here, breakpoints), CLEESE supports a list of externally provided time positions. To demonstrate this, we use CLEESE to stretch the duration of each note in the song "Joyeux Anniversaire" (which we already used above). 
-
-<audio controls src="../sounds/female_anniversaire_isochrone.wav"></audio><br>
-<a href="../sounds/female_anniversaire_isochrone.wav"> Download audio </a>
-
-To find note boundaries, we can e.g. use an external audio editor such as [Audacity](https://www.audacityteam.org), and measure time positions between notes as `[0.027, 0.634, 1.137, 1.647, 2.185, 2.649, 3.181]`.
-
-![Image title](../images/speech_tutorial_7.png)
-
-We can then generate a breakpoint function with `cleese.create_BPF` which uses these time points and parameters loaded from the stretch config file `config_file`. This BPF can then be passed to `cleese.process_data` as argument. 
-
-
-```python title="process with custom breakpoints"
-input_file = "./sounds/female_anniversaire_isochrone.wav"
-config_file = "./configs/random_speed_profile.toml"
-
-wave_in, sr, _ = PhaseVocoder.wav_read(input_file)
-
-time_points = np.array([0.027, 0.634, 1.137, 1.647, 2.185, 2.649, 3.181]) # values found in audacity
-num_points = len(time_points)
-bpf = PhaseVocoder.create_BPF(
-    'stretch',config_file,time_points,num_points,0)   
-
-wave_out,bpf_out = cleese.process_data(
-    PhaseVocoder, wave_in, config_file, sample_rate=sr, BPF=bpf)
-```
-
-The resulting file has random duration, but these changes of pace are aligned with note boundaries. 
-
-<audio controls src="../sounds/female_anniversaire_isochrone_transformed_2.wav"></audio><br>
-<a href="../sounds/female_anniversaire_isochrone_transformed_2.wav"> Download audio </a>
-
-```py title="display pitch before/after"
-times_in,pitch_in = PhaseVocoder.extract_pitch(wave_in,sr)
-plt.plot(times_in, pitch_in, 'k')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch')
-
-# display transformed file
-times_out,pitch_out = PhaseVocoder.extract_pitch(wave_out,sr)
-plt.plot(times_out, pitch_out, 'b')
-plt.xlabel('time in file (ms)')
-plt.ylabel('pitch')
-```
-
-![Image title](../images/speech_tutorial_8.png)
-
+We see successive intermediate morphings between source and target behave as expected. Compare e.g. transformation at 0%<br>
+<audio controls src="../sounds/src_stretch_0.0.wav"></audio> <br> 
+transformation at 50% <br>
+<audio controls src="../sounds/src_stretch_0.5.wav"></audio> <br> 
+and transformation at 100%<br>
+<audio controls src="../sounds/src_stretch_1.0.wav"></audio> <br> 
