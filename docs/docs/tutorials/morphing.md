@@ -51,7 +51,7 @@ In the following, we'll be a number of files which you'll first need to download
 
 As a first step, we'll use the `PhaseVocoder` engine's ability to stretch sounds along arbitrary temporal contours in order to morph the duration of the two words. 
 
-### Compute the duration transformation needed to convert source to target
+### Analyse source and target speed contours, and find the transformation needed to convert one into the other
 
 First, let's load the two sounds using the `PhaseVocoder.wav_read` utility function. Arbitrarily, let's choose our source file (the one to be transformed) to be the question intonation, and our target file the statement/answer intonation. 
 
@@ -233,27 +233,76 @@ One can compare its duration contour with the target sound, which has a markedly
 
 If one want to make intermediate examples, one only has to modulate the stretch factor by multiplying it by a factor between 0 (0% transformation, identical to source) and 1 (100% transformation, similar to target). More precisely, because stretch factors are centered on 1:1, one should multiply its difference to 1, as `1 + factor*(stretch_bpf_val - 1)`
 
+For clarity, let's put everything above in a single function
 
 ```
-plt.figure(figsize=(20,5))
-plt.plot(src_times, src_rms, 'o-', label='src')
-plt.plot(target_times, target_rms, 'o-', label='target')
+def morph_stretch(src_wav,target_wav,sr,factor):
+    
+    # extract source RMS
+    src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+    
+    # extract target RMS
+    target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
+    
+    # extract segment boundaries
+    src_bounds = extract_bounds(src_times, src_rms)
+    target_bounds = extract_bounds(target_times,target_rms)
+    if src_bounds[0] > 0: 
+        src_bounds = np.insert(src_bounds,0,0)
+    if target_bounds[0] > 0: 
+        target_bounds = np.insert(target_bounds,0,0)
 
-for factor in np.arange(0,1.1,0.1): # % of morphing, between 0% and 100%
+    # compute bpf
+    stretch_bpf_times = src_bounds
+    stretch_bpf_val = [target/src for src, target in zip(np.diff(src_bounds),
+                                                              np.diff(target_bounds))]
+    # reformat bpf for interpolation
+    src_duration = (src_wav.shape[0])/sr
+    stretch_bpf_times = np.sort(np.concatenate((
+            np.array(stretch_bpf_times[1:-1])-transition_time/2,
+            np.array(stretch_bpf_times[1:-1])+transition_time/2)))
+    # add t=0 and t=duration
+    stretch_bpf_times = np.append(stretch_bpf_times, src_duration)
+    stretch_bpf_times = np.insert(stretch_bpf_times, 0, 0.)
+    # duplicate all bpf values too 
+    stretch_bpf_val = np.repeat(stretch_bpf_val,2)
+    
     
     # modulate the stretch factor by multiplying its difference to 1 by a factor between 0 and 1
     factor_val = 1 + factor*(stretch_bpf_val - 1) 
     bpf = np.column_stack((stretch_bpf_times,factor_val))
 
-    # apply transformation
+    # transform sound
+    stretch_config_file = "./configs/random_speed_profile.toml"
     transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
+    
+    return transf_wav
+```
+
+Then let's call `morph_stretch` with factors varying between 0 and 1, and plot/listen to the results. 
+
+```
+plt.figure(figsize=(20,5))
+
+src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+plt.plot(src_times, src_rms, 'o-', label='src')
+
+target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
+plt.plot(target_times, target_rms, 'o-', label='target')
+
+factors = np.arange(0,1.1,0.1)
+colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+
+for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+    
+    transf_wav = morph_stretch(src_wav,target_wav,sr,factor)
     
     # save file
     PhaseVocoder.wav_write(transf_wav, 'src_stretch_%.1f.wav'%factor, sr, sample_format=frmt)
     
     # visualize the rms contour of that transformation
     transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02, thresh=0.02, interpolate=False)
-    plt.plot(transf_times, transf_rms, '-',label='transf', alpha=0.3)
+    plt.plot(transf_times, transf_rms, '-',label='transf_%.1f'%factor, alpha=0.3, color=colors[index])
     
 plt.legend()
 ```
@@ -265,3 +314,316 @@ transformation at 50% <br>
 <audio controls src="../sounds/src_stretch_0.5.wav"></audio> <br> 
 and transformation at 100%<br>
 <audio controls src="../sounds/src_stretch_1.0.wav"></audio> <br> 
+
+## Morphing pitch contours
+
+To create intermediate pitch contours between a source and a target sound, we proceed similarly by, first, analysing the pitch contour of each sound, and then construct bpfs that convert one contour into the other. 
+
+We start again with the same two sounds: 
+
+```
+src_wav, sr, frmt =  PhaseVocoder.wav_read('./sounds/apri_Q.wav')
+target_wav, sr, frmt =  PhaseVocoder.wav_read('./sounds/apri_I.wav')
+```
+
+### Analyse source and target pitch contour, and compute the transformation needed to convert one into the other
+
+```
+src_times, src_pitch = PhaseVocoder.extract_pitch(src_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+target_times, target_pitch = PhaseVocoder.extract_pitch(target_wav, sr, win=.02, bounds=[100,210], harmo_thresh=0.3, interpolate=True)
+
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_pitch, label='src')
+plt.plot(target_times, target_pitch, label='target')
+plt.legend()
+```
+
+![Image title](../images/morph_tutorial_7.png)
+
+As can clearly be heard, the source/question sound has a typical rising-pitch intonation, while the target has a descending pitch. Note that the target is higher than the source on the first syllable. So in order to convert one into the other, we will need to increase pitch in the first part of the sound, and lower it in the second part. 
+
+In order to write such a transformation as a bpf, we need to compare the pitch contour of the source to the pitch contour of the target, at every time point. Because both sounds are not aligned in time (they would be if we used the stretch morphing above first), and do not have the same duration, we can't directly compare them. First, we therefore resample the target pitch contour so that it has the same duration as the source. 
+
+```
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_pitch,'o-', label='src')
+plt.plot(target_times, target_pitch, 'o-', label='target')
+
+target_pitch_resampled = signal.resample(target_pitch, len(src_pitch))
+plt.plot(src_times, target_pitch_resampled, 'o:', label='target_resampled')
+plt.legend()
+```  
+
+![Image title](../images/morph_tutorial_8.png)
+
+We then compute, at each time point in the source file, what is the needed pitch transformation to convert `src_pitch` into the resampled `target_pitch`. CLEESE's `PhaseVocoder` algorithm expects shift values in cents (i.e. 1% of a semitone), which can be obtained from a ratio of frequency (Hz) `f_target/f_source` as `1200*np.log2(f_target/f_source)` (double-check: if f_target = 2 x f_source, we go up by one octave, which is 12 tones x 100 cents = 1200 cents, and 1200 x np.log2(2) is indeed +1200). 
+
+```
+pitch_bpf_times = src_times
+
+# the bpf_value is the cent transformation needed to convert question_pitch to target_pitch
+def difference_to_cents(src_pitch_val, target_pitch_val):
+    return 1200*np.log2(target_pitch_val/src_pitch_val)
+
+# the target pitch at each of these times is the corresponding pitch in resampled_target_pitch
+pitch_bpf_val = np.array([difference_to_cents(src, target) for src, target in zip(src_pitch,target_pitch_resampled)])
+
+# display original file
+plt.plot(1000*pitch_bpf_times, pitch_bpf_val, 'k')
+plt.xlabel('time in file (ms)')
+plt.ylabel('BPF')
+plt.plot([1000*np.min(pitch_bpf_times),1000*np.max(pitch_bpf_times)],[0,0],'k:')
+```
+
+![Image title](../images/morph_tutorial_9.png)
+
+The resulting bpf indeed increases pitch by about one musical tone (+200 cents) at the beginning of the sound, and lowers it dramatically (-700cents, which is down 3.5 musical tones, also called a 'fifth'). 
+
+!!! warning
+    Transformations by more than a few semitones (e.g. +/- 300 cents) are usually considered large, and are notoriously difficult to do without altering the timbre/naturalness of the original sound. The `PhaseVocoder` algorithm currently implemented in CLEESE is a relatively vanilla variant of the classic Phase Vocoder algorithm, and while it includes a number of well-know improvements (e.g. phase-locking), it remains limited in its ability to achieve large shifts of the kind seen here at the end of the sound. The algorithm will do what asked, but the result is likely to be severely distorted (spoiler: indeed, we'll see below). 
+
+### Reformat bpf
+
+As above, this bpf cannot be directly passed to `cleese.process` and needs to be reformatted so that it can be linearly interpolated by the engine with changing its morphology. For this, we insert a segment between t=0 and the beginning of the source with a ratio of 0 cents (i.e. no transformation), and we insert a similar segment between the end of the source and t=duration.  
+
+```
+# format bpf so it can be interpolated
+transition_time = 0.05 #10ms
+src_duration = (src_wav.shape[0])/sr
+
+# insert pitch 0 between t=0 and t=pitch_bpf_times[0]-transition_time/2
+pitch_bpf_times = np.insert(pitch_bpf_times,0,pitch_bpf_times[0]-transition_time/2)
+pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+pitch_bpf_times = np.insert(pitch_bpf_times,0,0)
+pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+
+# insert pitch 0 between t=pitch_bpf_times[-1]+transition_time/2 and t=duration
+pitch_bpf_times = np.append(pitch_bpf_times,pitch_bpf_times[-1]+transition_time/2)
+pitch_bpf_val = np.append(pitch_bpf_val,0)
+pitch_bpf_times = np.append(pitch_bpf_times,duration)
+pitch_bpf_val = np.append(pitch_bpf_val,0)
+
+# display original file
+plt.plot(1000*pitch_bpf_times, pitch_bpf_val, 'k')
+plt.xlabel('time in file (ms)')
+plt.ylabel('BPF')
+plt.plot([1000*np.min(pitch_bpf_times),1000*np.max(pitch_bpf_times)],[0,0],'k:')
+```
+
+![Image title](../images/morph_tutorial_10.png)
+
+### Apply bpf to source file
+
+Finally, the bpf can be applied to the source file, using the `random_pitch_profile.toml` config file. 
+
+```
+bpf = np.column_stack((pitch_bpf_times,pitch_bpf_val))
+
+# apply transformation
+pitch_config_file = "./configs/random_pitch_profile.toml"
+transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, pitch_config_file, sample_rate=sr, BPF=bpf)
+```
+
+### Create successive morphings
+
+To create morphings, one need to modulate the bpf values with a morphing factor between 0 and 1. Contrary to stretch factors (that are multiplicative, hence centered on 1:1), pitch factors are additive and centered on 0, so modulating the bpf just amounts to multiplying its value, i.e. `bpf = np.column_stack((pitch_bpf_times,factor*pitch_bpf_val))`
+
+As above, let's first gather all this code into a single `morph_pitch` function. 
+
+```
+def morph_pitch(src_wav,target_wav,sr,factor): 
+    
+    # extract pitch
+    src_times, src_pitch = PhaseVocoder.extract_pitch(src_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+    target_times, target_pitch = PhaseVocoder.extract_pitch(target_wav, sr, win=.02, bounds=[100,210], harmo_thresh=0.3, interpolate=True)
+
+    # resample to adapt to src time point
+    target_pitch_resampled = signal.resample(target_pitch, len(src_pitch))
+    
+    # compute bpf
+    pitch_bpf_times = src_times
+    def difference_to_cents(src_pitch_val, target_pitch_val):
+        return 1200*np.log2(target_pitch_val/src_pitch_val)
+    pitch_bpf_val = np.array([difference_to_cents(src, target) for src, target in zip(src_pitch,target_pitch_resampled)])
+    
+    # reformat bpf for interpolation
+    src_duration = (src_wav.shape[0])/sr
+    transition_time = 0.05 #10ms
+    # insert pitch 0 between t=0 and t=pitch_bpf_times[0]-transition_time/2
+    pitch_bpf_times = np.insert(pitch_bpf_times,0,pitch_bpf_times[0]-transition_time/2)
+    pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+    pitch_bpf_times = np.insert(pitch_bpf_times,0,0)
+    pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+
+    # insert pitch 0 between t=pitch_bpf_times[-1]+transition_time/2 and t=duration
+    pitch_bpf_times = np.append(pitch_bpf_times,pitch_bpf_times[-1]+transition_time/2)
+    pitch_bpf_val = np.append(pitch_bpf_val,0)
+    pitch_bpf_times = np.append(pitch_bpf_times,src_duration)
+    pitch_bpf_val = np.append(pitch_bpf_val,0)
+    
+    # modulate the pitch factor by multiplying it by a factor between 0 and 1
+    bpf = np.column_stack((pitch_bpf_times,factor*pitch_bpf_val))
+
+    # apply transformation
+    pitch_config_file = "docs/docs/tutorials/configs/random_pitch_profile.toml"
+    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, pitch_config_file, sample_rate=sr, BPF=bpf)
+    
+    return transf_wav,transf_bpf
+```
+
+and we now call it for all factors between 0 and 1
+
+```
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_pitch, 'o-', label='src')
+plt.plot(src_times, target_pitch_resampled, 'o-', label='target')
+
+factors = np.arange(0,1.1,0.1)
+colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+
+for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+    
+    # apply transformation
+    transf_wav, transf_bpf = morph_pitch(src_wav,target_wav,sr,factor)
+    
+    # save file
+    PhaseVocoder.wav_write(transf_wav, 'src_pitch_%.1f.wav'%factor, sr, sample_format=frmt)
+    
+    # visualize the pitch contour of that transformation
+    transf_times, transf_pitch = PhaseVocoder.extract_pitch(transf_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+    plt.plot(transf_times, transf_pitch, '-',label='transf_%.1f'%factor, alpha=0.3,color=colors[index])
+    
+plt.legend()
+```
+
+![Image title](../images/morph_tutorial_11.png)
+
+As seen here, going from the source/question (blue) to the target/statement (orange) creates intermediate pitch contours that more or less interpolates between the two extremes. 
+
+!!! note
+    You may wonder why the interpolation seen in the above picture is not perfect, while it was yet created mathematically by an exact multiplication of the value. That's because what we're seeing here is not the bpf, but an algorithmic evaluation (`extract_pitch`) of the pitch of the resulting sound. While the bpf is exactly interpolated, the pitch transformation algorithm may not perfectly recreate the target pitch (we'll see below that it is the case for large transformations) _and_ the pitch analysis algorithm may not perfectly recognize the pitch in the transformed sound (that's notably likely when sounds are distorted by the transformation). 
+
+Here's an audio montage of the successive intermediate pitch morphings between source and target obtained with this procedure<br>
+<audio controls src="../sounds/src_to_target_pitch.wav"></audio> <br> 
+One can hear that the initial 3 or 4 steps are relatively useable, but that larger pitch transformations above step 5 or so severely distorts the timbre of the sound, making e.g. the second part of sound increasingly deep and masculine, to the point of sounding completely irrealistic. This illustrates the limitation of the relatively simple `PhaseVocoder` implementation in CLEESE, which is only really useful for small pitch transformations in the +/-300 cent range. 
+
+One possibility to circumvent this limitation is, of course, to generate morphings in the opposite direction (from target to source), and "meet in the middle". 
+
+```
+
+plt.figure(figsize=(20,5))
+plt.plot(target_times, target_pitch, 'o-', label='src')
+
+src_pitch_resampled = signal.resample(src_pitch, len(target_pitch))
+plt.plot(target_times, src_pitch_resampled, 'o-', label='target')
+
+factors = np.arange(0,1.1,0.1)
+colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+
+for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+    
+    # apply transformation
+    transf_wav, transf_bpf = morph_pitch(target_wav,src_wav,sr,factor)
+    
+    # save file
+    PhaseVocoder.wav_write(transf_wav, 'target_pitch_%.1f.wav'%factor, sr, sample_format=frmt)
+    
+    # visualize the pitch contour of that transformation
+    transf_times, transf_pitch = PhaseVocoder.extract_pitch(transf_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+    plt.plot(transf_times, transf_pitch, '-',label='transf_%.1f'%factor, alpha=0.3,color=colors[index])
+    
+plt.legend()
+```
+![Image title](../images/morph_tutorial_12.png)
+
+As before, the transformation from statement to question is relatively useable for the first 3-4 steps, after which the voice takes on an unnatural "chipmunk" quality. <br>
+<audio controls src="../sounds/target_to_src_pitch.wav"></audio> <br> 
+Combining the two (first few steps of target to source, followed by first few steps of source to target in reverse order) creates a relatively convincing interpolation of pitch contours (although one of course can clearly hear the bifurcation of speed contour halfway in the sequence - for this we need to combine stretch and pitch morphing as seen below).<br>
+<audio controls src="../sounds/src_to_target_pitch_combined.wav"></audio> <br>  
+
+## Morphing RMS
+
+Morphing the rms contours between 2 sounds works in the same manner as above. We simply provide here the combined function. 
+
+```
+def morph_rms(src_wav,target_wav,sr,factor): 
+    
+    # extract rms with no threshold
+    src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0, interpolate=False)
+    target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0, interpolate=False)
+    
+    # resample to align time
+    target_rms_resampled = signal.resample(target_rms, len(src_rms))
+    target_rms_resampled = np.where(target_rms_resampled<0, 0, target_rms_resampled)
+    
+    # compute bpf
+    rms_bpf_times = src_times
+    rms_bpf_val = np.array([target/src for src, target in zip(src_rms,target_rms_resampled)])
+    rms_bpf_val = np.where(src_rms<0.01, 1, rms_bpf_val) # threshold/simplify the bpf when the original sound is silence. 
+    
+    # modulate the stretch factor by multiplying its difference to 1 by a factor between 0 and 1
+    factor_val = 1 + factor*(rms_bpf_val - 1) 
+    bpf = np.column_stack((rms_bpf_times,factor_val))
+    
+    # apply transformation
+    rms_config_file = "./configs/random_rms_profile.toml"
+    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, rms_config_file, sample_rate=sr, BPF=bpf)
+    
+    # normalize rms
+    transf_wav = transf_wav/np.max(np.abs(transf_wav))*0.999 
+    
+    return transf_wav,transf_bpf
+```
+
+```
+plt.figure(figsize=(20,5))
+plt.plot(src_times, src_rms, 'o-', label='src')
+plt.plot(src_times, target_rms_resampled, 'o-', label='target')
+
+factors = np.arange(0,1.1,0.1)
+colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+
+for index,factor in enumerate(factors):  # % of morphing, between 0% and 100%
+    
+    # apply transformation
+    transf_wav,transf_bpf = morph_rms(src_wav,target_wav,sr,factor)
+        
+    # save file
+    PhaseVocoder.wav_write(transf_wav, 'src_rms_%.1f.wav'%factor, sr, sample_format=frmt)
+    
+    # visualize the rms contour of that transformation
+    transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02,thresh=0, interpolate=False)
+    plt.plot(transf_times, transf_rms, '-',label='transf_%.1f'%factor, alpha=0.3, color=colors[index])
+    
+plt.legend()
+```
+
+![Image title](../images/morph_tutorial_13.png)
+
+## Combining transformations
+
+It is of course possible to combine/chain these transformations. For instance, one may want to create morphings that progressively modifies both the pitch and the speed contour of the sounds. 
+
+```
+factors = np.arange(0,1.1,0.1)
+colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+
+for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+    
+    transf1_wav, transf_bpf = morph_stretch(src_wav,target_wav,sr,factor)    
+    transf2_wav, transf_bpf = morph_pitch(transf1_wav,target_wav,sr,factor)    
+    PhaseVocoder.wav_write(transf2_wav, 'src_to_target_all_%.1f.wav'%factor, sr, sample_format=frmt)
+    
+    transf1_wav, transf_bpf = morph_stretch(target_wav,src_wav,sr,factor)    
+    transf2_wav, transf_bpf = morph_pitch(transf1_wav,src_wav,sr,factor)    
+    PhaseVocoder.wav_write(transf2_wav, 'target_to_src_all_%.1f.wav'%factor, sr, sample_format=frmt)
+```
+
+For instance, here are the first 4 steps of moving from a statement to a question.<br>
+<audio controls src="../sounds/target_to_src_all.wav"></audio> <br> 
+
+
+
+
+
+
