@@ -1,0 +1,1662 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../face/">
+      
+      
+        <link rel="next" href="../../about/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>Morphing between words - CLEESE, a Python toolbox for randomizing stimuli</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-morphing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CLEESE, a Python toolbox for randomizing stimuli" class="md-header__button md-logo" aria-label="CLEESE, a Python toolbox for randomizing stimuli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CLEESE, a Python toolbox for randomizing stimuli
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Morphing between words
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/neuro-team-femto/cleese" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neuro-team-femto/cleese
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../installation/" class="md-tabs__link">
+        
+  
+    
+  
+  Getting started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/general/" class="md-tabs__link">
+          
+  
+  Functions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../speech/" class="md-tabs__link">
+          
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+    
+  
+  About CLEESE
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CLEESE, a Python toolbox for randomizing stimuli" class="md-nav__button md-logo" aria-label="CLEESE, a Python toolbox for randomizing stimuli" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M184 0c30.9 0 56 25.1 56 56v400c0 30.9-25.1 56-56 56-28.9 0-52.7-21.9-55.7-50.1-5.2 1.4-10.7 2.1-16.3 2.1-35.3 0-64-28.7-64-64 0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1 3-28 26.8-49.9 55.7-49.9zm144 0c28.9 0 52.6 21.9 55.7 49.9C411.5 56.9 432 82 432 112c0 6-.8 11.9-2.4 17.4 28.8 6.2 50.4 31.9 50.4 62.6 0 15-5.1 28.8-13.8 39.7 27.1 12.8 45.8 40.4 45.8 72.3 0 34.2-21.4 63.4-51.6 74.8 2.3 6.6 3.6 13.8 3.6 21.2 0 35.3-28.7 64-64 64-5.6 0-11.1-.7-16.3-2.1-3 28.2-26.8 50.1-55.7 50.1-30.9 0-56-25.1-56-56V56c0-30.9 25.1-56 56-56z"/></svg>
+
+    </a>
+    CLEESE, a Python toolbox for randomizing stimuli
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/neuro-team-femto/cleese" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    neuro-team-femto/cleese
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Functions
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Functions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/phase-vocoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Phase Vocoder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/face-warp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Face Warp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speech/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Random speech
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../face/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Random faces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Morphing between words
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Morphing between words
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preambule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preambule
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-your-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify your installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-imports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful imports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-duration-contours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing duration contours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Morphing duration contours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyse-source-and-target-speed-contours-and-find-the-transformation-needed-to-convert-one-into-the-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse source and target speed contours, and find the transformation needed to convert one into the other
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format-this-as-a-cleese-bpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Format this as a CLEESE bpf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-the-bpf-to-the-source-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apply the bpf to the source file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-successive-morphings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create successive morphings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-pitch-contours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing pitch contours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Morphing pitch contours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyse-source-and-target-pitch-contour-and-compute-the-transformation-needed-to-convert-one-into-the-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse source and target pitch contour, and compute the transformation needed to convert one into the other
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reformat-bpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reformat bpf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-bpf-to-source-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apply bpf to source file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-successive-morphings_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create successive morphings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-rms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing RMS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining transformations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About CLEESE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preambule" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preambule
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-your-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify your installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-imports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful imports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful files
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-duration-contours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing duration contours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Morphing duration contours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyse-source-and-target-speed-contours-and-find-the-transformation-needed-to-convert-one-into-the-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse source and target speed contours, and find the transformation needed to convert one into the other
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format-this-as-a-cleese-bpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Format this as a CLEESE bpf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-the-bpf-to-the-source-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apply the bpf to the source file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-successive-morphings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create successive morphings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-pitch-contours" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing pitch contours
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Morphing pitch contours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyse-source-and-target-pitch-contour-and-compute-the-transformation-needed-to-convert-one-into-the-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse source and target pitch contour, and compute the transformation needed to convert one into the other
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reformat-bpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reformat bpf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-bpf-to-source-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apply bpf to source file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-successive-morphings_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create successive morphings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#morphing-rms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Morphing RMS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining transformations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/neuro-team-femto/cleese/edit/main/docs/docs/tutorials/morphing.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="tutorial-morphing">Tutorial: morphing<a class="headerlink" href="#tutorial-morphing" title="Permanent link">&para;</a></h1>
+<p>While CLEESE is primarily designed to randomize stimuli by transforming a base stimulus with randomly generated 'filters', its underlying transformation engines can be used to create 'morphings' between 2 predefined stimuli. This tutorial shows how to use CLEESE's <code>PhaseVocoder</code> engine to create sounds that have parametrically intermediate pitch, intensity and duration contours between a source and a target sound. </p>
+<p>In more details, the procedure involves, first, estimating the pitch, rms or duration contour of both source and target sounds (using e.g. <code>times,pitch = PhaseVocoder.extract_pitch(wave,sr)</code> ), creating intermediate contours by e.g. interpolating linearly between the source and target values at every time point, and applying this contour as a bpf to the source sound. This is not unlike the procedure to flatten files (where we first measure the original pitch contour, create a bpf that compensates that contour, and apply it again) described <a href="https://neuro-team-femto.github.io/cleese/tutorials/speech/#flattening-files">here</a>). </p>
+<!-- 
+###### 6 random variants of French phase _"je suis en route pour la réunion"_ (I'm on my way to the meeting)
+<audio controls src="../sounds/variation_pitch.wav"></audio><br>
+<a href="../sounds/variation_pitch.wav"> Download audio </a> 
+-->
+
+<h2 id="preambule">Preambule<a class="headerlink" href="#preambule" title="Permanent link">&para;</a></h2>
+<h3 id="verify-your-installation">Verify your installation<a class="headerlink" href="#verify-your-installation" title="Permanent link">&para;</a></h3>
+<p>Before starting, please verify that you have a working CLEESE installation, by running the following cell which should return without error. </p>
+<p><div class="language-py highlight"><span class="filename">import cleese</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">PhaseVocoder</span>
+</span></code></pre></div>
+Check the <a href="../../installation">installation instructions</a> if needed. </p>
+<h3 id="useful-imports">Useful imports<a class="headerlink" href="#useful-imports" title="Permanent link">&para;</a></h3>
+<p>The following code imports all the python packages that are needed in the rest of this tutorial (which you can <code>pip install</code> if you don't have them already). </p>
+<div class="language-py highlight"><span class="filename">extra imports</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span> 
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</span></code></pre></div>
+<h3 id="useful-files">Useful files<a class="headerlink" href="#useful-files" title="Permanent link">&para;</a></h3>
+<p>In the following, we'll be a number of files which you'll first need to download and store in your path at the indicated place</p>
+<ul>
+<li><a href="../sounds/apri_Q.wav">apri_Q</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/apri_Q</code> : the recording of a word pronounced as a question</li>
+<li><a href="./configs/apri_I.wav">apri_I</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./sounds/apri_I</code> : another recording of the same word, this time pronounced as a statement</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Both sounds were kindly provided by Dr. <a href="https://jptrujillo.github.io/">James Trujillo</a> (University of Amsterdam), who also provided the use case of this tutorial</p>
+</div>
+<ul>
+<li><a href="../configs/random_pitch_profile.toml">random_pitch_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_pitch_profile.toml</code> : a configuration file used to manipulate pitch</li>
+<li><a href="../configs/random_speed_profile.toml">random_speed_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_speed_profile.toml</code> : a configuration file used to manipulate speed/duration</li>
+<li><a href="../configs/random_rms_profile.toml">random_rms_profile.toml</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg></span> <code>./configs/random_rms_profile.toml</code> : a configuration file used to manipulate intensity/rms</li>
+</ul>
+<h2 id="morphing-duration-contours">Morphing duration contours<a class="headerlink" href="#morphing-duration-contours" title="Permanent link">&para;</a></h2>
+<p>As a first step, we'll use the <code>PhaseVocoder</code> engine's ability to stretch sounds along arbitrary temporal contours in order to morph the duration of the two words. </p>
+<h3 id="analyse-source-and-target-speed-contours-and-find-the-transformation-needed-to-convert-one-into-the-other">Analyse source and target speed contours, and find the transformation needed to convert one into the other<a class="headerlink" href="#analyse-source-and-target-speed-contours-and-find-the-transformation-needed-to-convert-one-into-the-other" title="Permanent link">&para;</a></h3>
+<p>First, let's load the two sounds using the <code>PhaseVocoder.wav_read</code> utility function. Arbitrarily, let's choose our source file (the one to be transformed) to be the question intonation, and our target file the statement/answer intonation. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>src_wav, sr, frmt =  PhaseVocoder.wav_read(&#39;./sounds/apri_Q.wav&#39;)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>target_wav, sr, frmt =  PhaseVocoder.wav_read(&#39;./sounds/apri_I.wav&#39;)
+</span></code></pre></div>
+<p>We then estimate the intensity profile of each sound, in order to visualize how they differ. The <code>PhaseVocoder.extract_rms</code> utility simply extracts root-mean-square intensity on every successive time window (duration <code>win</code> sec., here 20ms), and offers the possibility to threshold the resulting time series to only export values larger than a given intensity (put here to 0.02, but you may want to adapt this value manually to e.g. background noise). </p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>plt.plot(src_times, src_rms, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>plt.plot(target_times, target_rms, &#39;o-&#39;,label=&#39;target&#39;)
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>plt.legend()
+</span></code></pre></div>
+<img alt="Image title" src="../../images/morph_tutorial_1.png" /></p>
+<p>Our source/question word (blue) <br>
+<audio controls src="../sounds/apri_Q.wav"></audio><br> has two distinct syllables (A/PRI), the first being a bit shorter, and the second a bit trailing. In comparison, the target/statement version of the same word (orange) <br>
+<audio controls src="../sounds/apri_I.wav"></audio> <br>
+has a longer first syllable, and a shorter second. Similarly, the gap between the two question-syllables is a little shorter than between the two statement-syllables. Transforming the source into the target would therefore entail progressively stretching the first question-syllable, stretching the pause, and shortening the second segment, until the blue curve matches the morphology of the orange curve.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note the two words also differ by a lot more than syllable duration: from the graph above, we see that their intensity profiles differ notably on the first syllable (a louder syllable with a sharper onset for the target). Auditorily, it's also obvious that their pitch differs greatly, with an expected final pitch rise in the question/source file. In this section, we only transform duration, but below we will show how to also (or independently) transform intensity and pitch.  </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note also the two sounds don't start exactly at the same time in the file (the source sound as its onset around 600ms into the file; the target sound around 680ms), as often happens with naturalistic recordings. While this is not necessarily an issue, we'll also be using stretch to normalize that difference, while we're at it (see below)</p>
+</div>
+<h3 id="format-this-as-a-cleese-bpf">Format this as a CLEESE bpf<a class="headerlink" href="#format-this-as-a-cleese-bpf" title="Permanent link">&para;</a></h3>
+<p>To do all that we will create a BPF (breakpoint function) that lists what stretch factor to be applied at which time point in the file. First, we identify the temporal boundaries of the segments that we want to modify in each file: each syllable, as well as the gap between them. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># extract temporal bounds for the different segments
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>def extract_bounds(times, values): 
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    &#39;&#39;&#39;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    returns the start and end of every section composed of either consecutive nan or consecutive non-nans
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    &#39;&#39;&#39;
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    indices= [True]+ list(np.diff(np.isnan(values)))
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    indices[-1] = True
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    return list(times[indices])
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>src_bounds = extract_bounds(src_times, src_rms)
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>target_bounds = extract_bounds(target_times,target_rms)
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>plt.plot(src_times, src_rms, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>for bound in src_bounds:
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    plt.plot([bound,bound],[0,np.nanmax(src_rms)],&#39;b:&#39;)
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>plt.plot(target_times, target_rms, &#39;o-&#39;,label=&#39;target&#39;)
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>for bound in target_bounds: 
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    plt.plot([bound,bound],[0,np.nanmax(target_rms)],&#39;:r&#39;)
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>plt.legend()
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_2.png" /></p>
+<p>Next, we define a bpf where the time points correspond to the boundaries of the segments, and the stretch at each of these segments corresponds to the ratio of duration between the corresponding segments in the source and target sound. </p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># add t=0 in the bounds, so we also compute the stretch necessary to align the onset of the two sounds
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>if src_bounds[0] &gt; 0: 
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    src_bounds = np.insert(src_bounds,0,0)
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>if target_bounds[0] &gt; 0: 
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    target_bounds = np.insert(target_bounds,0,0)
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a># the stretch transformation is acting at each time where RMS was detected in question_wav
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>stretch_bpf_times = src_bounds
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a># the target stretch at each of these ratio of duration between the corresponding segments in questions and statement bounds
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>stretch_bpf_val = [target/src for src, target in zip(np.diff(src_bounds),
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>                                                              np.diff(target_bounds))]
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a># display tentative bpf
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>stretch_bpf_val_temp = np.insert(stretch_bpf_val,0,stretch_bpf_val[0])
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>plt.step(stretch_bpf_times, stretch_bpf_val_temp, &#39;k-o&#39;, where=&#39;pre&#39;)
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>plt.xlabel(&#39;time in file&#39;)
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>plt.ylabel(&#39;BPF&#39;)
+</span></code></pre></div>
+<img alt="Image title" src="../../images/morph_tutorial_3.png" /></p>
+<p>The resulting bpf, as should be, spreads around the 1:1 ratio (i.e. no change). It starts at 1.13, which corresponds to the stretching (&gt;1) of the initial silence segment (in effect delaying the onset of the question to match the statement onset); then stretches both the first question syllable and the pause between syllables by what happens to be the same ratio (x1.33); and finally shortens the last question syllable by x.875 (i.e. 87% of its original duration). </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The code above is brittle, as it assumes that there are the same number of segments in both source and target sounds. It is the case in this example (both start &gt; 0, both have 3 segments: one syllable, one pause and one syllable), but this may well not be the case if you use other pairs of sounds. Adjust manually until you have the same number of segments, for instance by changing the <code>extract_rms</code> threshold (which, if set low enought will only output one segment per sound). It is also possible to manually set segment boundaries, e.g. by identifying them in audacity, and not use semi-automatic rms segmentation as we show here (see example <a href="https://neuro-team-femto.github.io/cleese/tutorials/speech#using-custom-breakpoints">here</a>). </p>
+</div>
+<p>To apply this bpf, we simply call <code>cleese.process_data</code> on the source sound, passing it as the <code>bpf=BPF</code> argument, and using a configuration file that tells it it should apply the stretch transformation. </p>
+<p>However, before we can do that, we need a little hack. Up until at least <a href="https://github.com/neuro-team-femto/cleese/releases/tag/v.2.3.2">v2.3.2</a>, CLEESE assumes a slightly different format for bpfs when they are passed directly with the <code>bpf=BPF</code> keyword, compared to when they are generated autonomously by the system. When generated by the system, bpfs can be made as <code>square</code> or <code>ramp</code>, depending on the <code>BPFtype</code> parameter in the config file. When custom bpfs are passed directly however, that parameter is ignored (<a href="https://github.com/neuro-team-femto/cleese/issues/33">issue 33</a>), and whatever bpf values are passed are automatically interpolated linearly between time points, as if it was a ramp. So, even though <code>stretch_config_file</code> attempts to set <code>BPFtype='square'</code>, that parameter is ignore, and we have to prepare our custom bpf before passing it to <code>cleese.process_data</code> so that its linear interpolation generates the <code>square</code> bpf that we eventually want the function to use. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># format bpf so it can be interpolated
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>transition_time = 0.01 #10ms
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a># need duration of source file in seconds
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>duration = (src_wav.shape[0])/sr
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a># insert t=0 at the beginning
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>stretch_bpf_times = np.insert(stretch_bpf_times, 0,0)
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a># every time point is replaced by one slightly earlier, and one slightly later, separated by transition_time
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>stretch_bpf_times = np.sort(np.concatenate((
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>            np.array(stretch_bpf_times[1:-1])-transition_time/2,
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>            np.array(stretch_bpf_times[1:-1])+transition_time/2)))
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a># check boundary conditions
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>if stretch_bpf_times[-1] &gt; duration:
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    stretch_bpf_times = np.delete(stretch_bpf_times, -1)
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>if stretch_bpf_times[0] &lt; 0:
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>    stretch_bpf_times = np.delete(stretch_bpf_times, 0)
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a># add t=0 and t=duration
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>stretch_bpf_times = np.append(stretch_bpf_times, duration)
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>stretch_bpf_times = np.insert(stretch_bpf_times, 0, 0.)
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a># duplicate all bpf values too 
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>stretch_bpf_val = np.repeat(stretch_bpf_val,2)
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a># display new bpf
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>plt.plot(stretch_bpf_times, stretch_bpf_val, &#39;k-o&#39;)
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>plt.xlabel(&#39;time in file&#39;)
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>plt.ylabel(&#39;BPF&#39;)
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_4.png" /></p>
+<p>The resulting bpf has the same values as before, but is formatted in such a way that its linear interpolation looks like a <code>square</code> bpf (notice we use <code>plt.plot</code> and not <code>plt.step</code> here, compared to previous visualization). </p>
+<h3 id="apply-the-bpf-to-the-source-file">Apply the bpf to the source file<a class="headerlink" href="#apply-the-bpf-to-the-source-file" title="Permanent link">&para;</a></h3>
+<p>Now we can finally apply the bpf to the file</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># config file
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>stretch_config_file = &quot;./configs/random_speed_profile.toml&quot;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>bpf = np.column_stack((stretch_bpf_times,stretch_bpf_val))
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a># transform sound
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a># and save in sound file
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>PhaseVocoder.wav_write(transf_wav, &#39;./sounds/src_stretch.wav&#39;, sr, sample_format=frmt)
+</span></code></pre></div>
+Visualize the result: </p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02, thresh=0.02, interpolate=False)
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>plt.plot(src_times, src_rms, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>plt.plot(target_times, target_rms, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>plt.plot(transf_times, transf_rms, &#39;o:&#39;,label=&#39;transf&#39;)
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>plt.legend()
+</span></code></pre></div>
+<img alt="Image title" src="../../images/morph_tutorial_5.png" /></p>
+<p>The transformed sound (dotted, green) has the expected temporal morphology: it has been shifted in time and is now aligned with the target sound (orange); its first syllable and the pause between syllables have been stretched, and its second syllable has been shortened, all to match the duration of the target sound's. As already noted above, the stretch transformation has only shifted parts of sounds in time, but hasn't modified their intensity: the transformed first syllable is less intense that the target's, while the transformed second syllable is more intense than the target. Such adjustements of intensity will be done below. </p>
+<p>The resulting sound <br>
+<audio controls src="../sounds/src_stretch.wav"></audio><br> has the same rising-pitch intonation as the source sound, but a subtly different prosody from the original question <br>
+<audio controls src="../sounds/apri_Q.wav"></audio> <br>
+with a longer first syllable and a longer pause (/ap'pri/), making it sound perhaps a little more hesitating than the original. 
+One can compare its duration contour with the target sound, which has a markedly different pitch intonation: 
+<br>
+<audio controls src="../sounds/apri_I.wav"></audio> <br></p>
+<h3 id="create-successive-morphings">Create successive morphings<a class="headerlink" href="#create-successive-morphings" title="Permanent link">&para;</a></h3>
+<p>If one want to make intermediate examples, one only has to modulate the stretch factor by multiplying it by a factor between 0 (0% transformation, identical to source) and 1 (100% transformation, similar to target). More precisely, because stretch factors are centered on 1:1, one should multiply its difference to 1, as <code>1 + factor*(stretch_bpf_val - 1)</code></p>
+<p>For clarity, let's put everything above in a single function</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>def morph_stretch(src_wav,target_wav,sr,factor):
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    # extract source RMS
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    # extract target RMS
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    # extract segment boundaries
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    src_bounds = extract_bounds(src_times, src_rms)
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    target_bounds = extract_bounds(target_times,target_rms)
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    if src_bounds[0] &gt; 0: 
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        src_bounds = np.insert(src_bounds,0,0)
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    if target_bounds[0] &gt; 0: 
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        target_bounds = np.insert(target_bounds,0,0)
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>    # compute bpf
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    stretch_bpf_times = src_bounds
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    stretch_bpf_val = [target/src for src, target in zip(np.diff(src_bounds),
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>                                                              np.diff(target_bounds))]
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    # reformat bpf for interpolation
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>    src_duration = (src_wav.shape[0])/sr
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    stretch_bpf_times = np.sort(np.concatenate((
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>            np.array(stretch_bpf_times[1:-1])-transition_time/2,
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>            np.array(stretch_bpf_times[1:-1])+transition_time/2)))
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>    # add t=0 and t=duration
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    stretch_bpf_times = np.append(stretch_bpf_times, src_duration)
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    stretch_bpf_times = np.insert(stretch_bpf_times, 0, 0.)
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    # duplicate all bpf values too 
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>    stretch_bpf_val = np.repeat(stretch_bpf_val,2)
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    # modulate the stretch factor by multiplying its difference to 1 by a factor between 0 and 1
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>    factor_val = 1 + factor*(stretch_bpf_val - 1) 
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>    bpf = np.column_stack((stretch_bpf_times,factor_val))
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>    # transform sound
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>    stretch_config_file = &quot;./configs/random_speed_profile.toml&quot;
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, stretch_config_file, sample_rate=sr, BPF=bpf)
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>    return transf_wav
+</span></code></pre></div>
+<p>Then let's call <code>morph_stretch</code> with factors varying between 0 and 1, and plot/listen to the results. </p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0.02, interpolate=False)
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>plt.plot(src_times, src_rms, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0.02, interpolate=False)
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>plt.plot(target_times, target_rms, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>factors = np.arange(0,1.1,0.1)
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    transf_wav = morph_stretch(src_wav,target_wav,sr,factor)
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    # save file
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    PhaseVocoder.wav_write(transf_wav, &#39;src_stretch_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    # visualize the rms contour of that transformation
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02, thresh=0.02, interpolate=False)
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>    plt.plot(transf_times, transf_rms, &#39;-&#39;,label=&#39;transf_%.1f&#39;%factor, alpha=0.3, color=colors[index])
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>plt.legend()
+</span></code></pre></div>
+<img alt="Image title" src="../../images/morph_tutorial_6.png" /></p>
+<p>We see successive intermediate morphings between source and target behave as expected. Compare e.g. transformation at 0%<br>
+<audio controls src="../sounds/src_stretch_0.0.wav"></audio> <br> 
+transformation at 50% <br>
+<audio controls src="../sounds/src_stretch_0.5.wav"></audio> <br> 
+and transformation at 100%<br>
+<audio controls src="../sounds/src_stretch_1.0.wav"></audio> <br> </p>
+<h2 id="morphing-pitch-contours">Morphing pitch contours<a class="headerlink" href="#morphing-pitch-contours" title="Permanent link">&para;</a></h2>
+<p>To create intermediate pitch contours between a source and a target sound, we proceed similarly by, first, analysing the pitch contour of each sound, and then construct bpfs that convert one contour into the other. </p>
+<p>We start again with the same two sounds: </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>src_wav, sr, frmt =  PhaseVocoder.wav_read(&#39;./sounds/apri_Q.wav&#39;)
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>target_wav, sr, frmt =  PhaseVocoder.wav_read(&#39;./sounds/apri_I.wav&#39;)
+</span></code></pre></div>
+<h3 id="analyse-source-and-target-pitch-contour-and-compute-the-transformation-needed-to-convert-one-into-the-other">Analyse source and target pitch contour, and compute the transformation needed to convert one into the other<a class="headerlink" href="#analyse-source-and-target-pitch-contour-and-compute-the-transformation-needed-to-convert-one-into-the-other" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>src_times, src_pitch = PhaseVocoder.extract_pitch(src_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>target_times, target_pitch = PhaseVocoder.extract_pitch(target_wav, sr, win=.02, bounds=[100,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>plt.plot(src_times, src_pitch, label=&#39;src&#39;)
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>plt.plot(target_times, target_pitch, label=&#39;target&#39;)
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>plt.legend()
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_7.png" /></p>
+<p>As can clearly be heard, the source/question sound has a typical rising-pitch intonation, while the target has a descending pitch. Note that the target is higher than the source on the first syllable. So in order to convert one into the other, we will need to increase pitch in the first part of the sound, and lower it in the second part. </p>
+<p>In order to write such a transformation as a bpf, we need to compare the pitch contour of the source to the pitch contour of the target, at every time point. Because both sounds are not aligned in time (they would be if we used the stretch morphing above first), and do not have the same duration, we can't directly compare them. First, we therefore resample the target pitch contour so that it has the same duration as the source. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>plt.plot(src_times, src_pitch,&#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>plt.plot(target_times, target_pitch, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>target_pitch_resampled = signal.resample(target_pitch, len(src_pitch))
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>plt.plot(src_times, target_pitch_resampled, &#39;o:&#39;, label=&#39;target_resampled&#39;)
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>plt.legend()
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_8.png" /></p>
+<p>We then compute, at each time point in the source file, what is the needed pitch transformation to convert <code>src_pitch</code> into the resampled <code>target_pitch</code>. CLEESE's <code>PhaseVocoder</code> algorithm expects shift values in cents (i.e. 1% of a semitone), which can be obtained from a ratio of frequency (Hz) <code>f_target/f_source</code> as <code>1200*np.log2(f_target/f_source)</code> (double-check: if f_target = 2 x f_source, we go up by one octave, which is 12 tones x 100 cents = 1200 cents, and 1200 x np.log2(2) is indeed +1200). </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>pitch_bpf_times = src_times
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a># the bpf_value is the cent transformation needed to convert question_pitch to target_pitch
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>def difference_to_cents(src_pitch_val, target_pitch_val):
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    return 1200*np.log2(target_pitch_val/src_pitch_val)
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a># the target pitch at each of these times is the corresponding pitch in resampled_target_pitch
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>pitch_bpf_val = np.array([difference_to_cents(src, target) for src, target in zip(src_pitch,target_pitch_resampled)])
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a># display original file
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>plt.plot(1000*pitch_bpf_times, pitch_bpf_val, &#39;k&#39;)
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>plt.xlabel(&#39;time in file (ms)&#39;)
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>plt.ylabel(&#39;BPF&#39;)
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>plt.plot([1000*np.min(pitch_bpf_times),1000*np.max(pitch_bpf_times)],[0,0],&#39;k:&#39;)
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_9.png" /></p>
+<p>The resulting bpf indeed increases pitch by about one musical tone (+200 cents) at the beginning of the sound, and lowers it dramatically (-700cents, which is down 3.5 musical tones, also called a 'fifth'). </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Transformations by more than a few semitones (e.g. +/- 300 cents) are usually considered large, and are notoriously difficult to do without altering the timbre/naturalness of the original sound. The <code>PhaseVocoder</code> algorithm currently implemented in CLEESE is a relatively vanilla variant of the classic Phase Vocoder algorithm, and while it includes a number of well-know improvements (e.g. phase-locking), it remains limited in its ability to achieve large shifts of the kind seen here at the end of the sound. The algorithm will do what asked, but the result is likely to be severely distorted (spoiler: indeed, we'll see below). </p>
+</div>
+<h3 id="reformat-bpf">Reformat bpf<a class="headerlink" href="#reformat-bpf" title="Permanent link">&para;</a></h3>
+<p>As above, this bpf cannot be directly passed to <code>cleese.process</code> and needs to be reformatted so that it can be linearly interpolated by the engine with changing its morphology. For this, we insert a segment between t=0 and the beginning of the source with a ratio of 0 cents (i.e. no transformation), and we insert a similar segment between the end of the source and t=duration.  </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a># format bpf so it can be interpolated
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>transition_time = 0.05 #10ms
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>src_duration = (src_wav.shape[0])/sr
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a># insert pitch 0 between t=0 and t=pitch_bpf_times[0]-transition_time/2
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>pitch_bpf_times = np.insert(pitch_bpf_times,0,pitch_bpf_times[0]-transition_time/2)
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>pitch_bpf_times = np.insert(pitch_bpf_times,0,0)
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a># insert pitch 0 between t=pitch_bpf_times[-1]+transition_time/2 and t=duration
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>pitch_bpf_times = np.append(pitch_bpf_times,pitch_bpf_times[-1]+transition_time/2)
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>pitch_bpf_val = np.append(pitch_bpf_val,0)
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>pitch_bpf_times = np.append(pitch_bpf_times,duration)
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>pitch_bpf_val = np.append(pitch_bpf_val,0)
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a># display original file
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>plt.plot(1000*pitch_bpf_times, pitch_bpf_val, &#39;k&#39;)
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>plt.xlabel(&#39;time in file (ms)&#39;)
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>plt.ylabel(&#39;BPF&#39;)
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>plt.plot([1000*np.min(pitch_bpf_times),1000*np.max(pitch_bpf_times)],[0,0],&#39;k:&#39;)
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_10.png" /></p>
+<h3 id="apply-bpf-to-source-file">Apply bpf to source file<a class="headerlink" href="#apply-bpf-to-source-file" title="Permanent link">&para;</a></h3>
+<p>Finally, the bpf can be applied to the source file, using the <code>random_pitch_profile.toml</code> config file. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>bpf = np.column_stack((pitch_bpf_times,pitch_bpf_val))
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a># apply transformation
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>pitch_config_file = &quot;./configs/random_pitch_profile.toml&quot;
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, pitch_config_file, sample_rate=sr, BPF=bpf)
+</span></code></pre></div>
+<h3 id="create-successive-morphings_1">Create successive morphings<a class="headerlink" href="#create-successive-morphings_1" title="Permanent link">&para;</a></h3>
+<p>To create morphings, one need to modulate the bpf values with a morphing factor between 0 and 1. Contrary to stretch factors (that are multiplicative, hence centered on 1:1), pitch factors are additive and centered on 0, so modulating the bpf just amounts to multiplying its value, i.e. <code>bpf = np.column_stack((pitch_bpf_times,factor*pitch_bpf_val))</code></p>
+<p>As above, let's first gather all this code into a single <code>morph_pitch</code> function. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>def morph_pitch(src_wav,target_wav,sr,factor): 
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    # extract pitch
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    src_times, src_pitch = PhaseVocoder.extract_pitch(src_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    target_times, target_pitch = PhaseVocoder.extract_pitch(target_wav, sr, win=.02, bounds=[100,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    # resample to adapt to src time point
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    target_pitch_resampled = signal.resample(target_pitch, len(src_pitch))
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    # compute bpf
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    pitch_bpf_times = src_times
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    def difference_to_cents(src_pitch_val, target_pitch_val):
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>        return 1200*np.log2(target_pitch_val/src_pitch_val)
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    pitch_bpf_val = np.array([difference_to_cents(src, target) for src, target in zip(src_pitch,target_pitch_resampled)])
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>    # reformat bpf for interpolation
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>    src_duration = (src_wav.shape[0])/sr
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>    transition_time = 0.05 #10ms
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>    # insert pitch 0 between t=0 and t=pitch_bpf_times[0]-transition_time/2
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>    pitch_bpf_times = np.insert(pitch_bpf_times,0,pitch_bpf_times[0]-transition_time/2)
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>    pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>    pitch_bpf_times = np.insert(pitch_bpf_times,0,0)
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>    pitch_bpf_val = np.insert(pitch_bpf_val,0,0)
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    # insert pitch 0 between t=pitch_bpf_times[-1]+transition_time/2 and t=duration
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    pitch_bpf_times = np.append(pitch_bpf_times,pitch_bpf_times[-1]+transition_time/2)
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>    pitch_bpf_val = np.append(pitch_bpf_val,0)
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>    pitch_bpf_times = np.append(pitch_bpf_times,src_duration)
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>    pitch_bpf_val = np.append(pitch_bpf_val,0)
+</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>
+</span><span id="__span-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>    # modulate the pitch factor by multiplying it by a factor between 0 and 1
+</span><span id="__span-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>    bpf = np.column_stack((pitch_bpf_times,factor*pitch_bpf_val))
+</span><span id="__span-17-33"><a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a>
+</span><span id="__span-17-34"><a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>    # apply transformation
+</span><span id="__span-17-35"><a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a>    pitch_config_file = &quot;docs/docs/tutorials/configs/random_pitch_profile.toml&quot;
+</span><span id="__span-17-36"><a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a>    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, pitch_config_file, sample_rate=sr, BPF=bpf)
+</span><span id="__span-17-37"><a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>
+</span><span id="__span-17-38"><a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a>    return transf_wav,transf_bpf
+</span></code></pre></div>
+<p>and we now call it for all factors between 0 and 1</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>plt.plot(src_times, src_pitch, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>plt.plot(src_times, target_pitch_resampled, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>factors = np.arange(0,1.1,0.1)
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    # apply transformation
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    transf_wav, transf_bpf = morph_pitch(src_wav,target_wav,sr,factor)
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>    # save file
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    PhaseVocoder.wav_write(transf_wav, &#39;src_pitch_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    # visualize the pitch contour of that transformation
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>    transf_times, transf_pitch = PhaseVocoder.extract_pitch(transf_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>    plt.plot(transf_times, transf_pitch, &#39;-&#39;,label=&#39;transf_%.1f&#39;%factor, alpha=0.3,color=colors[index])
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>plt.legend()
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_11.png" /></p>
+<p>As seen here, going from the source/question (blue) to the target/statement (orange) creates intermediate pitch contours that more or less interpolates between the two extremes. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may wonder why the interpolation seen in the above picture is not perfect, while it was yet created mathematically by an exact multiplication of the value. That's because what we're seeing here is not the bpf, but an algorithmic evaluation (<code>extract_pitch</code>) of the pitch of the resulting sound. While the bpf is exactly interpolated, the pitch transformation algorithm may not perfectly recreate the target pitch (we'll see below that it is the case for large transformations) <em>and</em> the pitch analysis algorithm may not perfectly recognize the pitch in the transformed sound (that's notably likely when sounds are distorted by the transformation). </p>
+</div>
+<p>Here's an audio montage of the successive intermediate pitch morphings between source and target obtained with this procedure<br>
+<audio controls src="../sounds/src_to_target_pitch.wav"></audio> <br> 
+One can hear that the initial 3 or 4 steps are relatively useable, but that larger pitch transformations above step 5 or so severely distorts the timbre of the sound, making e.g. the second part of sound increasingly deep and masculine, to the point of sounding completely irrealistic. This illustrates the limitation of the relatively simple <code>PhaseVocoder</code> implementation in CLEESE, which is only really useful for small pitch transformations in the +/-300 cent range. </p>
+<p>One possibility to circumvent this limitation is, of course, to generate morphings in the opposite direction (from target to source), and "meet in the middle". </p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>plt.plot(target_times, target_pitch, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>src_pitch_resampled = signal.resample(src_pitch, len(target_pitch))
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>plt.plot(target_times, src_pitch_resampled, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>factors = np.arange(0,1.1,0.1)
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    # apply transformation
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    transf_wav, transf_bpf = morph_pitch(target_wav,src_wav,sr,factor)
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    # save file
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>    PhaseVocoder.wav_write(transf_wav, &#39;target_pitch_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>    # visualize the pitch contour of that transformation
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>    transf_times, transf_pitch = PhaseVocoder.extract_pitch(transf_wav, sr, win=.02, bounds=[140,210], harmo_thresh=0.3, interpolate=True)
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>    plt.plot(transf_times, transf_pitch, &#39;-&#39;,label=&#39;transf_%.1f&#39;%factor, alpha=0.3,color=colors[index])
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>plt.legend()
+</span></code></pre></div>
+<img alt="Image title" src="../../images/morph_tutorial_12.png" /></p>
+<p>As before, the transformation from statement to question is relatively useable for the first 3-4 steps, after which the voice takes on an unnatural "chipmunk" quality. <br>
+<audio controls src="../sounds/target_to_src_pitch.wav"></audio> <br> 
+Combining the two (first few steps of target to source, followed by first few steps of source to target in reverse order) creates a relatively convincing interpolation of pitch contours (although one of course can clearly hear the bifurcation of speed contour halfway in the sequence - for this we need to combine stretch and pitch morphing as seen below).<br>
+<audio controls src="../sounds/src_to_target_pitch_combined.wav"></audio> <br>  </p>
+<h2 id="morphing-rms">Morphing RMS<a class="headerlink" href="#morphing-rms" title="Permanent link">&para;</a></h2>
+<p>Morphing the rms contours between 2 sounds works in the same manner as above. We simply provide here the combined function. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>def morph_rms(src_wav,target_wav,sr,factor): 
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    # extract rms with no threshold
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    src_times, src_rms = PhaseVocoder.extract_rms(src_wav, sr, win=.02, thresh=0, interpolate=False)
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>    target_times, target_rms = PhaseVocoder.extract_rms(target_wav, sr, win=.02,thresh=0, interpolate=False)
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    # resample to align time
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    target_rms_resampled = signal.resample(target_rms, len(src_rms))
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    target_rms_resampled = np.where(target_rms_resampled&lt;0, 0, target_rms_resampled)
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    # compute bpf
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>    rms_bpf_times = src_times
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    rms_bpf_val = np.array([target/src for src, target in zip(src_rms,target_rms_resampled)])
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>    rms_bpf_val = np.where(src_rms&lt;0.01, 1, rms_bpf_val) # threshold/simplify the bpf when the original sound is silence. 
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>    # modulate the stretch factor by multiplying its difference to 1 by a factor between 0 and 1
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>    factor_val = 1 + factor*(rms_bpf_val - 1) 
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>    bpf = np.column_stack((rms_bpf_times,factor_val))
+</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>
+</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    # apply transformation
+</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>    rms_config_file = &quot;./configs/random_rms_profile.toml&quot;
+</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>    transf_wav,transf_bpf = cleese.process_data(PhaseVocoder, src_wav, rms_config_file, sample_rate=sr, BPF=bpf)
+</span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a>
+</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>    # normalize rms
+</span><span id="__span-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a>    transf_wav = transf_wav/np.max(np.abs(transf_wav))*0.999 
+</span><span id="__span-20-26"><a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a>
+</span><span id="__span-20-27"><a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a>    return transf_wav,transf_bpf
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>plt.figure(figsize=(20,5))
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>plt.plot(src_times, src_rms, &#39;o-&#39;, label=&#39;src&#39;)
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>plt.plot(src_times, target_rms_resampled, &#39;o-&#39;, label=&#39;target&#39;)
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>factors = np.arange(0,1.1,0.1)
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>for index,factor in enumerate(factors):  # % of morphing, between 0% and 100%
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    # apply transformation
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>    transf_wav,transf_bpf = morph_rms(src_wav,target_wav,sr,factor)
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>    # save file
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>    PhaseVocoder.wav_write(transf_wav, &#39;src_rms_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>    # visualize the rms contour of that transformation
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>    transf_times, transf_rms = PhaseVocoder.extract_rms(transf_wav, sr, win=.02,thresh=0, interpolate=False)
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>    plt.plot(transf_times, transf_rms, &#39;-&#39;,label=&#39;transf_%.1f&#39;%factor, alpha=0.3, color=colors[index])
+</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>
+</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>plt.legend()
+</span></code></pre></div>
+<p><img alt="Image title" src="../../images/morph_tutorial_13.png" /></p>
+<h2 id="combining-transformations">Combining transformations<a class="headerlink" href="#combining-transformations" title="Permanent link">&para;</a></h2>
+<p>It is of course possible to combine/chain these transformations. For instance, one may want to create morphings that progressively modifies both the pitch and the speed contour of the sounds. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>factors = np.arange(0,1.1,0.1)
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>colors = plt.cm.jet(np.linspace(0,1,len(factors)))
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>for index,factor in enumerate(factors): # % of morphing, between 0% and 100%
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>    transf1_wav, transf_bpf = morph_stretch(src_wav,target_wav,sr,factor)    
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    transf2_wav, transf_bpf = morph_pitch(transf1_wav,target_wav,sr,factor)    
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    PhaseVocoder.wav_write(transf2_wav, &#39;src_to_target_all_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    transf1_wav, transf_bpf = morph_stretch(target_wav,src_wav,sr,factor)    
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>    transf2_wav, transf_bpf = morph_pitch(transf1_wav,src_wav,sr,factor)    
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>    PhaseVocoder.wav_write(transf2_wav, &#39;target_to_src_all_%.1f.wav&#39;%factor, sr, sample_format=frmt)
+</span></code></pre></div>
+<p>For instance, here are the first 4 steps of moving from a statement to a question.<br>
+<audio controls src="../sounds/target_to_src_all.wav"></audio> <br> </p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 5, 2024</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 26, 2022</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../face/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Random faces">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Random faces
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About CLEESE">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                About CLEESE
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 -- FEMTO Neuro Group
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.action.edit", "navigation.tabs", "navigation.footer"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
