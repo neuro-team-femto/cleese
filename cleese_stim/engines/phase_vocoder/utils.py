@@ -13,6 +13,7 @@ import numpy as np
 import math
 
 from ...third_party.yin import compute_yin
+from ...cleese import log
 
 
 def load_file(file_name):
@@ -49,11 +50,15 @@ def wav_write(wave_out, file_name, sr, sample_format='int16'):
     wave_out_format = wave_out_format.astype(sample_format)
     scipy.io.wavfile.write(file_name, sr, wave_out_format)
 
-def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
+def extract_pitch(x, sr, win=.02, bounds=[70,400], harmo_thresh=0.1, interpolate=True):
     """
     Extract pitch from x waveform with the YIN algorithm
     """
     
+    # if stereo, convert to mono
+    if len(x.shape) == 2:
+        x = np.ravel(x[:, 0])
+
     # extract raw pitch with yin
     hop_size = int(np.floor(sr * win))
     min_f0, max_f0 = bounds
@@ -61,7 +66,7 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
     if hop_size < int(sr / min_f0): 
         hop_size = int(sr / min_f0) + 1
     pitch, harmonic_rates, argmins, times = compute_yin(x, sr, 
-        dataFileName=None, w_len=hop_size, w_step=hop_size, f0_min=min_f0, f0_max=max_f0, harmo_thresh=0.1)
+        dataFileName=None, w_len=hop_size, w_step=hop_size, f0_min=min_f0, f0_max=max_f0, harmo_thresh=harmo_thresh)
     
     # third-party yin returns lists; convert to nparray
     pitch = np.array(pitch)
@@ -79,14 +84,63 @@ def extract_pitch(x, sr, win=.02, bounds=[70,400], interpolate=True):
         pitch = times = []
     
     if(interpolate):  # interpolate nans
-        start_value = end_value = np.mean(pitch[np.nonzero(~np.isnan(pitch))])
-        pitch = interpolate_pitch(pitch, start_value = start_value, end_value = end_value)
+        if len(pitch)==0: # no pitch values found
+           log('WARN: no pitch value detected. Cannot interpolate.') 
+        else:   
+            start_value = end_value = np.mean(pitch[np.nonzero(~np.isnan(pitch))])
+            pitch = interpolate_series(pitch, start_value = start_value, end_value = end_value)
     
     return times, pitch
 
-def interpolate_pitch(x, start_value, end_value): 
+def enframe(x,sr, win_s):
+    # generator to cut a signal into non-overlapping frames
+    # returns all complete frames, but a last frame with any trailing samples
+    win = int(np.floor(sr * win_s))
+    for i in range(len(x)//win):
+        start = win*i
+        end=win*(i+1)
+        yield (x[start:end],start,end)
+    if (end < len(x)): 
+        yield (x[end:len(x)],end,len(x))   
+
+def extract_rms(x,sr,win, thresh=0.02, interpolate=True):
+    
+    rms_values=[]
+    for frame, frame_start, frame_end in enframe(x,sr, win):
+        rms=np.sqrt(np.mean(np.absolute(frame).astype(float)**2))
+        rms_values.append(rms)
+    times = np.arange(len(rms_values))*win
+    
+    rms = np.array(rms_values)
+    times = np.array(times)
+    
+    # trim beginning and end nans
+    rms[np.where(rms<thresh)[0]] = np.nan
+    notnans = np.flatnonzero(~np.isnan(rms))
+    if notnans.size:
+        rms = rms[notnans[0]: notnans[-1]+1]
+        times = times[notnans[0]: notnans[-1]+1]
+    else: 
+        rms = times = []
+    
+    if(interpolate):  # interpolate nans
+        if len(rms)==0: # no rms values found
+           log('WARN: no rms value detected. Cannot interpolate.') 
+        else:   
+            start_value = end_value = np.mean(rms[np.nonzero(~np.isnan(rms))])
+            rms = interpolate_series(rms, start_value = start_value, end_value = end_value)
+            
+    return times, rms
+
+#wave_in, sr = librosa.load('sounds\\zaina.wav')
+#rms,times = extract_rms(wave_in,sr,0.01)
+#plt.plot(times,rms)
+#rms,times = extract_rms(wave_in,sr,0.05)
+#plt.plot(times,rms,'k')
+
+def interpolate_series(x, start_value, end_value): 
     """
-    Interpolate zeros in pitch series. Method = spline (order-3 polynomial), linear or none. 
+    Interpolate zeros in series. 
     Provide start_value, end_value to fix bounds. 
     """
     xp=np.where(np.invert(list(map(math.isnan, x))))[0]
