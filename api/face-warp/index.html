@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.76a95c52.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -813,14 +813,14 @@ Alternatively, a precomputed set of deformations can also be provided.</p>
 <h2 id="modes-of-operation">Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permanent link">&para;</a></h2>
 <p>CLEESE can be used in different modes, depending on which function you call and how. </p>
 <h2 id="batch-generation">Batch generation<a class="headerlink" href="#batch-generation" title="Permanent link">&para;</a></h2>
-<p>CLEESE has a dedicated function for batch treatments: <code>cleese.generate_stimuli</code>, which is used, in <code>Mediapipe</code>'s case, to generate a number of randomly deformed visages.</p>
+<p>CLEESE has a dedicated function for batch treatments: <code>cleese.generate_stimuli</code>, which is used, in <code>FaceWarp</code>'s case, to generate a number of randomly deformed visages.</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">FaceWarp</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">cleese</span><span class="o">.</span><span class="n">generate_stimuli</span><span class="p">(</span><span class="n">FaceWarp</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Two parameters have to be set by the user:</p>
 <ul>
@@ -847,22 +847,22 @@ detailed below.</p>
 <p>Here, you can also use <code>PIL.Image</code>'s <code>np.array(Image.open("path/image.jpg").convert("RGB"))</code> to load the image.
 The <code>Face Mesh</code> API requires that the image be in RGB format.</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">FaceWarp</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">img</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_data</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">img</span> <span class="o">=</span> <span class="n">FaceWarp</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">inputFile</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_data</span><span class="p">(</span><span class="n">FaceWarp</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
 </span></code></pre></div>
 <p><em>From file:</em>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">FaceWarp</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">inputFile</span>  <span class="o">=</span> <span class="s1">&#39;path_to_input_image.jpg&#39;</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">deformedImg</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">FaceWarp</span><span class="p">,</span> <span class="n">inputFile</span><span class="p">,</span> <span class="n">configFile</span><span class="p">)</span>
 </span></code></pre></div></p>
 <p>In both of those cases, no files or folder structures are generated.</p>
 <h3 id="applying-a-deformation">Applying a deformation<a class="headerlink" href="#applying-a-deformation" title="Permanent link">&para;</a></h3>
@@ -870,7 +870,7 @@ The <code>Face Mesh</code> API requires that the image be in RGB format.</p>
 randomly. CLEESE can accept both <code>.dfmxy</code> deformations (absolute cartesian deformation vectors), and <code>.dfm</code> deformations (deformation
 vectors mapped onto a triangulation of face landmarks (dlib landmarks indices)).</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">FaceWarp</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">dfmxyFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfmxy.dfmxy&#39;</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">dfmFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfm.dfm&#39;</span>
@@ -878,15 +878,15 @@ vectors mapped onto a triangulation of face landmarks (dlib landmarks indices)).
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">configFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_config_file.toml&#39;</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># .dfmxy processing</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">dfmxy</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_dfmxy</span><span class="p">(</span><span class="n">dfmxyFile</span><span class="p">)</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">dfmxy</span> <span class="o">=</span> <span class="n">FaceWarp</span><span class="o">.</span><span class="n">load_dfmxy</span><span class="p">(</span><span class="n">dfmxyFile</span><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">FaceWarp</span><span class="p">,</span>
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>                          <span class="n">imageFile</span><span class="p">,</span>
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>                          <span class="n">configFile</span><span class="p">,</span>
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>                          <span class="n">dfmxy</span><span class="o">=</span><span class="n">dfmxy</span><span class="p">)</span>
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># .dfm processing</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">dfm</span> <span class="o">=</span> <span class="n">Mediapipe</span><span class="o">.</span><span class="n">load_dfm</span><span class="p">(</span><span class="n">dfmFile</span><span class="p">)</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">Mediapipe</span><span class="p">,</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">dfm</span> <span class="o">=</span> <span class="n">FaceWarp</span><span class="o">.</span><span class="n">load_dfm</span><span class="p">(</span><span class="n">dfmFile</span><span class="p">)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">img</span> <span class="o">=</span> <span class="n">cleese</span><span class="o">.</span><span class="n">process_file</span><span class="p">(</span><span class="n">FaceWarp</span><span class="p">,</span>
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>                          <span class="n">imageFile</span><span class="p">,</span>
 </span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>                          <span class="n">configFile</span><span class="p">,</span>
 </span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>                          <span class="n">dfm</span><span class="o">=</span><span class="n">dfm</span><span class="p">)</span>
@@ -894,9 +894,9 @@ vectors mapped onto a triangulation of face landmarks (dlib landmarks indices)).
 <h3 id="converting-deformation-files">Converting deformation files<a class="headerlink" href="#converting-deformation-files" title="Permanent link">&para;</a></h3>
 <p>Other face deformation tools developed by our team use the <code>.dfm</code> deformation file format, more suited to applying the same deformation to an
 arbitrary face. However, by its use of barycentric coordinates in a landmarks triangulation, it isn't suited to any post or pre-processing, which is an area
-where <code>.dfmxy</code> shines. As a result, CLEESE's Mediapipe provides a way to convert a given, <code>.dfmxy</code> to <code>.dfm</code>, provided you also have the original landmarks on hand:</p>
+where <code>.dfmxy</code> shines. As a result, CLEESE's FaceWarp provides a way to convert a given, <code>.dfmxy</code> to <code>.dfm</code>, provided you also have the original landmarks on hand:</p>
 <div class="language-py highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">cleese_stim</span> <span class="k">as</span> <span class="nn">cleese</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">Mediapipe</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">cleese_stim.engines</span> <span class="kn">import</span> <span class="n">FaceWarp</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dfmxyFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfmxy.dfmxy&#39;</span>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">dfmFile</span> <span class="o">=</span> <span class="s1">&#39;path_to_dfm.dfm&#39;</span>
@@ -907,7 +907,7 @@ where <code>.dfmxy</code> shines. As a result, CLEESE's Mediapipe provides a way
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>                          <span class="n">output_dfm_file</span><span class="o">=</span><span class="n">dfmFile</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The following parameters are used to configure the <code>Mediapipe</code> engine:</p>
+<p>The following parameters are used to configure the <code>FaceWarp</code> engine:</p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[mediapipe.random_gen]</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Indices of the landmarks to be modified, using Dlib&#39;s 68 landmarks indexing</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">landmarks</span><span class="p">.</span><span class="n">dlib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
@@ -973,7 +973,7 @@ where <code>.dfmxy</code> shines. As a result, CLEESE's Mediapipe provides a way
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">April 28, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 19, 2024</span>
   </span>
 
     
