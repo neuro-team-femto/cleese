@@ -110,14 +110,13 @@ arbitrary face. However, by its use of barycentric coordinates in a landmarks tr
 where `.dfmxy` shines. As a result, CLEESE's FaceWarp provides a way to convert a given, `.dfmxy` to `.dfm`, provided you also have the original landmarks on hand:
 
 ```py 
-import cleese_stim as cleese
 from cleese_stim.engines import FaceWarp
 
 dfmxyFile = 'path_to_dfmxy.dfmxy'
 dfmFile = 'path_to_dfm.dfm'
 landmarksFile = 'path_to_landmarks.txt'
 
-img = cleese.dfmxy_to_dfm(dfmxyFile,
+img = FaceWarp.dfmxy_to_dfm(dfmxyFile,
                           landmarksFile,
                           output_dfm_file=dfmFile)
 ```
