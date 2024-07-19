@@ -10,16 +10,16 @@ CLEESE can be used in different modes, depending on which function you call and 
 
 ## Batch generation
 
-CLEESE has a dedicated function for batch treatments: `cleese.generate_stimuli`, which is used, in `Mediapipe`'s case, to generate a number of randomly deformed visages.
+CLEESE has a dedicated function for batch treatments: `cleese.generate_stimuli`, which is used, in `FaceWarp`'s case, to generate a number of randomly deformed visages.
 
 ``` py 
 import cleese_stim as cleese
-from cleese_stim.engines import Mediapipe
+from cleese_stim.engines import FaceWarp
 
 inputFile  = 'path_to_input_image.jpg'
 configFile = 'path_to_config_file.toml'
 
-cleese.generate_stimuli(Mediapipe, inputFile, configFile)
+cleese.generate_stimuli(FaceWarp, inputFile, configFile)
 ```
 
 Two parameters have to be set by the user:
@@ -51,24 +51,24 @@ The `Face Mesh` API requires that the image be in RGB format.
 
 ```py
 import cleese_stim as cleese
-from cleese_stim.engines import Mediapipe
+from cleese_stim.engines import FaceWarp
 
 inputFile  = 'path_to_input_image.jpg'
 configFile = 'path_to_config_file.toml'
 
-img = Mediapipe.load_file(inputFile)
-deformedImg = cleese.process_data(Mediapipe, img, configFile)
+img = FaceWarp.load_file(inputFile)
+deformedImg = cleese.process_data(FaceWarp, img, configFile)
 ```
 
 *From file:*
 ```py 
 import cleese_stim as cleese
-from cleese_stim.engines import Mediapipe
+from cleese_stim.engines import FaceWarp
 
 inputFile  = 'path_to_input_image.jpg'
 configFile = 'path_to_config_file.toml'
 
-deformedImg = cleese.process_file(Mediapipe, inputFile, configFile)
+deformedImg = cleese.process_file(FaceWarp, inputFile, configFile)
 ```
 
 In both of those cases, no files or folder structures are generated.
@@ -81,7 +81,7 @@ vectors mapped onto a triangulation of face landmarks (dlib landmarks indices)).
 
 ``` py 
 import cleese_stim as cleese
-from cleese_stim.engines import Mediapipe
+from cleese_stim.engines import FaceWarp
 
 dfmxyFile = 'path_to_dfmxy.dfmxy'
 dfmFile = 'path_to_dfm.dfm'
@@ -89,15 +89,15 @@ imageFile  = 'path_to_input_image.jpg'
 configFile = 'path_to_config_file.toml'
 
 # .dfmxy processing
-dfmxy = Mediapipe.load_dfmxy(dfmxyFile)
-img = cleese.process_file(Mediapipe,
+dfmxy = FaceWarp.load_dfmxy(dfmxyFile)
+img = cleese.process_file(FaceWarp,
                           imageFile,
                           configFile,
                           dfmxy=dfmxy)
 
 # .dfm processing
-dfm = Mediapipe.load_dfm(dfmFile)
-img = cleese.process_file(Mediapipe,
+dfm = FaceWarp.load_dfm(dfmFile)
+img = cleese.process_file(FaceWarp,
                           imageFile,
                           configFile,
                           dfm=dfm)
@@ -107,11 +107,11 @@ img = cleese.process_file(Mediapipe,
 
 Other face deformation tools developed by our team use the `.dfm` deformation file format, more suited to applying the same deformation to an
 arbitrary face. However, by its use of barycentric coordinates in a landmarks triangulation, it isn't suited to any post or pre-processing, which is an area
-where `.dfmxy` shines. As a result, CLEESE's Mediapipe provides a way to convert a given, `.dfmxy` to `.dfm`, provided you also have the original landmarks on hand:
+where `.dfmxy` shines. As a result, CLEESE's FaceWarp provides a way to convert a given, `.dfmxy` to `.dfm`, provided you also have the original landmarks on hand:
 
 ```py 
 import cleese_stim as cleese
-from cleese_stim.engines import Mediapipe
+from cleese_stim.engines import FaceWarp
 
 dfmxyFile = 'path_to_dfmxy.dfmxy'
 dfmFile = 'path_to_dfm.dfm'
@@ -124,7 +124,7 @@ img = cleese.dfmxy_to_dfm(dfmxyFile,
 
 ## Configuration
 
-The following parameters are used to configure the `Mediapipe` engine:
+The following parameters are used to configure the `FaceWarp` engine:
 
 ``` toml
 [mediapipe.random_gen]
